@@ -1,0 +1,64 @@
+@startuml
+entity "User" as User {
+    user_id {PK}
+    --
+    username
+    email
+    password_probably_hashed
+}
+
+entity "Book" as Book {
+    book_id {PK}
+    --
+    title
+    author
+    description
+    genre
+    isbn
+    cover_image
+}
+
+entity "Review" as Review {
+    review_id {PK}
+    --
+    user_id {FK}
+    book_id {FK}
+    rating
+    comment
+    created_at
+}
+
+entity "Reading List" as ReadingList {
+    list_id {PK}
+    user_id {FK}
+}
+
+entity "Reading List Book" as ReadingListBook {
+    list_id {FK}
+    book_id {FK}
+}
+
+entity "Recommendation" as Recommendation {
+    recommendation_id {PK}
+    --
+    user_id {FK}
+    book_id {FK}
+    score "KNN model"
+    generated_at
+}
+
+User ||---o Review : "Writes a"
+
+Book ||---o Review : "Has"
+
+User ||--o ReadingList : "Creates"
+
+ReadingList ||--o ReadingListBook : "Contains"
+
+Book ||--o ReadingListBook : "Includes"
+
+User ||--o Recommendation : "Receive"
+
+Book ||--o Recommendation : "Gets added to"
+
+@enduml
