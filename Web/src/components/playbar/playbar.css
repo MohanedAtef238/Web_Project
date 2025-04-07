@@ -10,15 +10,15 @@
 }
 
 #play-icon.paused {
-  background-image: url('../assets/pauseButton.png');
+  background-image: url('../../assets/pauseButton.png');
 }
 
 #play-icon.playing {
-  background-image: url('../assets/playButton.png');
+  background-image: url('../../assets/playButton.png');
 }
 
 .skip-icon {
-  background-image: url('../assets/skipButton.png');
+  background-image: url('../../assets/skipButton.png');
   background-size: contain;
   background-repeat: no-repeat;
   width: 40px;
