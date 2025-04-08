@@ -9,8 +9,9 @@ const Playlist = sequelize.define('Playlist', {
   coverImage: {type: DataTypes.STRING, allowNull: true},
   isPublic: {type: DataTypes.BOOLEAN, defaultValue: true},
   userId: {type: DataTypes.UUID, allowNull: false, references: {model: 'Users', key: 'id'}},
-  createdAt: {type: DataTypes.DATE, defaultValue: DataTypes.NOW},
-  updatedAt: {type: DataTypes.DATE, defaultValue: DataTypes.NOW}
+  createdAt: {type: DataTypes.DATE, defaultValue: DataTypes.NOW}
+}, {
+  timestamps: false 
 });
 
 Playlist.belongsTo(User, { foreignKey: 'userId', as: 'owner' });

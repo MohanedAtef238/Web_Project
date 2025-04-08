@@ -8,6 +8,8 @@ const Favorite = sequelize.define('Favorite', {
   userId: {type: DataTypes.UUID, allowNull: false, references: {model: 'Users', key: 'id'}},
   bookId: {type: DataTypes.UUID, allowNull: false, references: {model: 'Books', key: 'id'}},
   createdAt: {type: DataTypes.DATE, defaultValue: DataTypes.NOW}
+}, {
+  timestamps: false
 });
 
 // Define the relationships

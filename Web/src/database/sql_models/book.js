@@ -13,8 +13,9 @@ const Book = sequelize.define('Book', {
   price: {type: DataTypes.DECIMAL(10, 2), allowNull: true},
   isPublished: {type: DataTypes.BOOLEAN, defaultValue: false},
   authorId: {type: DataTypes.UUID, allowNull: false, references: {model: 'Users', key: 'id'}},
-  createdAt: {type: DataTypes.DATE, defaultValue: DataTypes.NOW},
-  updatedAt: {type: DataTypes.DATE, defaultValue: DataTypes.NOW}
+  createdAt: {type: DataTypes.DATE, defaultValue: DataTypes.NOW} 
+}, {
+  timestamps: false 
 });
 
 Book.belongsTo(User, { foreignKey: 'authorId', as: 'author' });

@@ -8,7 +8,9 @@ const PlaylistBook = sequelize.define('PlaylistBook', {
   playlistId: {type: DataTypes.UUID, allowNull: false, references: {model: 'Playlists', key: 'id'}},
   bookId: {type: DataTypes.UUID, allowNull: false, references: {model: 'Books', key: 'id'}},
   order: {type: DataTypes.INTEGER, allowNull: true},
-  addedAt: {type: DataTypes.DATE, defaultValue: DataTypes.NOW}
+  addedAt: {type: DataTypes.DATE, defaultValue: DataTypes.NOW} 
+}, {
+  timestamps: false
 });
 
 Playlist.belongsToMany(Book, { through: PlaylistBook, foreignKey: 'playlistId' });
