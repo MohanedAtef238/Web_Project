@@ -1,0 +1,60 @@
+.title {
+    display: flex;
+}
+
+.title-name {
+    flex: 2;
+    text-align: left;
+}
+
+.title-search {
+    flex: 1;
+    padding: 7px 5px;
+    font-size: 25;
+    border-radius: 10px;
+    height: 70%;
+    align-self: center;
+}
+
+.delete-button {
+    text-align: right;
+    color:black;
+    background-color: brown;
+    height: 50%;
+    width: 50%;
+    border-radius: 100%;
+    padding: 50%, 50%;
+    
+}
+
+.delete-button:hover {
+    background-color: rgb(255, 22, 22);
+    box-shadow: 5px white;
+}
+
+.table {
+    /* width:100%; */
+    border-collapse: collapse;
+    border-color: rgb(250, 215, 215);
+    border: 1;
+    border-radius: 15px;
+    padding: 10px;
+}
+
+.thead{
+    padding: 8px;
+    text-align: left;
+    color: brown;
+}
+
+.books-table{
+    display: flex;
+}
+
+.books-table-image{
+    flex:1;
+}
+
+.books-table-details{
+    flex: 2;
+}
