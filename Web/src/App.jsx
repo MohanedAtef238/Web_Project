@@ -13,7 +13,7 @@ function App() {
         <Route path="/" element={<Login/>}/>
         <Route path="/signup" element={<SignUp/>}/>
       </Routes>
-      {/* <Playbar/> */}
+      <Playbar/> 
     </BrowserRouter>
 
   )
