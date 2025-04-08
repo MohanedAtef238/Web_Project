@@ -92,6 +92,7 @@ return (
         <h2>Login to Your Account</h2>
 
         <input
+          className="login-form-input"
           type="email"
           placeholder="Email"
           {...register("email", {
@@ -105,6 +106,7 @@ return (
         {errors.email && <p className="error">{errors.email.message}</p>}
 
         <input
+          className="login-form-input"
           type="password"
           placeholder="Password"
           {...register("password", { required: "Password is required" })}
