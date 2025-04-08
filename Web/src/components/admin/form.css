@@ -1,0 +1,27 @@
+.form {
+    height: 100vh;
+    display: flex;
+}
+
+.add-field-input {
+    width: 100%;
+    padding: 10px; 
+    margin-bottom: 12px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.image-container, .content-container {
+    padding: 100px 40px;
+    justify-content: center;
+}
+
+.image-container {
+    flex: 1;
+    
+}
+
+.content-container {
+    flex: 2;
+    background: linear-gradient(to bottom right, #242222, #0B0A0A);
+}
