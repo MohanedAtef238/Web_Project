@@ -6,6 +6,7 @@ import LibraryGrid from './LibraryGrid';
 const AuthorProfile = () => {
   const { username } = useParams();
   const [isFollowing, setIsFollowing] = useState(false);
+  const [isAuthor, setIsAuthor] = useState(false);
   const [authorData, setAuthorData] = useState({
     AuthorBackgroundImage: 'https://picsum.photos/3000/3000', // will also be replaced with fetched data from db
   });
@@ -34,7 +35,11 @@ const AuthorProfile = () => {
           </div>
         </div>
         </div>
-        <LibraryGrid authorName={username} />
+        <div className="author-profile-content">
+        {isAuthor && <LibraryGrid type="books" authorName={username} />}
+            <LibraryGrid type="playlists" authorName={username} />
+            <LibraryGrid type="recommendations" authorName={username} />
+          </div>
         </div>
       </div>
     </div>
