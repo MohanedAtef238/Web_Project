@@ -1,24 +1,56 @@
-.dashboard-wrapper {
-  height: calc(100vh - 130px);
-  overflow-y: auto;
-  padding: 20px;
-  background-color: #121212;
-  color: white;
-  scrollbar-width: thin;
-  scrollbar-color: #b3b3b3 #181818;
-}
-.dashboard-section {
-  margin-bottom: 30px;
+.page-title
+ {
+    margin-left: 3%;
+    margin-top: 2%;
 }
 
-.dashboard-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 20px;
+.admin-page{
+    margin:5% 10%;
+    padding:0.5%;
 }
 
-.dashboard-title {
-  margin: 0;
-  color: white;
-} 
+.logout-button{
+    float: right;
+    /* margin: 10px; */
+}
+
+.div-section-layout {
+    padding: 5%;
+    border: 1px solid aliceblue;
+    border-radius: 5px;
+}
+
+.users-table-users-button,
+.books-table-users-button {
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+}
+
+.users-table-books-button,
+.books-table-books-button{
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+}
+
+.users-table-books-button,
+.books-table-users-button {
+    color:grey;
+    background-color: rgb(31, 31, 31);
+}
+
+/* .books-table-books-button,
+.users-table-users-button {
+
+} */
+
+.users-table-users-button:hover,
+.users-table-users-button:focus,
+.users-table-books-button:hover,
+.users-table-books-button:focus,
+.books-table-users-button:hover,
+.books-table-users-button:focus,
+.books-table-books-button:hover,
+.books-table-books-button:focus {
+    outline: none;
+}
+

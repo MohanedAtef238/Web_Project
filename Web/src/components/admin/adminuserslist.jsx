@@ -8,40 +8,44 @@ const AdminUserslist = ({ users }) => {
                 <h3 className='title-name'>Users list</h3>
                 <input className="title-search" placeholder='username or email'/>
             </div>
-            <table>
+            <table className='table-styling '>
                 <thead>
                     <tr>
-                        <th>
+                        <th className='th-td-styling'>
                             Username
                         </th>
-                        <th>
+                        <th className='th-td-styling'>
                             Email
                         </th>
-                        <th>
+                        <th className='th-td-styling'>
                             Creation date
                         </th>
+                        <th className='th-td-styling'/>
                     </tr>
                 </thead>
-                <tbody>
-                    {users && users.map(
-                        (user) => (
-                            <tr>
-                                <td>
-                                {user.username}
-                                </td>
-                                <td>
-                                {user.email}
-                                </td>
-                                <td>
-                                {user.createdOn}
-                                </td>
-                                <td>
-                                    <button className='delete-button'>X</button>
-                                </td>
-                            </tr>
-                            )
-                    )}
-                </tbody>
+                {/* <div className="scrolling-table"> */}
+                    <tbody className="scrolling-table">
+                        {users && users.map(
+                            (user) => (
+                                <tr>
+                                    <td className='th-td-styling'>
+                                    {user.username}
+                                    </td>
+                                    <td className='th-td-styling'>
+                                    {user.email}
+                                    </td>
+                                    <td className='th-td-styling'>
+                                    {user.createdOn}
+                                    </td>
+                                    <td className='th-td-styling'>
+                                        <button className='delete-button'>X</button>
+                                    </td>
+                                </tr>
+                                )
+                        )}
+                    </tbody>
+                {/* </div> */}
+
             </table>
         </div>
     )
