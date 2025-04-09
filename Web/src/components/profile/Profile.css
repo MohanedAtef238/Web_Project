@@ -1,0 +1,200 @@
+/* Resetting some global styles because they caused some centering issues */
+body {
+  display: block;
+  place-items: unset;
+  margin: 0;
+  padding: 0;
+  height: 100vh;
+  overflow: hidden;
+  background-color: #121212;
+}
+
+#root {
+  max-width: none;
+  margin: 0;
+  padding: 0;
+  text-align: left;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.author-profile {
+  width: 100%;
+  height: calc(100vh - 90px); 
+  background-color: #121212;
+  color: white;
+  position: relative;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.author-profile-header {
+  width: 100%;
+  height: 350px;
+  background-image: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.7));
+  background-size: cover;
+  background-position: center;
+  position: relative;
+  margin: 0;
+  padding: 0;
+  flex-shrink: 0;
+}
+
+.author-profile-header-overlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 24px 36px;
+  background: linear-gradient(transparent, rgba(0, 0, 0, 0.8));
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  width: 100%;
+  box-sizing: border-box;
+  z-index: 9999;
+}
+
+.author-profile-title {
+  font-size: 96px;
+  font-weight: 700;
+  margin: 0;
+  letter-spacing: -2px;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.author-profile-actions {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+}
+
+.author-profile-follow-btn {
+  padding: 8px 32px;
+  border-radius: 20px;
+  border: none;
+  background-color: #1DB954;
+  color: white;
+  font-weight: 600;
+  font-size: 16px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.author-profile-follow-btn:hover {
+  transform: scale(1.05);
+  background-color: #2d9d54;
+}
+
+.author-profile-follow-btn--following {
+  background-color: #333;
+}
+
+.author-profile-more-btn {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: none;
+  background-color: rgba(0, 0, 0, 0.7);
+  color: white;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.author-profile-more-dots {
+  letter-spacing: 1px;
+  font-weight: bold;
+}
+
+.author-profile-library {
+  padding: 24px 36px;
+  width: 100%;
+  box-sizing: border-box;
+  max-width: 100%;
+  flex: 1;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: #2d9d54 #121212;
+}
+
+.author-profile-library::-webkit-scrollbar {
+  width: 8px;
+}
+
+.author-profile-library::-webkit-scrollbar-track {
+  background: #121212;
+}
+
+.author-profile-library::-webkit-scrollbar-thumb {
+  background-color: #2d9d54;
+  border-radius: 4px;
+}
+
+.author-profile-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 24px;
+  width: 100%;
+  padding: 0;
+  margin-bottom: 40px;
+  margin-left: 25px;
+  margin-right: 25px;
+}
+
+.author-profile-grid-item {
+  background-color: #181818;
+  padding: 16px;
+  border-radius: 8px;
+  transition: background-color 0.3s ease;
+  cursor: pointer;
+  width: 80%;
+  height: 280px;
+  display: flex;
+  flex-direction: column;
+}
+
+.author-profile-grid-item:hover {
+  background-color: #282828;
+}
+
+.author-profile-book-cover {
+  width: 100%;
+  height: 200px;
+  background-color: #282828;
+  border-radius: 4px;
+  margin-bottom: 12px;
+  object-fit: cover;
+  flex-shrink: 0;
+}
+
+.author-profile-book-info {
+  padding: 0;
+  height: 52px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.author-profile-book-title {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 600;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.author-profile-book-author {
+  margin: 4px 0 0;
+  font-size: 14px;
+  color: #b3b3b3;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+} 
