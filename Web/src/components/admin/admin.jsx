@@ -3,6 +3,7 @@ import AdminUserslist from "./adminuserslist";
 import AdminBookslist from "./adminbookslist";
 import { Link } from "react-router-dom";
 import Addbook from "./addbook";
+import './admin.css';
 
 const dummyusers = [
     {
@@ -70,21 +71,27 @@ function Admin(){
     // const [ viewAddUser, setAddUser] = useState(false);
 
     return(
-        <div>
-            <Link to='/'>
-                <button>Logout</button>
-            </Link>
-            <h2 className="title"> Admin page hehe </h2>
+        <div className="dashboard-wrapper">
+            <div className="dashboard-header">
+                <h2 className="dashboard-title">Admin Page hehehe</h2>
+                <Link to='/'>
+                    <button>Logout</button>
+                </Link>
+            </div>
             
+            <div className="dashboard-section">
             <AdminUserslist users={dummyusers}/>
             <Link to="./adduser">
                 <button>Add new user</button>
             </Link>
             <br/>
+            </div>
+            <div className="dashboard-section">
             <AdminBookslist books={dummybooks}/>
             <Link to="./addbook">
                 <button>Add new book</button>
             </Link>
+            </div>
             {/* {!viewAddUser? <button onClick={ () => {setAddUser(true)}}>
                 Add user
             </button>
