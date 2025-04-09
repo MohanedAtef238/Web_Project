@@ -56,7 +56,6 @@ body {
   align-items: flex-end;
   width: 100%;
   box-sizing: border-box;
-  z-index: 9999;
 }
 
 .author-profile-title {
@@ -90,6 +89,13 @@ body {
   background-color: #2d9d54;
 }
 
+.author-profile-follow-btn:focus,
+.author-profile-more-btn:focus {
+  outline: none;
+  box-shadow: none;
+  border: none;
+}
+
 .author-profile-follow-btn--following {
   background-color: #333;
 }
@@ -120,7 +126,7 @@ body {
   flex: 1;
   overflow-y: auto;
   scrollbar-width: thin;
-  scrollbar-color: #2d9d54 #121212;
+  scrollbar-color: #b3b3b3 #181818;
 }
 
 .author-profile-library::-webkit-scrollbar {
@@ -128,11 +134,11 @@ body {
 }
 
 .author-profile-library::-webkit-scrollbar-track {
-  background: #121212;
+  background: #181818;
 }
 
 .author-profile-library::-webkit-scrollbar-thumb {
-  background-color: #2d9d54;
+  background-color: #b3b3b3;
   border-radius: 4px;
 }
 

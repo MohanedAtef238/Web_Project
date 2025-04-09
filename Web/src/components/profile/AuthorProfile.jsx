@@ -7,7 +7,7 @@ const AuthorProfile = () => {
   const { username } = useParams();
   const [isFollowing, setIsFollowing] = useState(false);
   const [authorData, setAuthorData] = useState({
-    AuthorBackgroundImage: 'https://picsum.photos/1920/1080', // will also be replaced with fetched data from db
+    AuthorBackgroundImage: 'https://picsum.photos/3000/3000', // will also be replaced with fetched data from db
   });
   
   let followButtonClass = 'author-profile-follow-btn';
@@ -22,19 +22,11 @@ const AuthorProfile = () => {
 
   return (
     <div className="author-profile">
-      <div 
-        className="author-profile-header"
-        style={{
-          backgroundImage: `url('${authorData.AuthorBackgroundImage}')`
-        }}
-      >
+      <div className="author-profile-header" style={{ backgroundImage: `url('${authorData.AuthorBackgroundImage}')`}}>
         <div className="author-profile-header-overlay">
           <h1 className="author-profile-title">{username}</h1>
           <div className="author-profile-actions">
-            <button 
-              className={followButtonClass}
-              onClick={() => setIsFollowing(!isFollowing)}
-            >
+            <button className={followButtonClass} onClick={() => setIsFollowing(!isFollowing)}>
               {followButtonText}
             </button>
           </div>
