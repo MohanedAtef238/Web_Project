@@ -1,5 +1,6 @@
 .title {
     display: flex;
+    margin-bottom: 15px;
 }
 
 .title-name {
@@ -33,7 +34,7 @@
 }
 
 .table {
-    /* width:100%; */
+    width:100%;
     border-collapse: collapse;
     border-color: rgb(250, 215, 215);
     border: 1;
@@ -41,7 +42,7 @@
     padding: 10px;
 }
 
-.thead{
+.thead {
     padding: 8px;
     text-align: left;
     color: brown;
