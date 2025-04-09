@@ -1,21 +1,18 @@
-/* Resetting some global styles because they caused some centering issues */
-body {
+.author-profile-wrapper {
   display: block;
   place-items: unset;
   margin: 0;
   padding: 0;
   height: 100vh;
-  overflow: hidden;
   background-color: #121212;
 }
 
-#root {
+.author-profile-container {
   max-width: none;
   margin: 0;
   padding: 0;
   text-align: left;
   height: 100vh;
-  overflow: hidden;
 }
 
 .author-profile {
@@ -29,7 +26,22 @@ body {
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
-  overflow: hidden;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: #b3b3b3 #181818;
+}
+
+.author-profile::-webkit-scrollbar {
+  width: 8px;
+}
+
+.author-profile::-webkit-scrollbar-track {
+  background: #181818;
+}
+
+.author-profile::-webkit-scrollbar-thumb {
+  background-color: #b3b3b3;
+  border-radius: 4px;
 }
 
 .author-profile-header {
@@ -124,22 +136,6 @@ body {
   box-sizing: border-box;
   max-width: 100%;
   flex: 1;
-  overflow-y: auto;
-  scrollbar-width: thin;
-  scrollbar-color: #b3b3b3 #181818;
-}
-
-.author-profile-library::-webkit-scrollbar {
-  width: 8px;
-}
-
-.author-profile-library::-webkit-scrollbar-track {
-  background: #181818;
-}
-
-.author-profile-library::-webkit-scrollbar-thumb {
-  background-color: #b3b3b3;
-  border-radius: 4px;
 }
 
 .author-profile-grid {

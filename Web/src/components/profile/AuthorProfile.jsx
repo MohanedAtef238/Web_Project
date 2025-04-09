@@ -21,19 +21,22 @@ const AuthorProfile = () => {
   }
 
   return (
-    <div className="author-profile">
-      <div className="author-profile-header" style={{ backgroundImage: `url('${authorData.AuthorBackgroundImage}')`}}>
-        <div className="author-profile-header-overlay">
-          <h1 className="author-profile-title">{username}</h1>
+    <div className="author-profile-wrapper">
+      <div className="author-profile-container">
+        <div className="author-profile">
+        <div className="author-profile-header" style={{ backgroundImage: `url('${authorData.AuthorBackgroundImage}')`}}>
+          <div className="author-profile-header-overlay">
+            <h1 className="author-profile-title">{username}</h1>
           <div className="author-profile-actions">
             <button className={followButtonClass} onClick={() => setIsFollowing(!isFollowing)}>
               {followButtonText}
             </button>
           </div>
         </div>
+        </div>
+        <LibraryGrid authorName={username} />
+        </div>
       </div>
-
-      <LibraryGrid authorName={username} />
     </div>
   );
 };
