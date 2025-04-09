@@ -99,7 +99,7 @@ const LibraryGrid = ({ type = 'books', authorName }) => {
             />
             <div className="author-profile-book-info">
               <h3 className="author-profile-book-title">{item.title}</h3>
-              <p className="author-profile-book-author">{authorName || item.author}</p>
+              <p className="author-profile-book-author">{authorName}</p>
             </div>
           </div>
         ))}
