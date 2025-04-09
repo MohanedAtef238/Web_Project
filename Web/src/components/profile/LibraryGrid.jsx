@@ -19,25 +19,33 @@ const mockBooks = [
     title: "1984",
     author: "George Orwell",
     coverUrl: "https://picsum.photos/600/600?random=3"
-  },
+  }
+];
+
+// Mock data for Playlists
+const mockPlaylists = [
   {
     id: 4,
-    title: "Pride and Prejudice",
-    author: "Jane Austen",
+    title: "Classic Literature",
+    author: "Book Lover",
     coverUrl: "https://picsum.photos/600/600?random=4"
   },
   {
     id: 5,
-    title: "The Catcher in the Rye",
-    author: "J.D. Salinger",
+    title: "Summer Reads",
+    author: "Beach Reader",
     coverUrl: "https://picsum.photos/600/600?random=5"
   },
   {
     id: 6,
-    title: "The Hobbit",
-    author: "J.R.R. Tolkien",
+    title: "Mystery Collection",
+    author: "Detective Fan",
     coverUrl: "https://picsum.photos/600/600?random=6"
-  },
+  }
+];
+
+// Mock data for Recommendations
+const mockRecommendations = [
   {
     id: 7,
     title: "The Lord of the Rings",
@@ -58,20 +66,40 @@ const mockBooks = [
   }
 ];
 
-const LibraryGrid = ({ books = mockBooks, authorName }) => {
+const LibraryGrid = ({ type = 'books', authorName }) => {
+  const getItems = () => {
+    switch (type) {
+      case 'books':
+        return mockBooks;
+      case 'playlists':
+        return mockPlaylists;
+      case 'recommendations':
+        return mockRecommendations;
+      default:
+        return mockBooks;
+    }
+  };
+
+  const items = getItems();
+
   return (
     <div className="author-profile-library">
+      <h2 className="author-profile-section-title">
+        {type.charAt(0).toUpperCase() + type.slice(1)}
+      </h2>
       <div className="author-profile-grid">
-        {books.map((book) => (
-          <div key={book.id} className="author-profile-grid-item">
+        {items.map((item) => (
+          <div key={item.id} className="author-profile-grid-item">
             <div className="author-profile-book-cover"
               style={{
-                backgroundImage: `url('${book.coverUrl}')`, backgroundSize: 'cover', backgroundPosition: 'center'
+                backgroundImage: `url('${item.coverUrl}')`,
+                backgroundSize: 'cover',
+                backgroundPosition: 'center'
               }}
             />
             <div className="author-profile-book-info">
-              <h3 className="author-profile-book-title">{book.title}</h3>
-              <p className="author-profile-book-author">{authorName || book.author}</p>
+              <h3 className="author-profile-book-title">{item.title}</h3>
+              <p className="author-profile-book-author">{authorName}</p>
             </div>
           </div>
         ))}

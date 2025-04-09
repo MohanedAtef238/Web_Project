@@ -4,7 +4,7 @@ import { useNavigate, Link } from "react-router-dom";
 function Adduser(){
 
     return(
-        <form>
+        <form className='add-user-form'>
             <input className='add-field-input ' placeholder='Username' />
             <input className='add-field-input ' placeholder='Email'/>
             <input className='add-field-input' type='password' placeholder='Password'/>

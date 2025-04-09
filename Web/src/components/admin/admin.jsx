@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import AdminUserslist from "./adminuserslist";
 import AdminBookslist from "./adminbookslist";
 import { Link } from "react-router-dom";
-import Addbook from "./addbook";
+import './admin.css'
 
 const dummyusers = [
     {
@@ -69,35 +69,68 @@ function Admin(){
     // const [ viewAddUser, setAddUser] = useState(false);
     // const [ viewAddUser, setAddUser] = useState(false);
 
-    return(
-        <div>
-            <Link to='/'>
-                <button>Logout</button>
-            </Link>
-            <h2 className="title"> Admin page hehe </h2>
-            
-            <AdminUserslist users={dummyusers}/>
-            <Link to="./adduser">
-                <button>Add new user</button>
-            </Link>
-            <br/>
-            <AdminBookslist books={dummybooks}/>
-            <Link to="./addbook">
-                <button>Add new book</button>
-            </Link>
-            {/* {!viewAddUser? <button onClick={ () => {setAddUser(true)}}>
-                Add user
-            </button>
-            : 
-                <div>
-                    <Addbook/>
-                    <br/>
-                    <button onClick={ () => {setAddUser(false)}}>Don't add user</button>
-                </div>
+    const [viewTable, setTable] = useState(true);
 
-            } */}
+    return( 
+    <div>
+           <h2 className="page-title"> Admin page hehe </h2>
+        <div className='admin-page'>
+            <Link to='/'>
+                <button className="logout-button">Logout</button>
+            </Link>
+           
+
+            {viewTable==true?
+                    <div>
+                        <button className="users-table-users-button" onClick={ () => {setTable(prevState => !prevState)}}>
+                            Users
+                        </button>
+                        <button className="users-table-books-button" onClick={ () => {setTable(prevState => !prevState)}}>
+                            Books
+                        </button>
+                        <div className="div-section-layout">
+                            <AdminUserslist users={dummyusers}/>
+                            <Link to="./adduser">
+                                <button>Add new user</button>
+                            </Link>
+                        </div>
+                    </div>
+                    
+                    :
+                    <div>
+                        <button className="books-table-users-button" onClick={ () => {setTable(prevState => !prevState)}}>
+                            Users
+                        </button>
+                        <button className="books-table-books-button" onClick={ () => {setTable(prevState => !prevState)}}>
+                            Books
+                        </button>
+                        <div className="div-section-layout">
+                            <AdminBookslist books={dummybooks}/>
+                            <Link to="./addbook">
+                                <button>Add new book</button>
+                            </Link>
+                        </div>
+                    </div>
+            }
+{/* 
+            <div className="div-section-layout">
+                <AdminUserslist users={dummyusers}/>
+                <Link to="./adduser">
+                    <button>Add new user</button>
+                </Link>
+            </div>
+            <br/>
+            <div className="div-section-layout">
+                <AdminBookslist books={dummybooks}/>
+                <Link to="./addbook">
+                    <button>Add new book</button>
+                </Link>
+            </div>
+             */}
         </div>
        
+    </div>
+ 
     )
 }
 
