@@ -1,0 +1,125 @@
+body {
+    margin: 0;
+    background-color: #0B0A0A; 
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    height: 100vh; 
+    overflow: hidden; 
+  }
+  
+ 
+  .display-books {
+    color: white;
+    margin-top: 1px;
+    margin-left: 20px;
+    margin-left: 20px;
+    padding-top: 0%;
+    width: 100%; 
+    height: calc(100vh - 40px); 
+    overflow-y: auto; 
+    background-color: #0B0A0A;
+    box-sizing: border-box; 
+    justify-content: flex-start;
+    display: flex;
+    justify-content: center; 
+    align-items: center;      
+    flex-direction: column;  
+    justify-content: flex-start;
+    
+  }
+
+  .row {
+    margin: 15px 0;
+    padding: 0;
+    text-align: left;
+    width: 100%;
+  }
+
+  .category-title {
+    font-size: 24px;
+    font-weight: bold;
+    color: #ffffff;
+    margin-bottom: 20px;
+    text-align: left;
+  }
+  
+
+  .book-row {
+    display: flex;
+    gap: 20px;
+    overflow-x: auto;
+    padding: 10px 0;
+    scrollbar-width: none; 
+    justify-content: flex-start;
+  }
+  
+
+  .book-row::-webkit-scrollbar {
+    display: none;
+  }
+
+  .book-card {
+    background-color: #181818;
+    border-radius: 8px;
+    padding: 16px;
+    width: 160px;
+    min-width: 160px;
+    transition: background-color 0.3s ease;
+    cursor: pointer;
+  }
+
+  .book-card:hover {
+    background-color: #282828;
+  }
+  
+
+  .book-card img {
+    width: 100%;
+    aspect-ratio: 1;
+    object-fit: cover;
+    border-radius: 4px;
+    margin-bottom: 16px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+  }
+  
+  input {
+    width: 100%;
+    max-width: 500px;
+    padding: 10px;
+    margin: 20px 0;
+    border: none;
+    border-radius: 30px;
+    background-color: #333;
+    color: white;
+    font-size: 16px;
+    transition: background-color 0.3s;
+    justify-content: center;
+  }
+
+  @media (max-width: 768px) {
+    input {
+      width: 90%;
+      font-size: 15px;
+    }
+  }
+  
+  @media (max-width: 480px) {
+    input {
+      width: 95%;
+      font-size: 14px;
+    }
+  }
+  
+.search-results
+{
+    position: fixed;
+    top: 80px; 
+    left: 0;
+    right: 0;
+    max-height: calc(100vh - 100px); 
+    overflow-y: auto;
+    padding: 20px;
+    font-size: large;
+ 
+}

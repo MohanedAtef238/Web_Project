@@ -8,10 +8,13 @@ import Addbook from './components/admin/addbook.jsx'
 import Adduser from './components/admin/adduser.jsx'
 import UploadPlaybar from './components/playbar/upload_playbar.jsx'
 import AuthorProfile from './components/profile/AuthorProfile.jsx'
+import DisplayBooks from './components/searchbar/searchbar.jsx'
 
 function App() {
   return (
+    
     <BrowserRouter>
+    
     {/* i added this to make sure the playbar is always visible on the page just like spotify, content will be generated from other components on top of it and the playbar will fill the bottom  */}
       <div style={{ 
         height: '100vh',
@@ -28,9 +31,12 @@ function App() {
             <Route path="/admin" element={<Admin/>}/>
             <Route path="/signup" element={<SignUp/>}/>
             <Route path="/profile/:username" element={<AuthorProfile/>}/>
+            <Route path="/homepage" element={<DisplayBooks/>}/>
           </Routes>
         </div>
+        
         <Playbar/>
+        
       </div>
     </BrowserRouter>
   )
