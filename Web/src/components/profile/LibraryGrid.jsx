@@ -66,7 +66,52 @@ const mockRecommendations = [
   }
 ];
 
-const LibraryGrid = ({ type = 'books', authorName }) => {
+// Mock data for Following Authors 
+const mockFollowingAuthors = [
+  {
+    id: 1,
+    name: "Colleen Hoover",
+    username: "colleenwrites",
+    profilePic: "https://picsum.photos/seed/colleen/200/200",
+    bio: "Author of emotionally intense novels. Let's cry together 💔✨",
+    genres: ["Romance", "Drama"]
+  },
+  {
+    id: 2,
+    name: "Brandon Sanderson",
+    username: "brandonsanderson",
+    profilePic: "https://picsum.photos/seed/brandon/200/200",
+    bio: "Building worlds one chapter at a time 🏰📚",
+    genres: ["Fantasy", "Sci-Fi"]
+  },
+  {
+    id: 3,
+    name: "Taylor Jenkins Reid",
+    username: "taylorwrites",
+    profilePic: "https://picsum.photos/seed/taylor/200/200",
+    bio: "Stories that feel real. Author of 'The Seven Husbands of Evelyn Hugo'.",
+    genres: ["Historical Fiction", "Contemporary"]
+  },
+  {
+    id: 4,
+    name: "Paulo Coelho",
+    username: "paulothewise",
+    profilePic: "https://picsum.photos/seed/paulo/200/200",
+    bio: "Author of 'The Alchemist'. Believer in dreams, signs, and the soul of the world ✨",
+    genres: ["Spiritual", "Fiction"]
+  },
+  {
+    id: 5,
+    name: "Rupi Kaur",
+    username: "rupipoetry",
+    profilePic: "https://picsum.photos/seed/rupi/200/200",
+    bio: "Poet. Illustrator. Healing through words.",
+    genres: ["Poetry", "Self-love"]
+  }
+];
+
+
+const LibraryGrid = ({ type = 'books', authorName, header }) => {
   const getItems = () => {
     switch (type) {
       case 'books':
@@ -75,31 +120,38 @@ const LibraryGrid = ({ type = 'books', authorName }) => {
         return mockPlaylists;
       case 'recommendations':
         return mockRecommendations;
+      case 'following':
+          return mockFollowingAuthors;
+
       default:
         return mockBooks;
     }
   };
 
   const items = getItems();
+  
+
+  const defaultHeader = type.charAt(0).toUpperCase() + type.slice(1);
 
   return (
     <div className="author-profile-library">
       <h2 className="author-profile-section-title">
-        {type.charAt(0).toUpperCase() + type.slice(1)}
+        {header || defaultHeader}
       </h2>
       <div className="author-profile-grid">
         {items.map((item) => (
           <div key={item.id} className="author-profile-grid-item">
-            <div className="author-profile-book-cover"
+            <div
+              className="author-profile-book-cover"
               style={{
-                backgroundImage: `url('${item.coverUrl}')`,
+                backgroundImage: `url('${item.coverUrl||item.profilePic}')`,
                 backgroundSize: 'cover',
-                backgroundPosition: 'center'
+                backgroundPosition: 'center',
               }}
             />
             <div className="author-profile-book-info">
-              <h3 className="author-profile-book-title">{item.title}</h3>
-              <p className="author-profile-book-author">{authorName}</p>
+              <h3 className="author-profile-book-title">{item.title || item.name}</h3>
+              <p className="author-profile-book-author">{authorName || item.bio}</p>
             </div>
           </div>
         ))}
