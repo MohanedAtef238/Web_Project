@@ -72,7 +72,7 @@ function Admin(){
     const [viewTable, setTable] = useState(true);
 
     return( 
-    <div>
+    <div className="scrollable-div-container">
            <h2 className="page-title"> Admin page hehe </h2>
         <div className='admin-page'>
             <Link to='/'>

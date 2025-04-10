@@ -4,9 +4,16 @@
     margin-top: 2%;
 }
 
+.scrollable-div-container {
+    width: auto;
+    height: 100vh;
+    overflow-y: auto;
+}
+
 .admin-page{
     margin:5% 10%;
     padding:0.5%;
+
 }
 
 .logout-button{
