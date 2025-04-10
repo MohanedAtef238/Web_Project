@@ -10,6 +10,8 @@ import UploadPlaybar from './components/playbar/upload_playbar.jsx'
 import AuthorProfile from './components/profile/AuthorProfile.jsx'
 import UserProfile from './components/profile/UserProfile.jsx'
 import DisplayBooks from './components/searchbar/searchbar.jsx'
+import Playlist from './components/playlist/Playlist.jsx'
+import Book from './components/playlist/BookView.jsx'
 
 function App() {
   return (
@@ -34,6 +36,8 @@ function App() {
             <Route path="/profile/:username" element={<AuthorProfile/>}/>
             <Route path="/userprofile/:username" element={<UserProfile/>}/>
             <Route path="/homepage" element={<DisplayBooks/>}/>
+            <Route path="/playlist/:name" element={<Playlist/>}/> 
+            <Route path="/book/:title" element={<Book/>}/> 
           </Routes>
         </div>
         
