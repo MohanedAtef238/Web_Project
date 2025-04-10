@@ -92,26 +92,10 @@
     color: white;
     font-weight: 600;
     font-size: 16px;
-    cursor: pointer;
+    cursor:auto;
     transition: all 0.2s ease;
-  }
-  
-  .user-profile-follow-btn:hover {
-    transform: scale(1.05);
-    background-color: #2d9d54;
-  }
-  
-  .user-profile-follow-btn:focus,
-  .user-profile-more-btn:focus {
-    outline: none;
-    box-shadow: none;
-    border: none;
-  }
-  
-  .user-profile-follow-btn--following {
-    background-color: #333;
-  }
-  
+  } 
+
   .user-profile-more-btn {
     width: 32px;
     height: 32px;

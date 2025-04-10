@@ -37,8 +37,8 @@ function App() {
           </Routes>
         </div>
         
-        {/* <Playbar/> */}
-        
+        {/* <Playbar/> 
+         */}
       </div>
     </BrowserRouter>
   )

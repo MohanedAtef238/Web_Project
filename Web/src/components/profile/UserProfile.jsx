@@ -11,15 +11,11 @@ const UserProfile = () => {
     AuthorBackgroundImage: 'https://picsum.photos/3000/3000', // will also be replaced with fetched data from db
   });
   
-  let followButtonClass = 'author-profile-follow-btn';
+  let followButtonClass = 'user-profile-follow-btn';
   if (isFollowing) {
-    followButtonClass += ' author-profile-follow-btn--following';
+    followButtonClass += ' user-profile-follow-btn--following';
   }
 
-  let followButtonText = 'Follow';
-  if (isFollowing) {
-    followButtonText = 'Following';
-  }
 
   return (
     <div className="user-profile-wrapper">
@@ -29,9 +25,10 @@ const UserProfile = () => {
           <div className="user-profile-header-overlay">
             <h1 className="user-profile-title">{username}</h1>
           <div className="user-profile-actions">
-            <button className={followButtonClass} onClick={() => setIsFollowing(!isFollowing)}>
-              {followButtonText}
+
+            <button className = "user-profile-follow-btn"> 2M Followers
             </button>
+
           </div>
         </div>
         </div>
