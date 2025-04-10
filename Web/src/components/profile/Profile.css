@@ -108,6 +108,21 @@
   border: none;
 }
 
+
+.author-profile-identity {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.1rem;
+}
+
+.author-profile-follow-count {
+  font-size: 1rem;
+  color: #f0f0f0;
+  margin: 0px;
+}
+
+
 .author-profile-follow-btn--following {
   background-color: #333;
 }

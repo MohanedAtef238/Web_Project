@@ -5,6 +5,7 @@ import LibraryGrid from './LibraryGrid';
 
 const AuthorProfile = () => {
   const { username } = useParams();
+  const [followerCount, setFollowerCount] = useState(10000); 
   const [isFollowing, setIsFollowing] = useState(false);
   const [isAuthor, setIsAuthor] = useState(true);
   const [authorData, setAuthorData] = useState({
@@ -27,7 +28,13 @@ const AuthorProfile = () => {
         <div className="author-profile">
         <div className="author-profile-header" style={{ backgroundImage: `url('${authorData.AuthorBackgroundImage}')`}}>
           <div className="author-profile-header-overlay">
-            <h1 className="author-profile-title">{username}</h1>
+            <div className="author-profile-identity">
+              <h1 className="author-profile-title">{username}</h1>
+              <p className="author-profile-follow-count">
+                {followerCount.toLocaleString()} followers
+              </p>
+            </div>
+
           <div className="author-profile-actions">
             <button className={followButtonClass} onClick={() => setIsFollowing(!isFollowing)}>
               {followButtonText}
