@@ -7,7 +7,7 @@ const AuthorProfile = () => {
   const { username } = useParams();
   const [followerCount, setFollowerCount] = useState(10000); 
   const [isFollowing, setIsFollowing] = useState(false);
-  const [isAuthor, setIsAuthor] = useState(true);
+  const [isAuthor, setIsAuthor] = useState(false);
   const [authorData, setAuthorData] = useState({
     AuthorBackgroundImage: 'https://picsum.photos/3000/3000', // will also be replaced with fetched data from db
   });
@@ -23,6 +23,8 @@ const AuthorProfile = () => {
   }
 
   return (
+
+
     <div className="author-profile-wrapper">
       <div className="author-profile-container">
         <div className="author-profile">
@@ -44,8 +46,9 @@ const AuthorProfile = () => {
         </div>
         <div className="author-profile-content">
         {isAuthor && <LibraryGrid type="books" authorName={username} />}
+            <LibraryGrid type="favorites" authorName={username} />
             <LibraryGrid type="playlists" authorName={username} />
-            <LibraryGrid type="recommendations" authorName={username} />
+            <LibraryGrid type="following" authorName={username} />
           </div>
         </div>
       </div>
