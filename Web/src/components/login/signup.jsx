@@ -2,20 +2,44 @@ import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate, Link } from "react-router-dom";
 import "./Login.css";
+import axios from "axios";
 
 function Signup() {
   const {
     register,
+    handleSubmit,
     formState: { errors },
   } = useForm();
   const [loginError, setLoginError] = useState(false);
   const navigate = useNavigate();
 
+  async function handleSignup(data) {
+    const username = data.username;
+    const email = data.email;
+    const password = data.password;
+
+    try{
+      console.log(`username: ${username}, email:${email}, password: ${password}`)
+      const response = await axios.post("http://localhost:3000/signup", {
+        username: username,
+        password : password,
+        email : email
+      });
+      if(response.status === 200) {
+        navigate(`/profile/${response.data.username}`);
+      }
+    }
+    catch (error) {
+      console.error("signup error:", error);
+      setLoginError(true);
+    }
+  }
+
 return (
   <div className="login-container">
     {/* signup part */}
     <div className="login-left">
-      <form className="login-form">
+      <form className="login-form" onSubmit={handleSubmit(handleSignup)}>
         <h2>Sign up now!</h2>
         <input
           className="login-form-input"
