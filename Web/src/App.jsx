@@ -8,6 +8,7 @@ import Addbook from './components/admin/addbook.jsx'
 import Adduser from './components/admin/adduser.jsx'
 import UploadPlaybar from './components/playbar/upload_playbar.jsx'
 import AuthorProfile from './components/profile/AuthorProfile.jsx'
+import UserProfile from './components/profile/UserProfile.jsx'
 import DisplayBooks from './components/searchbar/searchbar.jsx'
 
 function App() {
@@ -31,11 +32,12 @@ function App() {
             <Route path="/admin" element={<Admin/>}/>
             <Route path="/signup" element={<SignUp/>}/>
             <Route path="/profile/:username" element={<AuthorProfile/>}/>
+            <Route path="/userprofile/:username" element={<UserProfile/>}/>
             <Route path="/homepage" element={<DisplayBooks/>}/>
           </Routes>
         </div>
         
-        <Playbar/>
+        {/* <Playbar/> */}
         
       </div>
     </BrowserRouter>
