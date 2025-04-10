@@ -9,7 +9,7 @@ import Adduser from './components/admin/adduser.jsx'
 import UploadPlaybar from './components/playbar/upload_playbar.jsx'
 import AuthorProfile from './components/profile/AuthorProfile.jsx'
 import UserProfile from './components/profile/UserProfile.jsx'
-import DisplayBooks from './components/searchbar/searchbar.jsx'
+import DisplayBooks from './components/displaybooks/displaybooks.jsx'
 
 function App() {
   return (
