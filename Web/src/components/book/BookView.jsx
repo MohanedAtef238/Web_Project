@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useParams } from 'react-router-dom';
 import './BookView.css';
-import LibraryList from './LibraryList';
+import LibraryList from '../playlist/LibraryList';
 
 const Book = () => {
   const { title } = useParams(); 

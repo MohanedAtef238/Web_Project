@@ -11,7 +11,7 @@ import AuthorProfile from './components/profile/AuthorProfile.jsx'
 import UserProfile from './components/profile/UserProfile.jsx'
 import DisplayBooks from './components/searchbar/searchbar.jsx'
 import Playlist from './components/playlist/Playlist.jsx'
-import Book from './components/playlist/BookView.jsx'
+import Book from './components/book/BookView.jsx'
 
 
 function App() {
