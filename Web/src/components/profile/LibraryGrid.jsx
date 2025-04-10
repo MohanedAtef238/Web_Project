@@ -136,22 +136,19 @@ const LibraryGrid = ({ type = 'books', authorName, header }) => {
   return (
     <div className="author-profile-library">
       <h2 className="author-profile-section-title">
-        {header || defaultHeader}
+        {type.charAt(0).toUpperCase() + type.slice(1)}
       </h2>
       <div className="author-profile-grid">
-        {items.map((item) => (
-          <div key={item.id} className="author-profile-grid-item">
-            <div
-              className="author-profile-book-cover"
+        {item.map((item) => (
+          <div key={image.png.id} className="author-profile-grid-item">
+            <div className="author-profile-book-cover"
               style={{
-                backgroundImage: `url('${item.coverUrl||item.profilePic}')`,
-                backgroundSize: 'cover',
-                backgroundPosition: 'center',
+                backgroundImage: `url('${item.coverUrl}')`, backgroundSize: 'cover', backgroundPosition: 'center'
               }}
             />
             <div className="author-profile-book-info">
-              <h3 className="author-profile-book-title">{item.title || item.name}</h3>
-              <p className="author-profile-book-author">{authorName || item.bio}</p>
+              <h3 className="author-profile-book-title">{item.title}</h3>
+              <p className="author-profile-book-author">{authorName}</p>
             </div>
           </div>
         ))}
