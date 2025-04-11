@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate, Link } from "react-router-dom";
 import "./Login.css";
-import axios from "axios";
+import { createUser } from "../../api/userAPI";
 
 function Signup() {
   const {
@@ -13,26 +13,14 @@ function Signup() {
   const [loginError, setLoginError] = useState(false);
   const navigate = useNavigate();
 
-  async function handleSignup(data) {
-    const username = data.username;
-    const email = data.email;
-    const password = data.password;
-
-    try{
-      console.log(`username: ${username}, email:${email}, password: ${password}`)
-      const response = await axios.post("http://localhost:3000/signup", {
-        username: username,
-        password : password,
-        email : email
-      });
-      if(response.status === 200) {
-        navigate(`/profile/${response.data.username}`);
+    async function handleSignup(data) {
+      try {
+        const user = await createUser(data);
+        navigate(`/profile/${user.username}`);
+      } catch (err) {
+        console.error("Signup error:", err);
+        setLoginError(true);
       }
-    }
-    catch (error) {
-      console.error("signup error:", error);
-      setLoginError(true);
-    }
   }
 
 return (
