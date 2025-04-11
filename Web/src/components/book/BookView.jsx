@@ -69,6 +69,7 @@ const Book = () => {
             type="playlists"
             title={title}
             header={'Listen Now'}
+            book={book}
           />
         </div>
 

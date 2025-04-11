@@ -24,14 +24,16 @@ const mockBooks = [
   }
 ];
 
-const mockRecording = {
-  id: 1,
-  title: "Audiobook: Red Queen",
-  author: "Victoria Aveyard",
-  coverUrl: "https://picsum.photos/600/600?random=7"
-};
 
-const LibraryList = ({ type = 'books', authorName, header }) => {
+const LibraryList = ({ type = 'books', authorName, header, book }) => {
+
+  const mockRecording = {
+    title: book.title,
+    author: book.author,
+    coverUrl: book.cover
+  };
+
+  
   const getItems = () => {
     switch (type) {
       case 'books':
