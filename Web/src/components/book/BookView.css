@@ -243,6 +243,12 @@
     overflow-x: hidden;
   }
 
+
+  
+.comment-input {
+  width: 96%;
+}
+
   
   .comment-submit-btn {
     margin-bottom: 35px;
