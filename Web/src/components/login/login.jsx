@@ -16,7 +16,7 @@ function Login() {
 
   async function handleLogin(data) {
     //fix logic later
-    const username = data.email;
+    const username = data.username;
     const password = data.password;
 
     try {

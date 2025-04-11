@@ -19,13 +19,3 @@ export async function getUserDetails(username) {
   const response = await axios.get(`${API_BASE}/user/${username}`);
   return response.data;
 }
-
-export async function deleteUser(userId) {
-  try {
-    const response = await axios.delete(`${API_BASE}/admin/${userId}`);
-    return response.data;  
-  } catch (error) {
-    console.error('Error deleting user:', error);
-    throw error;  
-  }
-}
