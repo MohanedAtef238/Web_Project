@@ -15,3 +15,7 @@ export async function getAllUsers() {
     const response = await axios.get(`${API_BASE}/user/admin`);
     return response.data;
 }
+export async function getUserDetails(username) {
+  const response = await axios.get(`${API_BASE}/user/${username}`);
+  return response.data;
+}

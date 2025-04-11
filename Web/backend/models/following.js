@@ -1,6 +1,5 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('../config/database');
-const User = require('./user');
 
 const Following = sequelize.define('Following', {
   id: {type: DataTypes.UUID, defaultValue: DataTypes.UUIDV4, primaryKey: true},
@@ -10,11 +9,5 @@ const Following = sequelize.define('Following', {
 }, {
   timestamps: false,
 });
-
-Following.belongsTo(User, { as: 'follower', foreignKey: 'followerId' });
-Following.belongsTo(User, { as: 'author', foreignKey: 'authorId' });
-
-User.hasMany(Following, { as: 'following', foreignKey: 'followerId' });
-User.hasMany(Following, { as: 'followers', foreignKey: 'authorId' });
 
 module.exports = Following; 
