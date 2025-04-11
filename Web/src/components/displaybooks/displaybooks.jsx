@@ -2,6 +2,7 @@ import'./displaybooks.css'
 import SearchBar from '../searchbar/searchbar';
 import { useEffect, useState } from "react";
 import { useNavigate } from 'react-router-dom';
+import { FaCog } from 'react-icons/fa'; 
 
 function BookCard({ title, author, cover, onClick }) {
   return (
@@ -151,6 +152,9 @@ export default function DisplayBooks() {
   return (
     <div className="display-booksd">
     <SearchBar value={searchQuery} onChange={handleSearch}/>
+    <div className="settings-icon" onClick={() => navigate('/settings')}>
+        <FaCog size={30} />
+      </div>
       {x}
     </div>
   );
