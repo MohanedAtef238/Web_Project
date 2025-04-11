@@ -15,8 +15,8 @@ sequelize.authenticate()
     console.error('Unable to connect to the database:', err);
   });
 
-sequelize.sync({ force: false }) 
-  .then(() => console.log("Tables created"))
-  .catch((err) => console.error("Error syncing DB", err));
+// sequelize.sync({ force: false }) 
+//   .then(() => console.log("Tables created"))
+//   .catch((err) => console.error("Error syncing DB", err));
 
 module.exports = sequelize; 

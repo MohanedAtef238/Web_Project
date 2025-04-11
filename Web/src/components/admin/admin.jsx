@@ -67,17 +67,17 @@ const dummybooks = [
 
 function Admin(){
     const [viewTable, setTable] = useState(true);
-
     const [users, setUsers] = useState([]);
     const [books, setBooks] = useState([]);
-
-    const [fetchBooksError, setFetchBooksError] =useState(false);
+    const [fetchBooksError, setFetchBooksError] = useState(false);
     const [fetchUsersError, setFetchUsersError] = useState(false);
 
     useEffect(() =>{
         async function getUsers() {
             try {
+                console.log("Fetching users...");
                 const fetchedusers = await getAllUsers();
+                console.log("Fetched users:", fetchedusers);
                 setUsers(fetchedusers);
             }
             catch (error) {
@@ -85,6 +85,7 @@ function Admin(){
                 setFetchUsersError(true);
             }
         }
+        getUsers();
     }, []);
 
     // useEffect(() => {
@@ -109,12 +110,12 @@ function Admin(){
                 <button className="logout-button">Logout</button>
             </Link>
            
-            {viewTable==true?
+            {viewTable ? (
                     <div>
-                        <button className="users-table-users-button" onClick={ () => {setTable(prevState => !prevState)}}>
+                        <button className="users-table-users-button" onClick={() => setTable(true)}>
                             Users
                         </button>
-                        <button className="users-table-books-button" onClick={ () => {setTable(prevState => !prevState)}}>
+                        <button className="users-table-books-button" onClick={() => setTable(false)}>
                             Books
                         </button>
                         <div className="div-section-layout">
@@ -129,12 +130,12 @@ function Admin(){
                         </div>
                     </div>
                     
-                    :
+                    ) : (
                     <div>
-                        <button className="books-table-users-button" onClick={ () => {setTable(prevState => !prevState)}}>
+                        <button className="books-table-users-button" onClick={() => setTable(true)}>
                             Users
                         </button>
-                        <button className="books-table-books-button" onClick={ () => {setTable(prevState => !prevState)}}>
+                        <button className="books-table-books-button" onClick={() => setTable(false)}>
                             Books
                         </button>
                         <div className="div-section-layout">
@@ -149,7 +150,7 @@ function Admin(){
                             </Link>
                         </div>
                     </div>
-            }
+            )}
 {/* 
             <div className="div-section-layout">
                 <AdminUserslist users={dummyusers}/>
