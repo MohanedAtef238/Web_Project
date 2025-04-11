@@ -10,3 +10,8 @@ export async function createUser({ username, email, password }) {
   });
   return response.data;
 }
+
+export async function getAllUsers() {
+    const response = await axios.get(`${API_BASE}/admin`);
+    return response.data;
+}
