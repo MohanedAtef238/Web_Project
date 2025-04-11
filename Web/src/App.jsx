@@ -14,6 +14,7 @@ import Playlist from './components/playlist/Playlist.jsx';
 import Book from './components/book/BookView.jsx';
 import BrowseCategories from './components/browsecategories/browsecategories.jsx';
 import CategoryBooks from './components/Categorypage/catagorypage.jsx';
+import Settings from './components/settings/settings.jsx';
 
 function AppWrapper() {
   const location = useLocation();
@@ -21,7 +22,9 @@ function AppWrapper() {
 
   const hidePlaybar = path === '/' || path === '/signup' || path.startsWith('/admin');
 
+
   return (
+    
     <div
       style={{
         height: '100vh',
@@ -45,6 +48,7 @@ function AppWrapper() {
           <Route path="/book/:title" element={<Book />} />
           <Route path="/browsecategories" element={<BrowseCategories />} />
           <Route path="/browsecategories/:id" element={<CategoryBooks />} />
+          <Route path="/settings" element={<Settings />} />
         </Routes>
       </div>
 
