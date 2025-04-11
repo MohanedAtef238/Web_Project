@@ -52,13 +52,13 @@ const AuthorProfile = () => {
             <div className="author-profile-header-overlay">
               <div className="author-profile-identity">
                 <h1 className="author-profile-title">{user.username}</h1>
-                {!user.isAuthor && (
+                {(
                   <p className="author-profile-follow-count">
                     {followerCount.toLocaleString()} followers
                   </p>
                 )}
               </div>
-              {!user.isAuthor && (
+              {(
                 <div className="author-profile-actions">
                   <button className={followButtonClass} onClick={() => setIsFollowing(!isFollowing)}>
                     {followButtonText}

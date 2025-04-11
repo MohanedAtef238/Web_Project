@@ -1,5 +1,15 @@
 const { Book, User } = require('../models');
 
+
+const getAdminBookList = async (req, res) => {
+    try { 
+        const books = await Book.findAll({ attributes: ['id', 'title', 'duration', 'genre'] });
+        res.status(200).json(books);
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+}
+
 const getUserBooks = async (req, res) => {
     try {
         const { username } = req.params;
@@ -11,7 +21,7 @@ const getUserBooks = async (req, res) => {
 
         const books = await Book.findAll({
             where: { authorId: user.id },
-            attributes: ['id', 'title', 'duration', 'isPublished']
+            attributes: ['id', 'title', 'duration']
         });
 
         res.json(books);
@@ -65,4 +75,4 @@ const addBook = async (req, res) => {
     }
 };
 
-module.exports = {getUserBooks,getBookDetails,addBook}; 
+module.exports = {getUserBooks,getBookDetails,addBook, getAdminBookList}; 

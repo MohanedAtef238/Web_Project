@@ -14,17 +14,18 @@ import Playlist from './components/playlist/Playlist.jsx'
 import Book from './components/book/BookView.jsx'
 import BrowseCategories from './components/browsecategories/browsecategories.jsx'
 import CategoryBooks from './components/Categorypage/catagorypage.jsx'
-import Settings from './components/settings/settings.jsx'
 
 
 
-function App() {
+function AppWrapper() {
+  const location = useLocation();
+  const path = location.pathname;
+
+  const hidePlaybar = path === '/' || path === '/signup' || path.startsWith('/admin');
+
   return (
-    
-    <BrowserRouter>
-    
-    {/* i added this to make sure the playbar is always visible on the page just like spotify, content will be generated from other components on top of it and the playbar will fill the bottom  */}
-      <div style={{ 
+    <div
+      style={{
         height: '100vh',
         display: 'flex',
         flexDirection: 'column',
@@ -46,7 +47,6 @@ function App() {
             <Route path="/book/:title" element={<Book/>}/> 
             <Route path="/browsecategories" element={<BrowseCategories/>}/>
             <Route path="//browsecategories/:id" element={<CategoryBooks/>} />
-            <Route path="/settings" element={<Settings/>} />
           </Routes>
         </div>
         
@@ -54,7 +54,7 @@ function App() {
         
       </div>
     </BrowserRouter>
-  )
+  );
 }
 
 export default App;

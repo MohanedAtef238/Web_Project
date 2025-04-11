@@ -4,6 +4,7 @@ import AdminBookslist from "./adminbookslist";
 import { Link } from "react-router-dom";
 import './admin.css'
 import { getAllUsers } from "../../api/userAPI";
+import { getAdminBookList } from "../../api/bookAPI";
 
 // const dummyusers = [
 //     {
@@ -38,32 +39,32 @@ import { getAllUsers } from "../../api/userAPI";
 //     },
 // ]
 
-const dummybooks = [
-    {
-        bookID: 1,
-        title: 'hamefd',
-        genre: 'horror',
-        file_url: 'url',
-        cover_image_url: '../../assets/react.svg',
-        duration: '03:20:03'
-    },
-    {
-        bookID: 2,
-        title: 'poyrte',
-        genre: 'romance',
-        file_url: 'url',
-        cover_image_url: '../../assets/react.svg',
-        duration: '02:15:03'
-    },
-    {
-        bookID: 3,
-        title: 'gbgb',
-        genre: 'habiba',
-        file_url: 'url',
-        cover_image_url: '../../assets/react.svg',
-        duration: '10:10:10'
-    },
-]
+// const dummybooks = [
+//     {
+//         bookID: 1,
+//         title: 'hamefd',
+//         genre: 'horror',
+//         file_url: 'url',
+//         cover_image_url: '../../assets/react.svg',
+//         duration: '03:20:03'
+//     },
+//     {
+//         bookID: 2,
+//         title: 'poyrte',
+//         genre: 'romance',
+//         file_url: 'url',
+//         cover_image_url: '../../assets/react.svg',
+//         duration: '02:15:03'
+//     },
+//     {
+//         bookID: 3,
+//         title: 'gbgb',
+//         genre: 'habiba',
+//         file_url: 'url',
+//         cover_image_url: '../../assets/react.svg',
+//         duration: '10:10:10'
+//     },
+// ]
 
 function Admin(){
     const [viewTable, setTable] = useState(true);
@@ -86,6 +87,17 @@ function Admin(){
             }
         }
         getUsers();
+        async function getBooks() {
+            try {
+                console.log("Fetching users...");
+                const fetchedbooks = await getAdminBookList();
+                setBooks(fetchedbooks);
+            }
+            catch (error) {
+                setFetchBooksError(true);
+            }
+        }
+        getBooks();
     }, []);
 
     // useEffect(() => {
@@ -144,7 +156,7 @@ function Admin(){
                             ) : (
                                 <AdminBookslist books={books} />
                             )} */}
-                            <AdminBookslist books={dummybooks}/>
+                            <AdminBookslist books={books}/>
                             <Link to="./addbook">
                                 <button>Add new book</button>
                             </Link>
