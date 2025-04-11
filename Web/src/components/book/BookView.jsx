@@ -1,17 +1,20 @@
 import { useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useLocation } from 'react-router-dom';
 import './BookView.css';
 import LibraryList from '../playlist/LibraryList';
 
 const Book = () => {
   const { title } = useParams(); 
+  const location = useLocation(); 
+  const book = location.state?.book;
+
   const [likedCount, setLikedCount] = useState(10000);
   const [isLiked, setIsLiked] = useState(false);
   const [isAuthorBooks, setIsAuthorBooks] = useState(true);
   const [bookData, setBookData] = useState({
-    BookCoverImage: 'https://picsum.photos/200/300', 
-    description: "This is a world divided by blood—red or silver. The Reds are commoners, ruled by a Silver elite in possession of god-like superpowers. And to Mare Barrow, a seventeen-year-old Red girl from the poverty-stricken Stilts, it seems like nothing will ever change. That is until she finds herself working in the Silver Palace. Here, surrounded by the people she hates the most, Mare discovers that, despite her red blood, she possesses a deadly power of her own. One that threatens to destroy the balance of power. Fearful of Mare's potential, the Silvers hide her in plain view, declaring her a long-lost Silver princess, now engaged to a Silver prince. Despite knowing that one misstep would mean her death, Mare works silently to help the Red Guard, a militant resistance group, and bring down the Silver regime. But this is a world of betrayal and lies, and Mare has entered a dangerous dance—Reds against Silvers, prince against prince, and Mare against her own heart.",
-    author: "Victoria Aveyard",
+      BookCoverImage: book?.cover || 'https://picsum.photos/200/300',
+      description: book?.description || 'No description available.',
+      author: book?.author || 'Unknown Author',
   });
 
   const [comments, setComments] = useState([

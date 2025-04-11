@@ -215,6 +215,7 @@
   cursor: pointer;
   transition: color 0.2s ease;
   padding: 0; 
+  padding-left: 13px;
 }
 
 .like-btn:hover {
@@ -263,18 +264,34 @@
   border: none;
 }
 
-
-
-button.playButtonMini{
-  border-radius: 50%; 
+button.playButtonMini {
+  border-radius: 50%;
   width: 24px;
   height: 24px;
-  font-size: 16px;
-  color: #b3b3b3;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
   transition: all 0.2s ease;
-  background-image: url('../../assets/min-play.png')  !important;
+  border: none;
+  background-color: transparent;
+  padding: 0;
+  position: relative;
+}
+
+
+button.playButtonMini::before {
+  content: "";
+  display: block;
+  width: 0;
+  height: 0;
+  border-left: 8px solid white;  
+  border-top: 5px solid transparent;
+  border-bottom: 5px solid transparent;
+  position: absolute;
+}
+
+button.playButtonMini:hover {
+  transform: scale(1.1);
+  background-color: rgba(255, 255, 255, 0.1);
 }
