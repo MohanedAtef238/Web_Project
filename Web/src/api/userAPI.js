@@ -15,3 +15,14 @@ export async function getAllUsers() {
     const response = await axios.get(`${API_BASE}/admin`);
     return response.data;
 }
+
+
+export async function deleteUser(userId) {
+  try {
+    const response = await axios.delete(`${API_BASE}/admin/${userId}`);
+    return response.data;  
+  } catch (error) {
+    console.error('Error deleting user:', error);
+    throw error;  
+  }
+}
