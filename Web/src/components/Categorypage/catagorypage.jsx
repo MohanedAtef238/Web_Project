@@ -1,9 +1,10 @@
 import { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
-import './categorypage.css'
+import { useParams, useNavigate } from 'react-router-dom';
+import './categorypage.css';
 
 export default function CategoryBooks() {
-  const {id} = useParams();
+  const { id } = useParams();
+  const navigate = useNavigate(); 
   const [books, setBooks] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -22,13 +23,18 @@ export default function CategoryBooks() {
     science: 'Technology',
   };
 
+  const handleBookClick = (book) => {
+    console.log(`Clicked book: ${book.title}`);
+    navigate(`/book/${book.title}`, { state: { book } });
+  };
+
   useEffect(() => {
     const fetchBooks = async () => {
       try {
         console.log("id testing", id);
         const response = await fetch(`https://openlibrary.org/subjects/${id}.json`);
         const data = await response.json();
-        
+
         setBooks(data.works || []);
       } catch (error) {
         console.error('Error fetching books:', error);
@@ -40,8 +46,7 @@ export default function CategoryBooks() {
     fetchBooks();
   }, [id]);
 
-
-  const categoryName = categoryNamesMapping[id] || id; 
+  const categoryName = categoryNamesMapping[id] || id;
 
   if (loading) {
     return <p className='loading'>Loading books...</p>;
@@ -53,9 +58,9 @@ export default function CategoryBooks() {
       <div className="books-grid">
         {books.length > 0 ? (
           books.map((book) => (
-            <div key={book.key} className="book-card">
+            <div key={book.key} className="book-card" onClick={() => handleBookClick(book)}> 
               <img
-                src={`https://picsum.photos/600?random=${book.key}`} 
+                src={`https://picsum.photos/600?random=${book.key}`}
                 alt={book.title}
               />
               <h3>{book.title}</h3>
