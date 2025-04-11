@@ -1,4 +1,4 @@
-const User = require('../sql_models/user.js');
+const User = require('../models/user');
 const bcrypt = require('bcrypt');
 
 // use in admin add user and signups

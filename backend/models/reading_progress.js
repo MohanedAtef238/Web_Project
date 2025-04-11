@@ -9,17 +9,17 @@ const ReadingProgress = sequelize.define('ReadingProgress', {
   bookId: {type: DataTypes.UUID, allowNull: false, references: {model: 'Books', key: 'id'}},
   currentTime: {type: DataTypes.INTEGER, allowNull: true}, // Current position in seconds
   duration: {type: DataTypes.INTEGER, allowNull: true}, // Total duration in seconds
-  lastPlayedAt: {type: DataTypes.DATE, defaultValue: DataTypes.NOW}, // Tracks when user last interacted with book so we can order them by most recent
+  lastPlayedAt: {type: DataTypes.DATE, defaultValue: DataTypes.NOW}, // Tracks when user last interacted with book
   isCompleted: {type: DataTypes.BOOLEAN, defaultValue: false}, // Marked true when user finishes the book
   createdAt: {type: DataTypes.DATE, defaultValue: DataTypes.NOW} // When user first started the book
 }, {
-  timestamps: false // We'll manage timestamps manually if we ever need to. so we can only use createdAt attribute
+  timestamps: false // We'll manage timestamps manually if we ever need to
 });
 
-// defining relationships, initial revision might be changed later.
 ReadingProgress.belongsTo(User, { foreignKey: 'userId', as: 'user' });
 ReadingProgress.belongsTo(Book, { foreignKey: 'bookId', as: 'book' });
-User.hasMany(ReadingProgress, { foreignKey: 'userId', as: 'listeningProgress' });
-Book.hasMany(ReadingProgress, { foreignKey: 'bookId', as: 'listeners' });
+
+User.hasMany(ReadingProgress, { foreignKey: 'userId', as: 'readingProgress' });
+Book.hasMany(ReadingProgress, { foreignKey: 'bookId', as: 'readers' });
 
 module.exports = ReadingProgress; 

@@ -5,7 +5,8 @@ const PlaylistBook = require('./playlist_book');
 const ReadingProgress = require('./reading_progress');
 const Favorite = require('./favorite');
 const Following = require('./following');
-// another lovely bouquet of roses
+const Review = require('./review');
+const Comment = require('./comment');
 module.exports = {
   User,
   Book,
@@ -13,5 +14,7 @@ module.exports = {
   PlaylistBook,
   ReadingProgress,
   Favorite,
-  Following
+  Following,
+  Review,
+  Comment
 }; 

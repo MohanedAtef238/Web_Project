@@ -12,9 +12,9 @@ const Favorite = sequelize.define('Favorite', {
   timestamps: false
 });
 
-// Define the relationships
 Favorite.belongsTo(User, { foreignKey: 'userId', as: 'user' });
 Favorite.belongsTo(Book, { foreignKey: 'bookId', as: 'book' });
+
 User.hasMany(Favorite, { foreignKey: 'userId', as: 'favorites' });
 Book.hasMany(Favorite, { foreignKey: 'bookId', as: 'favoritedBy' });
 
