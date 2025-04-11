@@ -53,7 +53,7 @@ export default function CategoryBooks() {
       <div className="books-grid">
         {books.length > 0 ? (
           books.map((book) => (
-            <div key={book.key} className="book-card">
+            <div key={book.key} className="book-cardcat">
               <img
                 src={`https://picsum.photos/600?random=${book.key}`} 
                 alt={book.title}
