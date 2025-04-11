@@ -11,10 +11,25 @@ export async function createUser({ username, email, password }) {
   return response.data;
 }
 
+export async function login({ username, password }) {
+  const response = await axios.post(`${API_BASE}/user`, {
+    inputUsername: username,
+    inputPassword: password
+  });
+  if (response.status === 200) {
+    const userData = response.data;
+    localStorage.setItem('user', JSON.stringify(userData));
+    return userData;
+  }
+  
+  throw new Error('Login failed');
+}
+
 export async function getAllUsers() {
     const response = await axios.get(`${API_BASE}/user/admin`);
     return response.data;
 }
+
 export async function getUserDetails(username) {
   const response = await axios.get(`${API_BASE}/user/${username}`);
   return response.data;
