@@ -108,4 +108,9 @@
 
 .searchres{
     margin-right: 60px;
+    min-width: 900px;
+}
+
+.no-results p{
+   margin:20.2px 0;
 }
