@@ -30,9 +30,12 @@ const createUser = async (req, res) => {
 const deleteUser = async (req, res) => {
   try {
     const user = await User.findByPk(req.params.id);
+    console.log('delete user reached controller');
     if (!user) return res.status(404).json({ error: 'User not found' });
-
+    console.log('db from controller found the user to delete');
+    console.log('');
     await user.destroy();
+    console.log('user deleted in controller')
     res.status(204).send();
   } catch (error) {
     res.status(500).json({ error: error.message });
@@ -62,9 +65,12 @@ const getUserByCredentials = async (req, res) => {
 
 const getAllUsers = async(req, res) => {
   try {
+    console.log('fetch users reached controller')
     const users = await User.findAll();
+    console.log("if this logs then issue is not in controller");
     res.status(200).json(users);
   } catch (error) {
+    console.log("controller error in fetch users")
     res.status(500).json({ error: error.message });
   }
 }

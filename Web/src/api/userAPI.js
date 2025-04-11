@@ -26,11 +26,24 @@ export async function login({ username, password }) {
 }
 
 export async function getAllUsers() {
+    console.log("using the api bow to fetch users");
+    // const response1 = await axios.get(`${API_BASE}/admin`);
+    // console.log('logging result from /admin 3alatool: ', response1.data);
+    // const response = await axios.get(`${API_BASE}/user/admin`);
+
     const response = await axios.get(`${API_BASE}/user/admin`);
+    console.log("if this logs then error not in api");
+
     return response.data;
 }
 
 export async function getUserDetails(username) {
   const response = await axios.get(`${API_BASE}/user/${username}`);
+  return response.data;
+}
+
+//added the delete user
+export async function deleteUser(id){
+  const response = await axios.delete(`${API_BASE}/user/admin/${id}`);
   return response.data;
 }

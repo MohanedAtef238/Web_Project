@@ -1,7 +1,25 @@
 import React from 'react';
+import { useState, useEffect } from 'react';
 import './table.css';
+import { deleteUser } from '../../api/userAPI';
 
 const AdminUserslist = ({ users }) => {
+
+    const [usersList, setUsersList] = useState(users);
+
+    useEffect(() => {
+        setUsersList(users);
+    }, [users]);
+
+    const deleteFromUser = async (id) => {
+        try {
+            await deleteUser(id);
+            setUsersList(prevUsers => prevUsers.filter(user => user.id !== id));
+        } catch (error) {
+            console.error('Failed to delete user:', error.message);
+        }
+    };
+
     return(
         <div>
             <div className='title'>
@@ -25,9 +43,9 @@ const AdminUserslist = ({ users }) => {
                 </thead>
                 {/* <div className="scrolling-table"> */}
                     <tbody className="scrolling-table">
-                        {users && users.map(
+                        {usersList && usersList.map(
                             (user) => (
-                                <tr>
+                                <tr key={user.id}>
                                     <td className='th-td-styling'>
                                     {user.username}
                                     </td>
@@ -38,7 +56,7 @@ const AdminUserslist = ({ users }) => {
                                     {user.createdOn}
                                     </td>
                                     <td className='th-td-styling'>
-                                        <button className='delete-button'>X</button>
+                                        <button className='delete-button' onClick={() => deleteFromUser(user.id)}>X</button>
                                     </td>
                                 </tr>
                                 )
