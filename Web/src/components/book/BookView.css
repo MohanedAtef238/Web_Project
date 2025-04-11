@@ -238,6 +238,10 @@
 
 
 @media (max-width: 768px) {
+  .book-wrapper {
+    overflow-x: hidden;
+  }
+  
   .book-header-content {
     flex-direction: column;
     align-items: center;
