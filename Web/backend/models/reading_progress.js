@@ -14,4 +14,9 @@ const ReadingProgress = sequelize.define('ReadingProgress', {
   timestamps: false // We'll manage timestamps manually if we ever need to
 });
 
+ReadingProgress.associate = function(models) {
+  ReadingProgress.belongsTo(models.User, { foreignKey: 'userId', as: 'user' });
+  ReadingProgress.belongsTo(models.Book, { foreignKey: 'bookId', as: 'book' });
+};
+
 module.exports = ReadingProgress; 

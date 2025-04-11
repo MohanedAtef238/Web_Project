@@ -13,5 +13,4 @@ router.post('/admin/adduser', createUser);
 
 router.get('/admin', getAllUsers);
 
-
 module.exports = router; 
