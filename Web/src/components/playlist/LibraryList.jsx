@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import './Playlist.css';
 
+
 const mockBooks = [
   {
     id: 1,
@@ -77,6 +78,7 @@ const LibraryList = ({ type = 'books', authorName, header }) => {
               <p className="playlist-book-author">{item.author}</p>
             </div>
             <div className="playlist-list-actions">
+              <button className="playButtonMini"> </button>
               <button
                 className={`like-btn ${item.liked ? 'liked' : ''}`}
                 onClick={() => toggleLike(item.id)}

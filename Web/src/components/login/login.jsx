@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate, Link } from "react-router-dom";
 import "./Login.css";
-import axios from "axios";
+import { login } from "../../api/userAPI";
 
 function Login() {
   const {
@@ -15,31 +15,18 @@ function Login() {
   const navigate = useNavigate();
 
   async function handleLogin(data) {
-    //fix logic later
-    const username = data.username;
-    const password = data.password;
-
     try {
-      const response = await axios.post(`http://localhost:3000/users/`, {
-        inputUsername: username,
-        inputPassword: password
-      });
-      
-      if(response.status === 200) {
-        const user = response.data;
-        if (user.username.toLowerCase() === 'admin') {
-          navigate('/admin');
-        } else {
-          navigate(`/profile/${user.username}`);
-        }
+      const user = await login(data);
+      if (user.username.toLowerCase() === 'admin') {
+        navigate('/admin');
+      } else {
+        navigate('/homepage');
       }
-    }
-    catch( error) {
+    } catch (error) {
       console.error("Login error:", error);
       setLoginError(true);
     }
   }
- 
 
   return (
     <div className="login-container">
@@ -51,7 +38,7 @@ function Login() {
             className="login-form-input"
             type="text"
             placeholder="Email or Username"
-            {...register("email", {
+            {...register("username", {
               required: "Username or Email is required",
               pattern: {
                 value: /^[a-zA-Z0-9._@-]{3,}$/,
