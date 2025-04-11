@@ -19,6 +19,11 @@ cd Web
 npm run dev 
 ```
 
+alternatively you can install npm install --save-dev concurrently
+``` bash
+cd Web 
+npm run all 
+```
 
 ## Installation
 
