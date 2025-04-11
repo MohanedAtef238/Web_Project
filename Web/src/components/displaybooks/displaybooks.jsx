@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom';
 
 function BookCard({ title, author, cover, onClick }) {
   return (
-    <div className="book-card" onClick={onClick}>
+    <div className="book-cardd" onClick={onClick}>
       <img src={cover} alt={title} />
       <h3>{title}</h3>
       <p>{author}</p>
@@ -15,9 +15,9 @@ function BookCard({ title, author, cover, onClick }) {
 
 function Row({ category, books, onClick }) {
   return (
-    <div className="row">
+    <div className="rowd">
       <h2>{category}</h2>
-      <div className="book-row">
+      <div className="book-rowd">
         {books.map((book) => (
           <BookCard
             key={book.id}
@@ -115,9 +115,9 @@ export default function DisplayBooks() {
   } else if (searchQuery.trim() !== "") {
     if (searchResults.length > 0) {
       x = (
-        <div className="search-results">
+        <div className="search-resultsd">
           <h3>Results</h3>
-          <div className="book-row">
+          <div className="book-rowd">
             {searchResults.map((book) => (
               <BookCard
                 key={book.id}
@@ -149,7 +149,7 @@ export default function DisplayBooks() {
   }
 
   return (
-    <div className="display-books">
+    <div className="display-booksd">
     <SearchBar value={searchQuery} onChange={handleSearch}/>
       {x}
     </div>
