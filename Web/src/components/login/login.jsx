@@ -20,7 +20,7 @@ function Login() {
     const password = data.password;
 
     try {
-      const response = await axios.post(`http://localhost:3000/`, {
+      const response = await axios.post(`http://localhost:3000/user/`, {
         inputUsername: username,
         inputPassword: password
       });
