@@ -2,20 +2,32 @@ import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate, Link } from "react-router-dom";
 import "./Login.css";
+import { createUser } from "../../api/userAPI";
 
 function Signup() {
   const {
     register,
+    handleSubmit,
     formState: { errors },
   } = useForm();
   const [loginError, setLoginError] = useState(false);
   const navigate = useNavigate();
 
+    async function handleSignup(data) {
+      try {
+        const user = await createUser(data);
+        navigate(`/profile/${user.username}`);
+      } catch (err) {
+        console.error("Signup error:", err);
+        setLoginError(true);
+      }
+  }
+
 return (
   <div className="login-container">
     {/* signup part */}
     <div className="login-left">
-      <form className="login-form">
+      <form className="login-form" onSubmit={handleSubmit(handleSignup)}>
         <h2>Sign up now!</h2>
         <input
           className="login-form-input"

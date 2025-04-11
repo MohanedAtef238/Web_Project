@@ -31,6 +31,7 @@ function App() {
         <div style={{ flex: 1, overflow: 'hidden' }}>
           <Routes>
             <Route path="/testingroute" element={<Admin/>}/>
+            {/* if login path is changed, fix it in server.js too */}
             <Route path="/" element={<Login/>}/>
             <Route path="/admin/adduser" element={<Adduser/>}/>
             <Route path="/admin/addbook" element={<Addbook/>}/>
