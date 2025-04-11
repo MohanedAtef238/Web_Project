@@ -262,3 +262,19 @@
   box-shadow: none;
   border: none;
 }
+
+
+
+button.playButtonMini{
+  border-radius: 50%; 
+  width: 24px;
+  height: 24px;
+  font-size: 16px;
+  color: #b3b3b3;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+  background-image: url('../../assets/min-play.png')  !important;
+}
