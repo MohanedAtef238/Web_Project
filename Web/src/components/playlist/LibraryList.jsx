@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import './Playlist.css';
+import playButtonImage from '../../assets/min-play.png';
 
 
 const mockBooks = [
@@ -78,7 +79,11 @@ const LibraryList = ({ type = 'books', authorName, header }) => {
               <p className="playlist-book-author">{item.author}</p>
             </div>
             <div className="playlist-list-actions">
-              <button className="playButtonMini"> </button>
+            <button
+                className="playButtonMini"
+                style={{ backgroundImage: `url(${playButtonImage})` }}
+                aria-label="Play audiobook"
+              ></button>
               <button
                 className={`like-btn ${item.liked ? 'liked' : ''}`}
                 onClick={() => toggleLike(item.id)}
