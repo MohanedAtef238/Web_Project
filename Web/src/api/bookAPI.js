@@ -16,3 +16,14 @@ export async function getAdminBookList(){
   const response = await axios.get(`${API_BASE}/books/admin/books`);
   return response.data;
 }
+
+export async function addAdminBook(book) {
+  const response = await axios.post(`${API_BASE}/books/admin/book/add`, book);
+  return response.data;
+}
+
+export async function deleteBook(bookId) {
+  console.log("Deleting book:", bookId);
+  const response = await axios.post(`${API_BASE}/books/delete/${bookId}`);
+  return response.data;
+}
