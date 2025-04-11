@@ -1,10 +1,11 @@
 import'./displaybooks.css'
 import SearchBar from '../searchbar/searchbar';
 import { useEffect, useState } from "react";
+import { useNavigate } from 'react-router-dom';
 
-function BookCard({ title, author, cover }) {
+function BookCard({ title, author, cover, onClick }) {
   return (
-    <div className="book-card">
+    <div className="book-card" onClick={onClick}>
       <img src={cover} alt={title} />
       <h3>{title}</h3>
       <p>{author}</p>
@@ -12,7 +13,7 @@ function BookCard({ title, author, cover }) {
   );
 }
 
-function Row({ category, books }) {
+function Row({ category, books, onClick }) {
   return (
     <div className="row">
       <h2>{category}</h2>
@@ -23,6 +24,7 @@ function Row({ category, books }) {
             title={book.title}
             author={book.author}
             cover={book.cover}
+            onClick={() => onClick(book)}
           />
         ))}
       </div>
@@ -31,6 +33,8 @@ function Row({ category, books }) {
 }
 
 export default function DisplayBooks() {
+  
+  const navigate = useNavigate();
   const [searchQuery, setSearchQuery] = useState("");
   const [searchResults, setSearchResults] = useState([]);
   const [books, setBooks] = useState([]);
@@ -55,6 +59,11 @@ export default function DisplayBooks() {
       science: 'Science & Technology'
   };
 
+
+  const handleBookClick = (book) => {
+    console.log(`Clicked book: ${book.title}`);
+    navigate(`/book/${book.title}`, { state: { book } });
+  };
   
     
   useEffect(() => {
@@ -96,6 +105,7 @@ export default function DisplayBooks() {
         book.title.toLowerCase().includes(query.toLowerCase())
       );
       setSearchResults(results);
+      
     }
   };
 
@@ -114,13 +124,14 @@ export default function DisplayBooks() {
                 title={book.title}
                 author={book.author}
                 cover={book.cover}
+                onClick={() => handleBookClick(book)}
               />
             ))}
           </div>
         </div>
       );
     } else {
-      x = <p>No results sop sop :(</p>;
+      x = <p>No results sop sop :</p>;
     }
   } else {
     const grouped = categories.map((category) => {
@@ -130,6 +141,7 @@ export default function DisplayBooks() {
           key={category}
           category={categoryNamesMapping[category]}
           books={finalBooks}
+          onClick={handleBookClick}
         />
       );
     });
