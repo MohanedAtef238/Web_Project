@@ -11,3 +11,8 @@ export async function getBookDetails(bookId) {
   const response = await axios.get(`${API_BASE}/books/details/${bookId}`);
   return response.data;
 }
+
+export async function getAdminBookList(){
+  const response = await axios.get(`${API_BASE}/books/admin/books`);
+  return response.data;
+}
