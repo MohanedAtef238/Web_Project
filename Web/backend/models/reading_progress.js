@@ -1,7 +1,5 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('../config/database');
-const User = require('./user');
-const Book = require('./book');
 
 const ReadingProgress = sequelize.define('ReadingProgress', {
   id: {type: DataTypes.UUID, defaultValue: DataTypes.UUIDV4, primaryKey: true},
@@ -15,11 +13,5 @@ const ReadingProgress = sequelize.define('ReadingProgress', {
 }, {
   timestamps: false // We'll manage timestamps manually if we ever need to
 });
-
-ReadingProgress.belongsTo(User, { foreignKey: 'userId', as: 'user' });
-ReadingProgress.belongsTo(Book, { foreignKey: 'bookId', as: 'book' });
-
-User.hasMany(ReadingProgress, { foreignKey: 'userId', as: 'readingProgress' });
-Book.hasMany(ReadingProgress, { foreignKey: 'bookId', as: 'readers' });
 
 module.exports = ReadingProgress; 

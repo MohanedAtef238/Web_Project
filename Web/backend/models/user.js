@@ -13,8 +13,6 @@ const User = sequelize.define('User', {
   bio: {type: DataTypes.TEXT, allowNull: true},
   profilePicture: {type: DataTypes.STRING, allowNull: true},
   isAuthor: {type: DataTypes.BOOLEAN, defaultValue: false}, // this was added to change the view of the profile for authors and non-authors
-  authorBio: {type: DataTypes.TEXT, allowNull: true},
-  authorWebsite: {type: DataTypes.STRING, allowNull: true},
   createdAt: {type: DataTypes.DATE, defaultValue: DataTypes.NOW}
 }, {
   timestamps: false 

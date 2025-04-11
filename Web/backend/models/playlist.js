@@ -1,6 +1,5 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('../config/database');
-const User = require('./user');
 
 const Playlist = sequelize.define('Playlist', {
   id: {type: DataTypes.UUID, defaultValue: DataTypes.UUIDV4, primaryKey: true},
@@ -13,8 +12,5 @@ const Playlist = sequelize.define('Playlist', {
 }, {
   timestamps: false 
 });
-
-Playlist.belongsTo(User, { foreignKey: 'userId', as: 'owner' });
-User.hasMany(Playlist, { foreignKey: 'userId', as: 'playlists' });
 
 module.exports = Playlist; 

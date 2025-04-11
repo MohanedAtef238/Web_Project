@@ -69,4 +69,13 @@ const getAllUsers = async(req, res) => {
   }
 }
 
-module.exports = { createUser, deleteUser, getUserByCredentials , getAllUsers};
+const getUserDetails = async (req, res) => {
+  try {
+    const user = await User.findOne({ where: { username: req.params.name },  attributes: ['username', 'isAuthor', 'bio', 'profilePicture']});
+    if (!user) return res.status(404).json({ error: 'User not found' });
+    res.status(200).json(user);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+module.exports = { createUser, deleteUser, getUserByCredentials , getAllUsers, getUserDetails};
