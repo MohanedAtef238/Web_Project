@@ -16,11 +16,11 @@ function Login() {
 
   async function handleLogin(data) {
     //fix logic later
-    const username = data.username;
+    const username = data.username ;
     const password = data.password;
 
     try {
-      const response = await axios.post(`http://localhost:3000/users/`, {
+      const response = await axios.post(`http://localhost:3000/user`, {
         inputUsername: username,
         inputPassword: password
       });
@@ -51,7 +51,7 @@ function Login() {
             className="login-form-input"
             type="text"
             placeholder="Email or Username"
-            {...register("email", {
+            {...register("username", {
               required: "Username or Email is required",
               pattern: {
                 value: /^[a-zA-Z0-9._@-]{3,}$/,
