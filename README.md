@@ -6,9 +6,17 @@ Is a website like Spotify, but for books where u can browse, listen, and keep tr
 ## Running
 To run project locally:
 
+first terminal (backend - make sure to run this first)
+``` bash
+cd Web
+cd backend
+node server.js
+```
+
+second terminal (frontend)
 ``` bash
 cd Web 
-npm i npm run dev 
+npm run dev 
 ```
 
 
@@ -23,6 +31,7 @@ npm i bcrypt
 npm i axios
 npm i express cors
 npm i sequelize pg pg-hstore
+npm install mongoose
 ```
 
 #### Dependency usage
