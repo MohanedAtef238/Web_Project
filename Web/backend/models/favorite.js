@@ -10,4 +10,9 @@ const Favorite = sequelize.define('Favorite', {
   timestamps: false
 });
 
+Favorite.associate = function(models) {
+  Favorite.belongsTo(models.User, { foreignKey: 'userId', as: 'user' });
+  Favorite.belongsTo(models.Book, { foreignKey: 'bookId', as: 'book' });
+};
+
 module.exports = Favorite; 

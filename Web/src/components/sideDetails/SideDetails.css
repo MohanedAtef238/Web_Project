@@ -22,9 +22,6 @@
   padding: 15px;
   border-bottom: 1px solid #333;
   background-color: #181818;
-  position: sticky;
-  top: 0;
-  z-index: 2;
 }
 
 .side-details-header h2 {
@@ -48,7 +45,7 @@
 .side-details-content {
   padding: 15px;
   color: #b3b3b3;
-  padding-bottom: 300px;
+  padding-bottom: 130px;
 }
 
 .side-details-image {
@@ -70,4 +67,5 @@
   line-height: 1.6;
   margin-bottom: 16px;
   color: #b3b3b3;
+  
 }

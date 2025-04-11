@@ -13,4 +13,9 @@ const Playlist = sequelize.define('Playlist', {
   timestamps: false 
 });
 
+Playlist.associate = function(models) {
+  Playlist.belongsTo(models.User, { foreignKey: 'userId', as: 'owner' });
+  Playlist.belongsToMany(models.Book, { through: models.PlaylistBook, foreignKey: 'playlistId' });
+};
+
 module.exports = Playlist; 
