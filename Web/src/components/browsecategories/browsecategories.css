@@ -64,6 +64,11 @@
     font-weight: 600;
 
   }
+  .search-results::-webkit-scrollbar {
+    display: none;
+  }
+
+  
   
   .search-results h3 {
     margin-bottom: 30px;
@@ -75,9 +80,12 @@
   
   .no-results {
     font-size: 1.2rem;
+    justify-content: center ;
+    margin-left:39px;
     
     
   }
+  
   
   @media (max-width: 768px) {
     .categories-grid {
@@ -112,5 +120,6 @@
 }
 
 .no-results p{
-   margin:20.2px 0;
+   justify-content: center ;
+   margin-right: 20px;
 }

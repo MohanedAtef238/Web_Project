@@ -13,6 +13,7 @@ import DisplayBooks from './components/displaybooks/displaybooks.jsx'
 import Playlist from './components/playlist/Playlist.jsx'
 import Book from './components/book/BookView.jsx'
 import BrowseCategories from './components/browsecategories/browsecategories.jsx'
+import CategoryBooks from './components/Categorypage/catagorypage.jsx'
 
 
 
@@ -43,6 +44,7 @@ function App() {
             <Route path="/playlist/:name" element={<Playlist/>}/> 
             <Route path="/book/:title" element={<Book/>}/> 
             <Route path="/browsecategories" element={<BrowseCategories/>}/>
+            <Route path="//browsecategories/:id" element={<CategoryBooks/>} />
           </Routes>
         </div>
         

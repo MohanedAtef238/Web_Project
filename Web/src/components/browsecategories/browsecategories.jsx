@@ -14,10 +14,12 @@ import image11 from'../../assets/image11.jpg'
 import image12 from'../../assets/image12.jpg'
 
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 export default function BrowseCategories() {
   const [searchQuery, setSearchQuery] = useState("");
   const [categories, setCategories] = useState([]);
+  const navigate = useNavigate();
 
 
   const categoryData = [
@@ -38,6 +40,10 @@ export default function BrowseCategories() {
   useEffect(() => {
     setCategories(categoryData);
   }, []);
+
+  const handleCategoryClick = (categoryId) => {
+    navigate(`/browsecategories/${categoryId}`);
+  };
 
   const handleSearch = (e) => {
     setSearchQuery(e.target.value);
@@ -64,6 +70,7 @@ export default function BrowseCategories() {
                   key={category.id} 
                   className="category-card"
                   style={{ backgroundColor: category.color }}
+                  onClick={() => handleCategoryClick(category.id)}
                 >
                   <div className="category-cont">
                   {category.image && (
@@ -90,6 +97,7 @@ export default function BrowseCategories() {
               key={category.id} 
               className="category-card"
               style={{ backgroundColor: category.color }}
+              onClick={() => handleCategoryClick(category.id)}
             >
               <div className="category-cont">
                 {category.image && (
