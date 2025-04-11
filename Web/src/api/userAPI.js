@@ -26,8 +26,8 @@ export async function login({ username, password }) {
 }
 
 export async function getAllUsers() {
-    const response = await axios.get(`${API_BASE}/user/admin`);
-    return response.data;
+  const response = await axios.get(`${API_BASE}/user/admin/users`);
+  return response.data;
 }
 
 export async function getUserDetails(username) {

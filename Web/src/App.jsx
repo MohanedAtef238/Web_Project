@@ -1,5 +1,5 @@
 import './App.css'
-import { BrowserRouter, Routes, Route, useLocation} from 'react-router-dom'
+import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import Playbar from './components/playbar/playbar'
 import Login from './components/login/login'
 import SignUp from './components/login/signup'
@@ -15,14 +15,9 @@ import Book from './components/book/BookView.jsx'
 import BrowseCategories from './components/browsecategories/browsecategories.jsx'
 import CategoryBooks from './components/Categorypage/catagorypage.jsx'
 
-
-
 function App() {
   return (
-    
     <BrowserRouter>
-    
-    {/* i added this to make sure the playbar is always visible on the page just like spotify, content will be generated from other components on top of it and the playbar will fill the bottom  */}
       <div style={{ 
         height: '100vh',
         display: 'flex',
@@ -32,7 +27,6 @@ function App() {
         <div style={{ flex: 1, overflow: 'hidden' }}>
           <Routes>
             <Route path="/testingroute" element={<Admin/>}/>
-            {/* if login path is changed, fix it in server.js too */}
             <Route path="/" element={<Login/>}/>
             <Route path="/admin/adduser" element={<Adduser/>}/>
             <Route path="/admin/addbook" element={<Addbook/>}/>
@@ -47,9 +41,7 @@ function App() {
             <Route path="//browsecategories/:id" element={<CategoryBooks/>} />
           </Routes>
         </div>
-        
         <Playbar/> 
-        
       </div>
     </BrowserRouter>
   )

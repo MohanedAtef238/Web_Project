@@ -56,6 +56,13 @@ const LibraryList = ({ type = 'books', authorName, header }) => {
     ///// nzwd here later
   };
 
+  const handlePlay = () => {
+    const playButton = document.querySelector('#audio-player-container #play-icon');
+    if (playButton) {
+      playButton.click();
+    }
+  };
+
   const defaultHeader = type.charAt(0).toUpperCase() + type.slice(1);
 
   return (
@@ -82,6 +89,7 @@ const LibraryList = ({ type = 'books', authorName, header }) => {
             <button
                 className="playButtonMini"
                 style={{ backgroundImage: `url(${playButtonImage})` }}
+                onClick={handlePlay}
                 aria-label="Play audiobook"
               ></button>
               <button

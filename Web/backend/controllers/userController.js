@@ -26,7 +26,7 @@ const createUser = async (req, res) => {
   };
   
 
-// in admin delete user button or in user settings delete account (unimplemented yet)
+// in admin delete user button or in user settings delete account (not implemented yet)
 const deleteUser = async (req, res) => {
   try {
     const user = await User.findByPk(req.params.id);

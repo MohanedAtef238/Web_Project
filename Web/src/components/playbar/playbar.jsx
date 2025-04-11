@@ -3,7 +3,7 @@ import './playbar.css';
 import SideDetails from '../sideDetails/SideDetails';
 import dummyaudio from '../../../public/sample.mp3';
 
-export default function Playbar({ selectedBook }) {
+export default function Playbar() {
   const [isPlaying, setIsPlaying] = useState(false);
   const [isSideDetailsOpen, setIsSideDetailsOpen] = useState(false);
   const [currentTime, setCurrentTime] = useState(0);
@@ -45,13 +45,6 @@ export default function Playbar({ selectedBook }) {
       audio.removeEventListener('loadedmetadata', setAudioDuration);
     };
   }, []);
-
-  useEffect(() => {
-    if (selectedBook && audioRef.current) {
-      audioRef.current.play();
-      setIsPlaying(true);
-    }
-  }, [selectedBook]);
 
   const handleSeek = (e) => {
     const seekTo = (e.target.value / 100) * duration;
