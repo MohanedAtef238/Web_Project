@@ -1,4 +1,4 @@
-import'./displaybooks.css'
+import './displaybooks.css';
 import SearchBar from '../searchbar/searchbar';
 import { useEffect, useState } from "react";
 import { useNavigate } from 'react-router-dom';
@@ -33,39 +33,53 @@ function Row({ category, books, onClick }) {
 }
 
 export default function DisplayBooks() {
-  
   const navigate = useNavigate();
   const [searchQuery, setSearchQuery] = useState("");
   const [searchResults, setSearchResults] = useState([]);
   const [books, setBooks] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  const categories = [ 'fantasy','science_fiction', 'biographies', 'recipes', 
-     'romance', 'textbooks', 'children', 'history', 'religion', 
-     'mystery_and_detective_stories', 'plays', 'science'];
-  
-   const categoryNamesMapping = {
-      fantasy: 'Must Read',
-      science_fiction: 'Science Fiction',
-      biographies: 'Biographies',
-      recipes: 'Recipes',
-      romance: 'Romance Novels',
-      textbooks: 'Textbooks',
-      children: 'Children\'s Books',
-      history: 'History & Culture',
-      religion: 'Religion & Philosophy',
-      mystery_and_detective_stories: 'Mystery & Detective',
-      plays: 'Plays & Dramas',
-      science: 'Science & Technology'
+  const categories = ['fantasy', 'science_fiction', 'biographies', 'recipes', 
+    'romance', 'textbooks', 'children', 'history', 'religion', 
+    'mystery_and_detective_stories', 'plays', 'science'];
+
+  const categoryNamesMapping = {
+    fantasy: 'Must Read',
+    science_fiction: 'Science Fiction',
+    biographies: 'Biographies',
+    recipes: 'Recipes',
+    romance: 'Romance Novels',
+    textbooks: 'Textbooks',
+    children: 'Children\'s Books',
+    history: 'History & Culture',
+    religion: 'Religion & Philosophy',
+    mystery_and_detective_stories: 'Mystery & Detective',
+    plays: 'Plays & Dramas',
+    science: 'Science & Technology'
   };
 
-
-  const handleBookClick = (book) => {
+  const handleBookClick = async (book) => {
     console.log(`Clicked book: ${book.title}`);
-    navigate(`/book/${book.title}`, { state: { book } });
+
+    let description = 'No description available.'; 
+    try {
+      const response = await fetch(`https://openlibrary.org${book.key}.json`);
+      const bookDetails = await response.json();
+      description = bookDetails.description?.value || bookDetails.description || description;
+    } catch (error) {
+      console.error(`Error fetching description for ${book.title}:`, error);
+    }
+
+    navigate(`/book/${book.title}`, {
+      state: {
+        book: {
+          ...book,
+          description,
+        },
+      },
+    });
   };
-  
-    
+
   useEffect(() => {
     Promise.all(
       categories.map((category) =>
@@ -73,16 +87,16 @@ export default function DisplayBooks() {
           .then((res) => res.json())
           .then((data) => {
             return data.works.map((book, index) => {
-              let author = "Unknown";
-              if (book.authors && book.authors.length > 0 && book.authors[0].name) {
-                author = book.authors[0].name;
-              }
+              const { title, authors, key } = book;
+              const author = authors && authors.length > 0 ? authors[0].name : "Unknown";
+              
               return {
                 id: `${category}-${index}`,
-                title: book.title,
-                author: author,
+                title,
+                author,
                 category: categoryNamesMapping[category] || category,
                 cover: `https://picsum.photos/600?random=${category}-${index}`,
+                key,
               };
             });
           })
@@ -93,7 +107,6 @@ export default function DisplayBooks() {
       setLoading(false);
     });
   }, []);
-  
 
   const handleSearch = (e) => {
     const query = e.target.value;
@@ -105,7 +118,6 @@ export default function DisplayBooks() {
         book.title.toLowerCase().includes(query.toLowerCase())
       );
       setSearchResults(results);
-      
     }
   };
 
@@ -131,7 +143,7 @@ export default function DisplayBooks() {
         </div>
       );
     } else {
-      x = <p>No results sop sop :</p>;
+      x = <p>No results found for "{searchQuery}"</p>;
     }
   } else {
     const grouped = categories.map((category) => {
@@ -150,7 +162,7 @@ export default function DisplayBooks() {
 
   return (
     <div className="display-booksd">
-    <SearchBar value={searchQuery} onChange={handleSearch}/>
+      <SearchBar value={searchQuery} onChange={handleSearch} />
       {x}
     </div>
   );
