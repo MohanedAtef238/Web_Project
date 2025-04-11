@@ -12,6 +12,7 @@ import UserProfile from './components/profile/UserProfile.jsx'
 import DisplayBooks from './components/searchbar/searchbar.jsx'
 import Playlist from './components/playlist/Playlist.jsx'
 import Book from './components/book/BookView.jsx'
+import BrowseCategories from './components/browsecategories/browsecategories.jsx'
 
 
 function App() {
@@ -39,6 +40,7 @@ function App() {
             <Route path="/homepage" element={<DisplayBooks/>}/>
             <Route path="/playlist/:name" element={<Playlist/>}/> 
             <Route path="/book/:title" element={<Book/>}/> 
+            <Route path="/browsecategories" element={<BrowseCategories/>}/>
           </Routes>
         </div>
         
