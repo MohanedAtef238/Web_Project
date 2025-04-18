@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 import './admin.css'
 import { getAllUsers } from "../../api/userAPI";
 import { getAdminBookList } from "../../api/bookAPI";
+import { useAuth } from "../../Context";
 
 // const dummyusers = [
 //     {
@@ -73,6 +74,8 @@ function Admin(){
     const [fetchBooksError, setFetchBooksError] = useState(false);
     const [fetchUsersError, setFetchUsersError] = useState(false);
 
+    const {logout} = useAuth();
+
     useEffect(() =>{
         async function getUsers() {
             try {
@@ -118,7 +121,7 @@ function Admin(){
     <div className="scrollable-div-container">
            <h2 className="page-title"> Admin page hehe </h2>
         <div className='admin-page'>
-            <Link to='/'>
+            <Link to='/' onClick={ () => {logout}}>
                 <button className="logout-button">Logout</button>
             </Link>
            
