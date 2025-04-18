@@ -15,6 +15,8 @@ import Book from './components/book/BookView.jsx';
 import BrowseCategories from './components/browsecategories/browsecategories.jsx';
 import CategoryBooks from './components/Categorypage/catagorypage.jsx';
 import Settings from './components/settings/settings.jsx';
+import { AuthProvider } from './Context.jsx';
+import ProtectedRoute from './ProtectedRoute.jsx';
 
 function AppWrapper() {
   const location = useLocation();
@@ -24,44 +26,43 @@ function AppWrapper() {
 
 
   return (
-    
-    <div
-      style={{
-        height: '100vh',
-        display: 'flex',
-        flexDirection: 'column',
-        overflow: 'hidden',
-      }}
-    >
-      <div style={{ flex: 1, overflow: 'hidden' }}>
-        <Routes>
-          <Route path="/testingroute" element={<Admin />} />
-          <Route path="/" element={<Login />} />
-          <Route path="/admin/adduser" element={<Adduser />} />
-          <Route path="/admin/addbook" element={<Addbook />} />
-          <Route path="/admin" element={<Admin />} />
-          <Route path="/signup" element={<SignUp />} />
-          <Route path="/profile/:username" element={<AuthorProfile />} />
-          <Route path="/userprofile/:username" element={<UserProfile />} />
-          <Route path="/homepage" element={<DisplayBooks />} />
-          <Route path="/playlist/:name" element={<Playlist />} />
-          <Route path="/book/:title" element={<Book />} />
-          <Route path="/browsecategories" element={<BrowseCategories />} />
-          <Route path="/browsecategories/:id" element={<CategoryBooks />} />
-          <Route path="/settings" element={<Settings />} />
-        </Routes>
-      </div>
+    <AuthProvider>
+      <div
+        style={{
+          height: '100vh',
+          display: 'flex',
+          flexDirection: 'column',
+          overflow: 'hidden',
+        }}
+      >
+        <div style={{ flex: 1, overflow: 'hidden' }}>
+          <Routes>
+            {/* <Route path="/testingroute" element={<ProtectedRoute><Admin /></ProtectedRoute>} /> */}
+            <Route path="/" element={<Login />} />
+            <Route path="/admin/adduser" element={<ProtectedRoute><Adduser /></ProtectedRoute>} />
+            <Route path="/admin/addbook" element={<ProtectedRoute><Addbook /></ProtectedRoute>} />
+            <Route path="/admin" element={<ProtectedRoute><Admin /></ProtectedRoute>} />
+            <Route path="/signup" element={<SignUp />} />
+            <Route path="/profile/:username" element={<AuthorProfile />} />
+            <Route path="/userprofile/:username" element={<UserProfile />} />
+            <Route path="/homepage" element={<ProtectedRoute><DisplayBooks /></ProtectedRoute>} />
+            <Route path="/playlist/:name" element={<Playlist />} />
+            <Route path="/book/:title" element={<Book />} />
+            <Route path="/browsecategories" element={<BrowseCategories />} />
+            <Route path="/browsecategories/:id" element={<CategoryBooks />} />
+            <Route path="/settings" element={<Settings />} />
+          </Routes>
+        </div>
 
-      {!hidePlaybar && <Playbar />}
-    </div>
+        {!hidePlaybar && <Playbar />}
+      </div>
+    </AuthProvider>
   );
 }
 
 function App() {
   return (
-    <BrowserRouter>
       <AppWrapper />
-    </BrowserRouter>
   );
 }
 

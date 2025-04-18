@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate, Link } from "react-router-dom";
+import { useAuth } from '../../Context.jsx'
 import "./Login.css";
 import { login } from "../../api/userAPI";
 
@@ -11,14 +12,18 @@ function Login() {
     formState: { errors },
   } = useForm();
 
+  const { login: loginContext } = useAuth();
   const [loginError, setLoginError] = useState(false);
   const navigate = useNavigate();
 
   async function handleLogin(data) {
     try {
       const response = await login(data);
-      console.log("log 1")
-      console.log(response.user.isAdmin)
+      // console.log("log 1")
+      // console.log("does this have a token: ", response)
+      // console.log("or check here: ", response.token)
+      
+      loginContext(response.token);
       if (response.user.isAdmin) {
         navigate('/admin');
       } else {

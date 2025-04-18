@@ -39,6 +39,8 @@ npm i sequelize pg pg-hstore
 npm install mongoose
 
 npm install jsonwebtoken
+npm install jwt-decode
+
 
 ```
 

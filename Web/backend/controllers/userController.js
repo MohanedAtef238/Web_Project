@@ -66,7 +66,7 @@ const getUserByCredentials = async (req, res) => {
       username: user.username,
       isAdmin: user.username.toLowerCase() === 'admin'
     };
-    const token = jwt.sign(tokenPayload, SECRET_KEY, { expiresIn: '1h' });
+    const token = jwt.sign(tokenPayload, SECRET_KEY, { expiresIn: '1m' });  //change this later, this is just for testing
 
     res.status(200).json({token, user: tokenPayload});
   } catch (error) {
