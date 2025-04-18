@@ -123,3 +123,10 @@
   text-overflow: ellipsis;
   white-space: nowrap;
 }
+
+.settings-icon {
+  position: fixed;
+  right: 10px;
+  margin-top: 10px;
+  cursor: pointer;
+}
