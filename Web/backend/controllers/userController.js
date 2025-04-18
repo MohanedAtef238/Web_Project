@@ -64,7 +64,7 @@ const getUserByCredentials = async (req, res) => {
     const tokenPayload = {
       id: user.id,
       username: user.username,
-      role: user.username.toLowerCase() === 'admin' ? 'admin' : 'user'
+      isAdmin: user.username.toLowerCase() === 'admin'
     };
     const token = jwt.sign(tokenPayload, SECRET_KEY, { expiresIn: '1h' });
 

@@ -17,8 +17,9 @@ function Login() {
   async function handleLogin(data) {
     try {
       const response = await login(data);
-
-      if (response.isAdmin) {
+      console.log("log 1")
+      console.log(response.user.isAdmin)
+      if (response.user.isAdmin) {
         navigate('/admin');
       } else {
         navigate('/homepage');
