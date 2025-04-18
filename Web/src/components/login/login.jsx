@@ -16,8 +16,9 @@ function Login() {
 
   async function handleLogin(data) {
     try {
-      const user = await login(data);
-      if (user.username.toLowerCase() === 'admin') {
+      const response = await login(data);
+
+      if (response.isAdmin) {
         navigate('/admin');
       } else {
         navigate('/homepage');

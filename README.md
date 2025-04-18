@@ -37,6 +37,9 @@ npm i axios
 npm i express cors
 npm i sequelize pg pg-hstore
 npm install mongoose
+
+npm install jsonwebtoken
+
 ```
 
 #### Dependency usage

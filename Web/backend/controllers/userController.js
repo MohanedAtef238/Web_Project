@@ -43,6 +43,10 @@ const deleteUser = async (req, res) => {
 };
 
 // login
+
+const jwt = require('jsonwebtoken');
+const SECRET_KEY = 'very_secret_key';
+
 const getUserByCredentials = async (req, res) => {
   try {
     const { inputUsername, inputPassword } = req.body;
@@ -57,7 +61,14 @@ const getUserByCredentials = async (req, res) => {
       return res.status(404).json({ error: 'wrong username or password' });
     }
 
-    res.status(200).json(user);
+    const tokenPayload = {
+      id: user.id,
+      username: user.username,
+      role: user.username.toLowerCase() === 'admin' ? 'admin' : 'user'
+    };
+    const token = jwt.sign(tokenPayload, SECRET_KEY, { expiresIn: '1h' });
+
+    res.status(200).json({token, user: tokenPayload});
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
