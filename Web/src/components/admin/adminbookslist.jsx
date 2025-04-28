@@ -1,9 +1,11 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { deleteBook } from '../../api/bookAPI';
+// added these to avoid refreshing the page when deleting a book, we'll instead recall the api that fetches the books
+import { getAdminBookList } from "../../api/bookAPI";
 import './table.css';
 
-const AdminBookslist = ({ books }) => {
+const AdminBookslist = ({ books, fetchBooks}) => {
     return(
         <div>
             <div className='title'>
@@ -51,8 +53,8 @@ const AdminBookslist = ({ books }) => {
                                 <button
                                 className='delete-button'
                                 onClick={async () => {
-                                    try { await deleteBook(book.id); 
-                                        window.location.reload();} catch (error) {console.error(error);}}}>
+                                    try { await deleteBook(book.id); await fetchBooks();} 
+                                    catch (error) {console.error(error);}}}>
                                 X
                                 </button>
                                 </td>

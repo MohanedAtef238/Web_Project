@@ -76,6 +76,18 @@ function Admin(){
 
     const {logout} = useAuth();
 
+    const fetchBooks = async () => { // this was moved outside of useEffect since it will be used in a child component and i'd like to access it separetely
+        try {
+          console.log("Fetching books...");
+          const fetchedbooks = await getAdminBookList();
+          setBooks(fetchedbooks);
+        }
+        catch (error) {
+          console.error("Fetching books error: ", error);
+          setFetchBooksError(true);
+        }
+      };
+
     useEffect(() =>{
         async function getUsers() {
             try {
@@ -90,17 +102,7 @@ function Admin(){
             }
         }
         getUsers();
-        async function getBooks() {
-            try {
-                console.log("Fetching users...");
-                const fetchedbooks = await getAdminBookList();
-                setBooks(fetchedbooks);
-            }
-            catch (error) {
-                setFetchBooksError(true);
-            }
-        }
-        getBooks();
+        fetchBooks();
     }, []);
 
     // useEffect(() => {
@@ -116,7 +118,7 @@ function Admin(){
     //     }
     // }, []);
 
-
+      
     return( 
     <div className="scrollable-div-container">
            <h2 className="page-title"> Admin page hehe </h2>
@@ -159,7 +161,8 @@ function Admin(){
                             ) : (
                                 <AdminBookslist books={books} />
                             )} */}
-                            <AdminBookslist books={books}/>
+                            {/* by passing fetchbooks function we can now safely update the books without having to refresh the page */}
+                            <AdminBookslist books={books} fetchBooks={fetchBooks}/>
                             <Link to="./addbook">
                                 <button>Add new book</button>
                             </Link>
