@@ -3,12 +3,16 @@ import { useParams } from 'react-router-dom';
 import './Profile.css';
 import LibraryGrid from './LibraryGrid';
 import { getUserDetails } from '../../api/userAPI';
+import { useAuth } from '../../Context'; // adding this to check if my current user is the same user with the registered token in this wrapper 
 
 const AuthorProfile = () => {
   const [followerCount, setFollowerCount] = useState(0); 
   const { username } = useParams();
   const [isFollowing, setIsFollowing] = useState(false);
-
+  const { user: currentUser } = useAuth(); // fetching the usrname from the jwt token decoded in the useAuth Function
+  function checkOwner(currentUser, profileUser) {
+    return currentUser.username === profileUser.username; // return the logical state of whether u accessed ur own profile or someone else's
+  }
   const [user, setUser] = useState({
     username: '',
     isAuthor: false,
@@ -31,7 +35,7 @@ const AuthorProfile = () => {
     };
     fetchUser();
   }, [username]);
-  
+  const Owner = checkOwner(currentUser, user);
   let followButtonClass = 'author-profile-follow-btn';
   if (isFollowing) {
     followButtonClass += ' author-profile-follow-btn--following';
@@ -58,7 +62,7 @@ const AuthorProfile = () => {
                   </p>
                 )}
               </div>
-              {(
+              {!Owner && ( // this Owner varaible will carry the bool that comes as a result from the previously made function, to control whether this button renders or not.
                 <div className="author-profile-actions">
                   <button className={followButtonClass} onClick={() => setIsFollowing(!isFollowing)}>
                     {followButtonText}
