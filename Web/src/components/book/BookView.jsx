@@ -1,10 +1,21 @@
-import { useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useState, useEffect } from 'react';
+import { useForm } from 'react-hook-form';
+import { useParams, useLocation } from 'react-router-dom';
 import './BookView.css';
 import LibraryList from '../playlist/LibraryList';
+import { addReview, getReviews } from '../../api/reviewAPI';
 
 const Book = () => {
   const { title } = useParams(); 
+  const location = useLocation(); 
+  const book = location.state?.book;
+
+   const {
+          register,
+          handleSubmit,
+          formState: { errors },
+        } = useForm();
+
   const [likedCount, setLikedCount] = useState(10000);
   const [isLiked, setIsLiked] = useState(false);
   const [isAuthorBooks, setIsAuthorBooks] = useState(true);
@@ -14,10 +25,40 @@ const Book = () => {
     author: "Victoria Aveyard",
   });
 
-  const [comments, setComments] = useState([
-    { id: 1, text: "Great book!", user: "Reader1", date: "2025-04-08" },
-    { id: 2, text: "Really enjoyed the plot", user: "BookLover", date: "2025-04-09" }
-  ]);
+  // const [comments, setComments] = useState([
+  //   { id: 1, text: "Great book!", user: "Reader1", date: "2025-04-08" },
+  //   { id: 2, text: "Really enjoyed the plot", user: "BookLover", date: "2025-04-09" }
+  // ]);
+
+  const [reviews , setReviews ] = useState([]);
+  const [comment, setComment ] = useState();
+
+   useEffect(() =>{
+          async function get_Reviews() {
+              try {
+                  console.log("Fetching reviews...");
+                  const fetchedreviews = await getReviews(book);
+                  console.log("Fetched reviews:", fetchedreviews);
+                  setUsers(fetchedreviews);
+              }
+              catch (error) {
+                  console.error("Fetching reviews error: ", error);
+                  setFetchReviewssError(true);  //add errors later
+              }
+          }
+          get_Reviews();
+      }, []);
+
+    async function handleAddReview(data) {
+      try {
+        const review = await addReview(data);
+        const addedRev = reviews + review;
+        setReviews(addedRev);
+      } catch (err) {
+        console.error("Create review error:", err);
+        setAddError(true);
+      }
+    }
 
   let likedButtonClass = 'book-not-liked-btn';
   if (isLiked) {
@@ -73,13 +114,13 @@ const Book = () => {
           <h3 className="readers-say">What Other Readers Say</h3>
 
           <div className="comments-list">
-            {comments.length > 0 ? (
-              comments.map(comment => (
+            {reviews.length > 0 ? (
+              reviews.map(comment => (
                 <div key={comment.id} className="comment-item">
-                  <p className="comment-text">{comment.text}</p>
+                  <p className="comment-text">{comment.content}</p>
                   <div className="comment-box-thing ">
-                    <span className="comment-user">{comment.user}</span>
-                    <span className="comment-date">{comment.date}</span>
+                    <span className="comment-user">{comment.username}</span>
+                    <span className="comment-date">{comment.createdAt}</span>
                   </div>
                 </div>
               ))
@@ -88,10 +129,11 @@ const Book = () => {
             )}
           </div>
 
-          <form className="comment-form">
+          <form className="comment-form" onSubmit={handleSubmit(handleAddReview)}>
             <textarea
               placeholder="Add your comment..."
               className="comment-input"
+              {...register("conent", { required: "lol idiot you didnt add a comment" })}
             />
             <button type="submit" className="comment-submit-btn">
               Post Comment
