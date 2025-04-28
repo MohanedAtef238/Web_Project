@@ -31,9 +31,10 @@ const AuthorProfile = () => {
           backgroundImage: 'https://picsum.photos/3000/3000',
         });
         const count = await getFollowerCount(username);
-        setFollowerCount(count);
+        setFollowerCount(count.count); // fix for count since the returned json is something like count : a number, using just count will try to show the whole json object which is wrong
         if (currentUser) {
-          const usernames = followingList.map(user => user.username);
+          const followers = await getAllFollowing(username);
+          const usernames = followers.map(user => user.username);
           const isAlreadyFollowing = usernames.includes(username);
           setIsFollowing(isAlreadyFollowing);
         }
@@ -46,7 +47,7 @@ const AuthorProfile = () => {
     if (username) {
       fetchUser();
     }
-  }, [username, currentUser, setIsFollowing]);
+  }, [username, currentUser, isFollowing]);
 
   const followButton = async () => {
     try {

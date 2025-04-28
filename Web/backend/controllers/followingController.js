@@ -38,7 +38,10 @@ const followUser = async (req, res) => {
         if (!follower || !target) {
             return res.status(404).json({ error: 'User not found' });
         }
-
+        const followRecord = await Following.findOne({where: {followerId: follower.id,followedId: target.id}});
+        if (followRecord) {
+            return res.status(209).json({ info : 'record exists' });
+        }
         await Following.create({
             followerId: follower.id,
             followedId: target.id
