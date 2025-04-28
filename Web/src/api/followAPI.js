@@ -28,6 +28,3 @@ export async function getAllFollowers(username) {
   const response = await axios.get(`${API_BASE}/follow/${username}/followers`);
   return response.data;
 }
-
-export async function getFollowing(userID) {
-    const response = await axios.get(`${API_BASE}/follow/${userID}/following`);}
