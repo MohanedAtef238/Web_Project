@@ -5,6 +5,11 @@ import './BookView.css';
 import LibraryList from '../playlist/LibraryList';
 import { addReview, getReviews } from '../../api/reviewAPI';
 
+import dayjs from 'dayjs';
+import relativeTime from 'dayjs/plugin/relativeTime';
+dayjs.extend(relativeTime);
+
+
 const Book = () => {
   const { title } = useParams(); 
   const location = useLocation(); 
@@ -132,7 +137,8 @@ const Book = () => {
                   <p className="comment-text">{comment.content || 'fail'}</p>
                   <div className="comment-box-thing ">
                     <span className="comment-user">{comment.username || 'fail'}</span>
-                    <span className="comment-date">{comment.createdAt || 'fail'}</span>
+                    {/* <span className="comment-date">{new Date(comment.createdAt).toLocaleString() || 'fail'}</span> */}
+                    <span className="comment-date">{dayjs(comment.createdAt).fromNow() || 'fail'}</span>
                   </div>
                 </div>
               ))
