@@ -1,14 +1,13 @@
 const express = require('express');
 const cors = require('cors');
+
 const userRoutes = require('./routes/users');
 const followingRoutes = require('./routes/following');
 const bookRoutes = require('./routes/books');
 const playlistRoutes = require('./routes/playlists');
 const favoriteRoutes = require('./routes/favorites');
-<<<<<<< HEAD
 const reviewRoutes = require('./routes/review');
-=======
->>>>>>> main
+
 const connectMongoDB = require('./config/mongodb');
 const { sequelize, syncDatabase } = require('./models');
 
@@ -23,10 +22,7 @@ app.use('/follow', followingRoutes);
 app.use('/books', bookRoutes);
 app.use('/playlists', playlistRoutes);
 app.use('/favorites', favoriteRoutes);
-<<<<<<< HEAD
 app.use('/review', reviewRoutes);
-=======
->>>>>>> main
 
 // Initialize databases and start server
 const initializeApp = async () => {

@@ -31,19 +31,23 @@ const Book = () => {
   // ]);
 
   const [reviews , setReviews ] = useState([]);
-  const [comment, setComment ] = useState();
+  // const [comment, setComment ] = useState([
+  //     { id: 1, text: "Great book!", user: "Reader1", date: "2025-04-08" },
+  //     { id: 2, text: "Really enjoyed the plot", user: "BookLover", date: "2025-04-09" }
+  //   ]);
 
    useEffect(() =>{
           async function get_Reviews() {
               try {
-                  console.log("Fetching reviews...");
-                  const fetchedreviews = await getReviews(book);
+                  console.log("Fetching reviews... for book id: ", book.id);  //remove after debugging
+                  const fetchedreviews = await getReviews(book.id);
                   console.log("Fetched reviews:", fetchedreviews);
-                  setUsers(fetchedreviews);
+                  //setUsers(fetchedreviews);
+                  setReviews(fetchedreviews);
               }
               catch (error) {
                   console.error("Fetching reviews error: ", error);
-                  setFetchReviewssError(true);  //add errors later
+                  // setFetchReviewssError(true);  //add errors later
               }
           }
           get_Reviews();
@@ -51,12 +55,18 @@ const Book = () => {
 
     async function handleAddReview(data) {
       try {
-        const review = await addReview(data);
-        const addedRev = reviews + review;
-        setReviews(addedRev);
+        console.log('frontend: sending maya, ', book.id, ', and ', data);
+        const review = await addReview({
+          user: 'maya',
+          book: book.id,
+          message: data.conent,
+        });
+        console.log('frontend: added comment yay');
+
+        setReviews([...reviews, review]);
       } catch (err) {
         console.error("Create review error:", err);
-        setAddError(true);
+        // setAddError(true);
       }
     }
 
@@ -104,6 +114,7 @@ const Book = () => {
 
         <div className="book-content">
           <LibraryList
+            key={1} //this needs a key but idk what this is hehe, i just put 1 for now
             type="playlists"
             title={title}
             header={'Listen Now'}
@@ -118,10 +129,10 @@ const Book = () => {
             {reviews.length > 0 ? (
               reviews.map(comment => (
                 <div key={comment.id} className="comment-item">
-                  <p className="comment-text">{comment.content}</p>
+                  <p className="comment-text">{comment.content || 'fail'}</p>
                   <div className="comment-box-thing ">
-                    <span className="comment-user">{comment.username}</span>
-                    <span className="comment-date">{comment.createdAt}</span>
+                    <span className="comment-user">{comment.username || 'fail'}</span>
+                    <span className="comment-date">{comment.createdAt || 'fail'}</span>
                   </div>
                 </div>
               ))

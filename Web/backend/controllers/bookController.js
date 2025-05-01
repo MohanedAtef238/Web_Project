@@ -56,7 +56,7 @@ const addAdminBook = async (req, res) => {
             genre,
             coverImage,
             audioFile,
-            authorId: "2f49f1fc-1405-4a77-a8e4-a19cf4379b8a"
+            authorId: "0991bf3d-ab73-42b5-992e-f908bb500782"
         });
 
         res.status(201).json(book);
