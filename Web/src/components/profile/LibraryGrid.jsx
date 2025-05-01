@@ -1,137 +1,44 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import { getAllFollowing } from '../../api/followAPI';
+import { getUserBooks } from '../../api/bookAPI';
+import { getUserPlaylists } from '../../api/playlistAPI';
+import { getUserFavorites } from '../../api/favoriteAPI';
 
-// Mock data for testing - 9 items.. this is chatgpt data will be removed once we integrate the db
-const mockBooks = [
-  {
-    id: 1,
-    title: "The Great Gatsby",
-    author: "F. Scott Fitzgerald",
-    coverUrl: "https://picsum.photos/600/600?random=1"
-  },
-  {
-    id: 2,
-    title: "To Kill a Mockingbird",
-    author: "Harper Lee",
-    coverUrl: "https://picsum.photos/600/600?random=2"
-  },
-  {
-    id: 3,
-    title: "1984",
-    author: "George Orwell",
-    coverUrl: "https://picsum.photos/600/600?random=3"
-  }
-];
+const LibraryGrid = ({ type, username }) => {
+  const [items, setItems] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
-// Mock data for Playlists
-const mockPlaylists = [
-  {
-    id: 4,
-    title: "Classic Literature",
-    author: "Book Lover",
-    coverUrl: "https://picsum.photos/600/600?random=4"
-  },
-  {
-    id: 5,
-    title: "Summer Reads",
-    author: "Beach Reader",
-    coverUrl: "https://picsum.photos/600/600?random=5"
-  },
-  {
-    id: 6,
-    title: "Mystery Collection",
-    author: "Detective Fan",
-    coverUrl: "https://picsum.photos/600/600?random=6"
-  }
-];
+  useEffect(() => {
+    async function fetchData() {
+      if (!username) return;
+      
+      try {
+        let data;
+        if (type === 'books') {
+          data = await getUserBooks(username);
+        } else if (type === 'playlists') {
+          data = await getUserPlaylists(username);
+        } else if (type === 'following') {
+          data = await getAllFollowing(username);
+        } else if (type === 'favorites') {
+          data = await getUserFavorites(username);
+        }
 
-// Mock data for Recommendations
-const mockRecommendations = [
-  {
-    id: 7,
-    title: "The Lord of the Rings",
-    author: "J.R.R. Tolkien",
-    coverUrl: "https://picsum.photos/600/600?random=7"
-  },
-  {
-    id: 8,
-    title: "The Da Vinci Code",
-    author: "Dan Brown",
-    coverUrl: "https://picsum.photos/600/600?random=8"
-  },
-  {
-    id: 9,
-    title: "The Alchemist",
-    author: "Paulo Coelho",
-    coverUrl: "https://picsum.photos/600/600?random=9"
-  }
-];
-
-// Mock data for Following Authors 
-const mockFollowingAuthors = [
-  {
-    id: 1,
-    name: "Colleen Hoover",
-    username: "colleenwrites",
-    coverUrl: "https://picsum.photos/seed/colleen/200/200",
-    bio: "Author of emotionally intense novels. Let's cry together 💔✨",
-    genres: ["Romance", "Drama"]
-  },
-  {
-    id: 2,
-    name: "Brandon Sanderson",
-    username: "brandonsanderson",
-    coverUrl: "https://picsum.photos/seed/brandon/200/200",
-    bio: "Building worlds one chapter at a time 🏰📚",
-    genres: ["Fantasy", "Sci-Fi"]
-  },
-  {
-    id: 3,
-    name: "Taylor Jenkins Reid",
-    username: "taylorwrites",
-    coverUrl: "https://picsum.photos/seed/taylor/200/200",
-    bio: "Stories that feel real. Author of 'The Seven Husbands of Evelyn Hugo'.",
-    genres: ["Historical Fiction", "Contemporary"]
-  },
-  {
-    id: 4,
-    name: "Paulo Coelho",
-    username: "paulothewise",
-    coverUrl: "https://picsum.photos/seed/paulo/200/200",
-    bio: "Author of 'The Alchemist'. Believer in dreams, signs, and the soul of the world ✨",
-    genres: ["Spiritual", "Fiction"]
-  },
-  {
-    id: 5,
-    name: "Rupi Kaur",
-    username: "rupipoetry",
-    coverUrl: "https://picsum.photos/seed/rupi/200/200",
-    bio: "Poet. Illustrator. Healing through words.",
-    genres: ["Poetry", "Self-love"]
-  }
-];
-
-
-const LibraryGrid = ({ type = 'books', authorName, header }) => {
-  const getItems = () => {
-    switch (type) {
-      case 'books':
-        return mockBooks;
-      case 'playlists':
-        return mockPlaylists;
-      case 'recommendations':
-        return mockRecommendations;
-      case 'following':
-          return mockFollowingAuthors;
-
-      default:
-        return mockBooks;
+        setItems(data);
+        setError(null);
+      } catch (err) {
+        console.error(`Couldn't load ${type}:`, err);
+        setError(`Failed to load ${type}`);
+      } finally {
+        setLoading(false);
+      }
     }
-  };
 
-  const items = getItems();
-  
+    fetchData();
+  }, [type, username]);
 
-  const defaultHeader = type.charAt(0).toUpperCase() + type.slice(1);
+  if (loading) return <div className="author-profile-loading">Loading...</div>; // neat ? 
 
   return (
     <div className="author-profile-library">
@@ -143,12 +50,21 @@ const LibraryGrid = ({ type = 'books', authorName, header }) => {
           <div key={item.id} className="author-profile-grid-item">
             <div className="author-profile-book-cover"
               style={{
-                backgroundImage: `url('${item.coverUrl}')`, backgroundSize: 'cover', backgroundPosition: 'center'
+                backgroundImage: `url('${('https://picsum.photos/200/300')}')`,
+                backgroundSize: 'cover',backgroundPosition: 'center'
               }}
             />
             <div className="author-profile-book-info">
-              <h3 className="author-profile-book-title">{item.title}</h3>
-              <p className="author-profile-book-author">{authorName}</p>
+              <h3 className="author-profile-book-title">
+                {type === 'following' ? item.username :
+                 type === 'playlists' ? item.name :
+                 item.title}
+              </h3>
+              <p className="author-profile-book-author">
+                {type === 'following' ? (item.isAuthor ? 'Author' : 'User') :
+                 type === 'playlists' ? `${item.bookCount || 0} books` :
+                 item.author}
+              </p>
             </div>
           </div>
         ))}

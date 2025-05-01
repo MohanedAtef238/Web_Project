@@ -5,22 +5,17 @@ const followingRoutes = require('./routes/following');
 const bookRoutes = require('./routes/books');
 const playlistRoutes = require('./routes/playlists');
 const favoriteRoutes = require('./routes/favorites');
+<<<<<<< HEAD
 const reviewRoutes = require('./routes/review');
+=======
+>>>>>>> main
 const connectMongoDB = require('./config/mongodb');
+const { sequelize, syncDatabase } = require('./models');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-require('./config/database'); // initialize PostgreSQL
-connectMongoDB(); // initialize MongoDB
-
-const corsOptions = {
-    origin: 'http://localhost:5173',
-    methods: 'GET,POST,PUT,DELETE',
-    allowedHeaders: 'Content-Type,Authorization',
-};
-
-app.use(cors(corsOptions));
+app.use(cors());
 app.use(express.json());
 
 app.use('/user', userRoutes);
@@ -28,7 +23,10 @@ app.use('/follow', followingRoutes);
 app.use('/books', bookRoutes);
 app.use('/playlists', playlistRoutes);
 app.use('/favorites', favoriteRoutes);
+<<<<<<< HEAD
 app.use('/review', reviewRoutes);
+=======
+>>>>>>> main
 
 // Initialize databases and start server
 const initializeApp = async () => {

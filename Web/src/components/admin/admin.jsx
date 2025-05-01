@@ -4,6 +4,8 @@ import AdminBookslist from "./adminbookslist";
 import { Link } from "react-router-dom";
 import './admin.css'
 import { getAllUsers } from "../../api/userAPI";
+import { getAdminBookList } from "../../api/bookAPI";
+import { useAuth } from "../../Context";
 
 // const dummyusers = [
 //     {
@@ -38,46 +40,60 @@ import { getAllUsers } from "../../api/userAPI";
 //     },
 // ]
 
-const dummybooks = [
-    {
-        bookID: 1,
-        title: 'hamefd',
-        genre: 'horror',
-        file_url: 'url',
-        cover_image_url: '../../assets/react.svg',
-        duration: '03:20:03'
-    },
-    {
-        bookID: 2,
-        title: 'poyrte',
-        genre: 'romance',
-        file_url: 'url',
-        cover_image_url: '../../assets/react.svg',
-        duration: '02:15:03'
-    },
-    {
-        bookID: 3,
-        title: 'gbgb',
-        genre: 'habiba',
-        file_url: 'url',
-        cover_image_url: '../../assets/react.svg',
-        duration: '10:10:10'
-    },
-]
+// const dummybooks = [
+//     {
+//         bookID: 1,
+//         title: 'hamefd',
+//         genre: 'horror',
+//         file_url: 'url',
+//         cover_image_url: '../../assets/react.svg',
+//         duration: '03:20:03'
+//     },
+//     {
+//         bookID: 2,
+//         title: 'poyrte',
+//         genre: 'romance',
+//         file_url: 'url',
+//         cover_image_url: '../../assets/react.svg',
+//         duration: '02:15:03'
+//     },
+//     {
+//         bookID: 3,
+//         title: 'gbgb',
+//         genre: 'habiba',
+//         file_url: 'url',
+//         cover_image_url: '../../assets/react.svg',
+//         duration: '10:10:10'
+//     },
+// ]
 
 function Admin(){
     const [viewTable, setTable] = useState(true);
-
     const [users, setUsers] = useState([]);
     const [books, setBooks] = useState([]);
-
-    const [fetchBooksError, setFetchBooksError] =useState(false);
+    const [fetchBooksError, setFetchBooksError] = useState(false);
     const [fetchUsersError, setFetchUsersError] = useState(false);
+
+    const {logout} = useAuth();
+
+    const fetchBooks = async () => { // this was moved outside of useEffect since it will be used in a child component and i'd like to access it separetely
+        try {
+          console.log("Fetching books...");
+          const fetchedbooks = await getAdminBookList();
+          setBooks(fetchedbooks);
+        }
+        catch (error) {
+          console.error("Fetching books error: ", error);
+          setFetchBooksError(true);
+        }
+      };
 
     useEffect(() =>{
         async function getUsers() {
             try {
+                console.log("Fetching users...");
                 const fetchedusers = await getAllUsers();
+                console.log("Fetched users:", fetchedusers);
                 setUsers(fetchedusers);
             }
             catch (error) {
@@ -85,6 +101,8 @@ function Admin(){
                 setFetchUsersError(true);
             }
         }
+        getUsers();
+        fetchBooks();
     }, []);
 
     // useEffect(() => {
@@ -100,21 +118,21 @@ function Admin(){
     //     }
     // }, []);
 
-
+      
     return( 
     <div className="scrollable-div-container">
            <h2 className="page-title"> Admin page hehe </h2>
         <div className='admin-page'>
-            <Link to='/'>
+            <Link to='/' onClick={ () => {logout}}>
                 <button className="logout-button">Logout</button>
             </Link>
            
-            {viewTable==true?
+            {viewTable ? (
                     <div>
-                        <button className="users-table-users-button" onClick={ () => {setTable(prevState => !prevState)}}>
+                        <button className="users-table-users-button" onClick={() => setTable(true)}>
                             Users
                         </button>
-                        <button className="users-table-books-button" onClick={ () => {setTable(prevState => !prevState)}}>
+                        <button className="users-table-books-button" onClick={() => setTable(false)}>
                             Books
                         </button>
                         <div className="div-section-layout">
@@ -129,12 +147,12 @@ function Admin(){
                         </div>
                     </div>
                     
-                    :
+                    ) : (
                     <div>
-                        <button className="books-table-users-button" onClick={ () => {setTable(prevState => !prevState)}}>
+                        <button className="books-table-users-button" onClick={() => setTable(true)}>
                             Users
                         </button>
-                        <button className="books-table-books-button" onClick={ () => {setTable(prevState => !prevState)}}>
+                        <button className="books-table-books-button" onClick={() => setTable(false)}>
                             Books
                         </button>
                         <div className="div-section-layout">
@@ -143,13 +161,14 @@ function Admin(){
                             ) : (
                                 <AdminBookslist books={books} />
                             )} */}
-                            <AdminBookslist books={dummybooks}/>
+                            {/* by passing fetchbooks function we can now safely update the books without having to refresh the page */}
+                            <AdminBookslist books={books} fetchBooks={fetchBooks}/>
                             <Link to="./addbook">
                                 <button>Add new book</button>
                             </Link>
                         </div>
                     </div>
-            }
+            )}
 {/* 
             <div className="div-section-layout">
                 <AdminUserslist users={dummyusers}/>

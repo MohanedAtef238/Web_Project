@@ -1,7 +1,5 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('../config/database');
-const User = require('./user');
-const Book = require('./book');
 
 const Favorite = sequelize.define('Favorite', {
   id: {type: DataTypes.UUID, defaultValue: DataTypes.UUIDV4, primaryKey: true},
@@ -12,10 +10,9 @@ const Favorite = sequelize.define('Favorite', {
   timestamps: false
 });
 
-Favorite.belongsTo(User, { foreignKey: 'userId', as: 'user' });
-Favorite.belongsTo(Book, { foreignKey: 'bookId', as: 'book' });
-
-User.hasMany(Favorite, { foreignKey: 'userId', as: 'favorites' });
-Book.hasMany(Favorite, { foreignKey: 'bookId', as: 'favoritedBy' });
+Favorite.associate = function(models) {
+  Favorite.belongsTo(models.User, { foreignKey: 'userId', as: 'user' });
+  Favorite.belongsTo(models.Book, { foreignKey: 'bookId', as: 'book' });
+};
 
 module.exports = Favorite; 

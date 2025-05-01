@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import './Playlist.css';
+import playButtonImage from '../../assets/min-play.png';
+
 
 const mockBooks = [
   {
@@ -22,14 +24,16 @@ const mockBooks = [
   }
 ];
 
-const mockRecording = {
-  id: 1,
-  title: "Audiobook: Red Queen",
-  author: "Victoria Aveyard",
-  coverUrl: "https://picsum.photos/600/600?random=7"
-};
 
-const LibraryList = ({ type = 'books', authorName, header }) => {
+const LibraryList = ({ type = 'books', authorName, header, book }) => {
+
+  const mockRecording = {
+    title: book.title,
+    author: book.author,
+    coverUrl: book.cover
+  };
+
+  
   const getItems = () => {
     switch (type) {
       case 'books':
@@ -52,6 +56,13 @@ const LibraryList = ({ type = 'books', authorName, header }) => {
 
   const addToPlaylist = (id) => {
     ///// nzwd here later
+  };
+
+  const handlePlay = () => {
+    const playButton = document.querySelector('#audio-player-container #play-icon');
+    if (playButton) {
+      playButton.click();
+    }
   };
 
   const defaultHeader = type.charAt(0).toUpperCase() + type.slice(1);
@@ -77,6 +88,12 @@ const LibraryList = ({ type = 'books', authorName, header }) => {
               <p className="playlist-book-author">{item.author}</p>
             </div>
             <div className="playlist-list-actions">
+            <button
+                className="playButtonMini"
+                style={{ backgroundImage: `url(${playButtonImage})` }}
+                onClick={handlePlay}
+                aria-label="Play audiobook"
+              ></button>
               <button
                 className={`like-btn ${item.liked ? 'liked' : ''}`}
                 onClick={() => toggleLike(item.id)}

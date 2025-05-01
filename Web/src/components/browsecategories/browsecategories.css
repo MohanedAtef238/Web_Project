@@ -1,0 +1,125 @@
+.categories-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    height: 80vh;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    
+  }
+
+  .categories-container::-webkit-scrollbar {
+    display: none;
+  }
+  
+  .search-container {
+    display: flex;
+    justify-content: center; 
+    width: 100%; 
+    margin-top: 5px;
+    margin-bottom: 50px;
+
+  }
+  
+  .categories-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 300px));
+    gap: 20px;
+    justify-items: center;
+    width: 100%;
+    max-width: 1000px;
+    margin: 0 auto;
+    
+  }
+  
+  .category-card {
+    padding: 30px;
+    border-radius: 10px;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    min-height: 120px;
+    display: flex;
+    align-items: left;
+    justify-content: left;
+    position: relative;
+    overflow: hidden;
+    height:150px;
+    width:220px;
+    left:23px
+  }
+  
+  .category-card:hover {
+    transform: translateY(-5px);
+  }
+  
+
+  
+  .search-results {
+    margin-top: 20px;
+    display: grid;
+    justify-content: center;
+    margin-bottom: 30px;
+    font-size: 1.4rem;
+    font-weight: 600;
+
+  }
+  .search-results::-webkit-scrollbar {
+    display: none;
+  }
+
+  
+  
+  .search-results h3 {
+    margin-bottom: 30px;
+    margin-left: 4%;
+    font-size: small;
+    font-size: 1.4rem;
+    font-weight: 600;
+  }
+  
+  .no-results {
+    font-size: 1.2rem;
+    justify-content: center ;
+    margin-left:39px;
+    
+    
+  }
+  
+  
+  @media (max-width: 768px) {
+    .categories-grid {
+      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    }
+  }
+
+  .category-img {
+    width: 140px;
+    height: 140px;
+    object-fit:cover;
+    transition: transform 0.3s ease;
+    justify-content: right;
+    justify-items: right;
+    justify-self:right;
+    position: relative;
+    left:100%;
+    top: 25%;
+    transform: rotate(30deg);
+  }
+
+.text{
+    margin-top: -120px;
+    font-size: small;
+    font-size: 1.4rem;
+    font-weight: 600;
+}
+
+.searchres{
+    margin-right: 60px;
+    min-width: 900px;
+}
+
+.no-results p{
+   justify-content: center ;
+   margin-right: 20px;
+}

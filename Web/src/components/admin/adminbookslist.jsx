@@ -1,9 +1,11 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-
+import { deleteBook } from '../../api/bookAPI';
+// added these to avoid refreshing the page when deleting a book, we'll instead recall the api that fetches the books
+import { getAdminBookList } from "../../api/bookAPI";
 import './table.css';
 
-const AdminBookslist = ({ books }) => {
+const AdminBookslist = ({ books, fetchBooks}) => {
     return(
         <div>
             <div className='title'>
@@ -32,11 +34,11 @@ const AdminBookslist = ({ books }) => {
                     <tbody className="scrolling-table">
                     {books && books.map(
                         (book) => (
-                            <tr key={book.bookID}>
+                            <tr key={book.id}>
                                 <td className='th-td-styling'>
                                     <Link to={book.file_url}>
                                         <img src={book.cover_image_url} className="book-cover-img" />
-                                    </Link>  {/* use file_url to redirect later */}
+                                    </Link>
                                 </td>
                                 <td className='th-td-styling'>
                                     {book.title}
@@ -45,10 +47,16 @@ const AdminBookslist = ({ books }) => {
                                     {book.genre}
                                 </td>
                                 <td className='th-td-styling'>
-                                    {book.title}
+                                    {book.duration}
                                 </td>
                                 <td>
-                                <button className='delete-button'>X</button>
+                                <button
+                                className='delete-button'
+                                onClick={async () => {
+                                    try { await deleteBook(book.id); await fetchBooks();} 
+                                    catch (error) {console.error(error);}}}>
+                                X
+                                </button>
                                 </td>
                             </tr>
                             )
