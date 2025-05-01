@@ -26,13 +26,16 @@ const createUser = async (req, res) => {
   };
   
 
-// in admin delete user button or in user settings delete account (unimplemented yet)
+// in admin delete user button or in user settings delete account (not implemented yet)
 const deleteUser = async (req, res) => {
   try {
     const user = await User.findByPk(req.params.id);
+    console.log('delete user reached controller');
     if (!user) return res.status(404).json({ error: 'User not found' });
-
+    console.log('db from controller found the user to delete');
+    console.log('');
     await user.destroy();
+    console.log('user deleted in controller')
     res.status(204).send();
   } catch (error) {
     res.status(500).json({ error: error.message });
@@ -40,6 +43,10 @@ const deleteUser = async (req, res) => {
 };
 
 // login
+
+const jwt = require('jsonwebtoken');
+const SECRET_KEY = 'very_secret_key';
+
 const getUserByCredentials = async (req, res) => {
   try {
     const { inputUsername, inputPassword } = req.body;
@@ -54,7 +61,14 @@ const getUserByCredentials = async (req, res) => {
       return res.status(404).json({ error: 'wrong username or password' });
     }
 
-    res.status(200).json(user);
+    const tokenPayload = {
+      id: user.id,
+      username: user.username,
+      isAdmin: user.username.toLowerCase() === 'admin'
+    };
+    const token = jwt.sign(tokenPayload, SECRET_KEY, { expiresIn: '1m' });  //change this later, this is just for testing
+
+    res.status(200).json({token, user: tokenPayload});
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
@@ -62,11 +76,23 @@ const getUserByCredentials = async (req, res) => {
 
 const getAllUsers = async(req, res) => {
   try {
+    console.log('fetch users reached controller')
     const users = await User.findAll();
+    console.log("if this logs then issue is not in controller");
     res.status(200).json(users);
   } catch (error) {
+    console.log("controller error in fetch users")
     res.status(500).json({ error: error.message });
   }
 }
 
-module.exports = { createUser, deleteUser, getUserByCredentials , getAllUsers};
+const getUserDetails = async (req, res) => {
+  try {
+    const user = await User.findOne({ where: { username: req.params.name },  attributes: ['username', 'isAuthor', 'bio', 'profilePicture']});
+    if (!user) return res.status(404).json({ error: 'User not found' });
+    res.status(200).json(user);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+module.exports = { createUser, deleteUser, getUserByCredentials , getAllUsers, getUserDetails};

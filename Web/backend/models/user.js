@@ -13,11 +13,18 @@ const User = sequelize.define('User', {
   bio: {type: DataTypes.TEXT, allowNull: true},
   profilePicture: {type: DataTypes.STRING, allowNull: true},
   isAuthor: {type: DataTypes.BOOLEAN, defaultValue: false}, // this was added to change the view of the profile for authors and non-authors
-  authorBio: {type: DataTypes.TEXT, allowNull: true},
-  authorWebsite: {type: DataTypes.STRING, allowNull: true},
   createdAt: {type: DataTypes.DATE, defaultValue: DataTypes.NOW}
 }, {
   timestamps: false 
 });
+
+User.associate = function(models) {
+  User.hasMany(models.Book, { foreignKey: 'authorId', as: 'books' });
+  User.hasMany(models.Playlist, { foreignKey: 'userId', as: 'playlists' });
+  User.hasMany(models.Favorite, { foreignKey: 'userId', as: 'favorites' });
+  User.hasMany(models.Following, { as: 'following', foreignKey: 'followerId' });
+  User.hasMany(models.Following, { as: 'followers', foreignKey: 'followedId' });
+  User.hasMany(models.ReadingProgress, { foreignKey: 'userId', as: 'readingProgress' });
+};
 
 module.exports = User; 
