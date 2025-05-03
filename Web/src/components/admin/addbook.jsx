@@ -67,7 +67,14 @@ function Addbook(){
                         </div>
                     }
                     <br/>
-                    <button type="button" onClick={handleSubmit}>Create Book</button>
+                    <div className='buttons-div'>
+                        <button type="button" onClick={handleSubmit}>Create Book</button>
+                        <Link to='/admin'>
+                            <button className="cancel-btn submit-btn">
+                            Cancel
+                            </button> </Link>
+                    </div>
+                  
                     {/*I think since we need an author we can make the author the platform */}
                     {/* The duration should be automatically calculated, as well as the id */}
                 </div>

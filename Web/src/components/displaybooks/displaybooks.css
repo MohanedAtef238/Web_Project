@@ -130,3 +130,12 @@
   margin-top: 10px;
   cursor: pointer;
 }
+
+.logout-btn {
+  position: fixed;
+  right: 55px;
+  margin-top: 10px;
+  cursor: pointer;
+  height: 30px;
+  width: 60px;
+}

@@ -3,11 +3,14 @@ const cors = require('cors');
 const http = require('http');
 const { Server } = require('socket.io');  // Add this to import socket.io
 
+
 const userRoutes = require('./routes/users');
 const followingRoutes = require('./routes/following');
 const bookRoutes = require('./routes/books');
 const playlistRoutes = require('./routes/playlists');
 const favoriteRoutes = require('./routes/favorites');
+const reviewRoutes = require('./routes/review');
+
 const connectMongoDB = require('./config/mongodb');
 const { sequelize, syncDatabase } = require('./models');
 
@@ -73,6 +76,7 @@ io.on("connection", (socket) => {
     }
   });
 });
+app.use('/review', reviewRoutes);
 
 // Initialize databases and start server
 const initializeApp = async () => {
