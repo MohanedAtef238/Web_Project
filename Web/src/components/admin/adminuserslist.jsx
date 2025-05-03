@@ -53,7 +53,8 @@ const AdminUserslist = ({ users }) => {
                                     {user.email}
                                     </td>
                                     <td className='th-td-styling'>
-                                    {user.createdOn}
+                                        {/* {console.log('user creteaion: ', user.createdOn)} */}
+                                    {new Date(user.createdAt).toLocaleString()}
                                     </td>
                                     <td className='th-td-styling'>
                                         <button className='delete-button' onClick={() => deleteFromUser(user.id)}>X</button>
