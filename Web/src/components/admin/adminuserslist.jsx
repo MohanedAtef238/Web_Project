@@ -6,6 +6,7 @@ import { deleteUser } from '../../api/userAPI';
 const AdminUserslist = ({ users }) => {
 
     const [usersList, setUsersList] = useState(users);
+    const [searchTerm, setSearchTerm] = useState('');
 
     useEffect(() => {
         setUsersList(users);
@@ -20,11 +21,18 @@ const AdminUserslist = ({ users }) => {
         }
     };
 
+    const filteredUsers = usersList.filter(user =>
+        user.username.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        user.email.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+
     return(
         <div>
             <div className='title'>
                 <h3 className='title-name'>Users list</h3>
-                <input className="title-search" placeholder='username or email'/>
+                <input className="title-search" placeholder='username or email'
+                 value={searchTerm}
+                 onChange={(e) => setSearchTerm(e.target.value)}/>
             </div>
             <table className='table-styling '>
                 <thead>
@@ -43,7 +51,7 @@ const AdminUserslist = ({ users }) => {
                 </thead>
                 {/* <div className="scrolling-table"> */}
                     <tbody className="scrolling-table">
-                        {usersList && usersList.map(
+                        {filteredUsers && filteredUsers.map(
                             (user) => (
                                 <tr key={user.id}>
                                     <td className='th-td-styling'>
@@ -66,6 +74,17 @@ const AdminUserslist = ({ users }) => {
                 {/* </div> */}
 
             </table>
+            {filteredUsers.length == 0?
+                    searchTerm === ''?  <div>
+                        No books in database
+                    </div>
+                    :
+                    <div>
+                        Nothing matches the search
+                    </div>
+                    :
+                    <div/>
+                }
         </div>
     )
 }
