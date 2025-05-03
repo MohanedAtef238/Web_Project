@@ -48,9 +48,15 @@ function Adduser(){
           {...register("password", { required: "Password is required" })}
         />
         {errors.password && <p className="error">{errors.password.message}</p>}
-
-        <button type="submit" className="submit-btn">Add user</button>
-        </form>
+        <div className='buttons-div'>
+          <button type="submit" className="submit-btn">Add user</button>
+          <Link to='/admin'>
+          <button className="cancel-btn submit-btn">
+            Cancel
+          </button> </Link>
+        </div>
+        
+      </form>
     )
 }
 
