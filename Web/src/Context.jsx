@@ -9,6 +9,8 @@ export const AuthProvider = ({ children }) => {
   const [token, setToken] = useState(() => localStorage.getItem('jwt') || null);
   const [user, setUser] = useState(() => (token ? jwtDecode(token) : null));
 
+  console.log('from context: user is: ', user);
+
   useEffect(() => {
     if (token) {
       try {
