@@ -1,5 +1,5 @@
 import './App.css';
-import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom';
+import { Routes, Route, useLocation } from 'react-router-dom';
 import Playbar from './components/playbar/playbar';
 import Login from './components/login/login';
 import SignUp from './components/login/signup';
@@ -15,54 +15,62 @@ import Book from './components/book/BookView.jsx';
 import BrowseCategories from './components/browsecategories/browsecategories.jsx';
 import CategoryBooks from './components/Categorypage/catagorypage.jsx';
 import Settings from './components/settings/settings.jsx';
-import { AuthProvider } from './Context.jsx';
+import { AuthProvider, useAuth } from './Context.jsx';
 import ProtectedRoute from './ProtectedRoute.jsx';
 
-function AppWrapper() {
+function RoutesWrapper() {
   const location = useLocation();
   const path = location.pathname;
 
+  const { user } = useAuth();
+
   const hidePlaybar = path === '/' || path === '/signup' || path.startsWith('/admin');
 
-
   return (
-    <AuthProvider>
-      <div
-        style={{
-          height: '100vh',
-          display: 'flex',
-          flexDirection: 'column',
-          overflow: 'hidden',
-        }}
-      >
-        <div style={{ flex: 1, overflow: 'hidden' }}>
-          <Routes>
-            {/* <Route path="/testingroute" element={<ProtectedRoute><Admin /></ProtectedRoute>} /> */}
-            <Route path="/" element={<Login />} />
-            <Route path="/admin/adduser" element={<ProtectedRoute><Adduser /></ProtectedRoute>} />
-            <Route path="/admin/addbook" element={<ProtectedRoute><Addbook /></ProtectedRoute>} />
-            <Route path="/admin" element={<ProtectedRoute><Admin /></ProtectedRoute>} />
-            <Route path="/signup" element={<SignUp />} />
-            <Route path="/profile/:username" element={<AuthorProfile />} />
-            <Route path="/userprofile/:username" element={<UserProfile />} />
-            <Route path="/homepage" element={<ProtectedRoute><DisplayBooks /></ProtectedRoute>} />
-            <Route path="/playlist/:name" element={<Playlist />} />
-            <Route path="/book/:title" element={<Book />} />
-            <Route path="/browsecategories" element={<BrowseCategories />} />
-            <Route path="/browsecategories/:id" element={<CategoryBooks />} />
-            <Route path="/settings" element={<Settings />} />
-          </Routes>
-        </div>
-
-        {!hidePlaybar && <Playbar />}
+    <div
+      style={{
+        height: '100vh',
+        display: 'flex',
+        flexDirection: 'column',
+        overflow: 'hidden',
+      }}
+    >
+      <div style={{ flex: 1, overflow: 'hidden' }}>
+        <Routes>
+          {/* <Route path="/testingroute" element={<ProtectedRoute><Admin /></ProtectedRoute>} /> */}
+          <Route path="/" element={<Login />} />
+          {user?.isAdmin ? (
+            <>
+              <Route path="/admin/adduser" element={<ProtectedRoute><Adduser /></ProtectedRoute>} />
+              <Route path="/admin/addbook" element={<ProtectedRoute><Addbook /></ProtectedRoute>} />
+              <Route path="/admin" element={<ProtectedRoute><Admin /></ProtectedRoute>} />
+            </>
+          ) : (
+            <>
+              <Route path="/signup" element={<SignUp />} />
+              <Route path="/profile/:username" element={<AuthorProfile />} />
+              <Route path="/userprofile/:username" element={<UserProfile />} />
+              <Route path="/homepage" element={<ProtectedRoute><DisplayBooks /></ProtectedRoute>} />
+              <Route path="/playlist/:name" element={<Playlist />} />
+              <Route path="/book/:title" element={<Book />} />
+              <Route path="/browsecategories" element={<BrowseCategories />} />
+              <Route path="/browsecategories/:id" element={<CategoryBooks />} />
+              <Route path="/settings" element={<Settings />} />
+            </>
+          )}
+        </Routes>
       </div>
-    </AuthProvider>
+
+      {!hidePlaybar && <Playbar />}
+    </div>
   );
 }
 
 function App() {
   return (
-      <AppWrapper />
+    <AuthProvider>
+      <RoutesWrapper />
+    </AuthProvider>
   );
 }
 
