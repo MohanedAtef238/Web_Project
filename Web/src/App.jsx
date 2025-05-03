@@ -17,6 +17,8 @@ import CategoryBooks from './components/Categorypage/catagorypage.jsx';
 import Settings from './components/settings/settings.jsx';
 import { AuthProvider } from './Context.jsx';
 import ProtectedRoute from './ProtectedRoute.jsx';
+import Streamer from './components/streamer/streamer.jsx';
+import Listener from './components/listener/listener.jsx';
 
 function AppWrapper() {
   const location = useLocation();
@@ -51,6 +53,8 @@ function AppWrapper() {
             <Route path="/browsecategories" element={<BrowseCategories />} />
             <Route path="/browsecategories/:id" element={<CategoryBooks />} />
             <Route path="/settings" element={<Settings />} />
+            <Route path="/streamer" element={<Streamer />} />
+            <Route path="/listener" element={<Listener />} />
           </Routes>
         </div>
 
