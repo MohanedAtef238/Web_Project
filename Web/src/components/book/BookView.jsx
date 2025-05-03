@@ -4,6 +4,7 @@ import { useParams, useLocation } from 'react-router-dom';
 import './BookView.css';
 import LibraryList from '../playlist/LibraryList';
 import { addReview, getReviews } from '../../api/reviewAPI';
+import { useAuth } from '../../Context';
 
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
@@ -41,6 +42,8 @@ const Book = () => {
   //     { id: 2, text: "Really enjoyed the plot", user: "BookLover", date: "2025-04-09" }
   //   ]);
 
+  const {user} = useAuth();
+
    useEffect(() =>{
           async function get_Reviews() {
               try {
@@ -62,7 +65,7 @@ const Book = () => {
       try {
         console.log('frontend: sending maya, ', book.id, ', and ', data);
         const review = await addReview({
-          user: 'maya',
+          user: user.username,
           book: book.id,
           message: data.conent,
         });
