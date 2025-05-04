@@ -49,22 +49,30 @@ const getBookDetails = async (req, res) => {
 
 const addAdminBook = async (req, res) => {
     try {
-        const { coverImage, title, genre, audioFile} = req.body;
-
-        const book = await Book.create({
-            title,
-            genre,
-            coverImage,
-            audioFile,
-            authorId: "0991bf3d-ab73-42b5-992e-f908bb500782"
-        });
-
-        res.status(201).json(book);
+      const { title, genre } = req.body;
+  
+      const coverImageFile = req.files['coverImage']?.[0];
+      const audioFile = req.files['audioFile']?.[0];
+      
+      if (!coverImageFile || !audioFile) {
+        return res.status(400).json({ error: 'Both image and audio files are required' });
+      }
+      
+      const book = await Book.create({
+        title,
+        genre,
+        authorId: '2f49f1fc-1405-4a77-a8e4-a19cf4379b8a',
+        audioFile: `uploads/audio/${audioFile.filename}`,
+        coverImage: `uploads/covers/${coverImageFile.filename}`
+      });
+  
+      res.status(201).json(book);
     } catch (error) {
-        console.error('Error in addBook:', error);
-        res.status(500).json({ error: error.message });
+      console.error('Error in addBook ', error);
+      res.status(500).json({error});
     }
-};
+  };
+  
 
 const deleteBook = async (req, res) => {
     try {

@@ -17,8 +17,16 @@ export async function getAdminBookList(){
   return response.data;
 }
 
-export async function addAdminBook(book) {
-  const response = await axios.post(`${API_BASE}/books/admin/book/add`, book);
+export async function addAdminBook(formData) {
+  const response = await axios.post( // this was changed to send a formdata acknowledgement instead of expecting a json object, formdata will allow us to send files to be recorded in the database or the current file strucutre temporarily
+    `${API_BASE}/books/admin/book/add`,
+    formData,
+    {
+      headers: {
+        'Content-Type': 'multipart/form-data'
+      }
+    }
+  );
   return response.data;
 }
 

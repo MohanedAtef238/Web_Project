@@ -6,42 +6,50 @@ import Playbar from '../playbar/playbar.jsx'
 import { addAdminBook } from '../../api/bookAPI.js';
 
 function Addbook(){
-    const [uploadedAudioState, setUploadedAudio] = useState(null);
-    const [uploadedImageState, setUploadeImage] = useState(null);
+    const [coverImageFile, setCoverImageFile] = useState(null);
+    const [audioFile, setAudioFile] = useState(null);
+    const [previewImageURL, setPreviewImageURL] = useState(null);
+    const [previewAudioURL, setPreviewAudioURL] = useState(null);
     const [title, setTitle] = useState('');
     const [genre, setGenre] = useState('');
+    const [coverImageChanged, setCoverImageChanged] = useState(false);
+    const [audioFileChanged, setAudioFileChanged] = useState(false);
 
     const handle_image_upload = (event) => {
         const file = event.target.files[0];
         if(file){
-            const reader = new FileReader();
-            reader.onloadend = () => {
-                setUploadeImage(reader.result)
-            };
-            reader.readAsDataURL(file);
+            setCoverImageFile(file);
+            setPreviewImageURL(URL.createObjectURL(file));
+            setCoverImageChanged(true);
         }
     };
 
     const handle_audio_upload = (event) => {
         const file = event.target.files[0];
         if(file){
-            const audioURL = URL.createObjectURL(file);
-            setUploadedAudio(audioURL);
+            setAudioFile(file);
+            setPreviewAudioURL(URL.createObjectURL(file));
+            setAudioFileChanged(true);
         }
     };
     const navigate = useNavigate();
     const handleSubmit = async () => {
         try {
-          const book = {
-            title,
-            genre,
-            coverImage: uploadedImageState,
-            audioFile: uploadedAudioState,
-          };
-          await addAdminBook(book);
+          const formData = new FormData();
+          formData.append('title', title);
+          formData.append('genre', genre);
+          if (coverImageChanged && coverImageFile) {
+            formData.append('coverImage', coverImageFile);
+          }
+          if (audioFileChanged && audioFile) {
+            formData.append('audioFile', audioFile);
+          }
+          await addAdminBook(formData);
+          setCoverImageChanged(false);
+          setAudioFileChanged(false);
           navigate('/admin');
         } catch (error) {
-          console.error(error.message);
+          console.error('Submission failed ', error.message);
         }
       };
     return(
@@ -51,24 +59,23 @@ function Addbook(){
                     <h2>
                         Upload book image
                     </h2>
-                    {uploadedImageState && (<img src={uploadedImageState}/> )}
-                    <input type='file' id='imageUpload' accept='image/*' onChange={handle_image_upload}/>
+                    {previewImageURL && <img src={previewImageURL} alt="Cover Image" />}
+                    {!coverImageChanged && <input type='file' id='imageUpload' accept='image/*' onChange={handle_image_upload}/>}
                 </div>
                 <div className='content-container'>
                     <input className='add-field-input ' placeholder="e.g. Lord of The Ring" value={title}   onChange={(e) => setTitle(e.target.value)}/>
                     <input className='add-field-input ' placeholder="e.g. Fiction"   value={genre}   onChange={(e) => setGenre(e.target.value)}/> 
-                    <input type='file' id='audioUpload' accept='audio/mp3' onChange={handle_audio_upload}/>
-                    {uploadedAudioState &&
+                    {!audioFileChanged && <input type='file' id='audioUpload' accept='audio/mp3' onChange={handle_audio_upload}/>}
+                    {previewAudioURL &&
                         <div>
-                            <audio controls>
-                                <source src={uploadedAudioState} type='audio/mp3'/>
-                            </audio>
-                            <UploadPlaybar/>
+                        <audio controls>
+                            <source src={previewAudioURL} type='audio/mp3' />
+                        </audio>
                         </div>
                     }
                     <br/>
                     <div className='buttons-div'>
-                        <button type="button" onClick={handleSubmit}>Create Book</button>
+                    <button type="button" disabled={!title || !genre || !coverImageFile || !audioFile} onClick={handleSubmit}>Create Book</button>
                         <Link to='/admin'>
                             <button className="cancel-btn submit-btn">
                             Cancel
