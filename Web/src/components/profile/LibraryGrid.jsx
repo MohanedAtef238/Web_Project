@@ -3,11 +3,31 @@ import { getAllFollowing } from '../../api/followAPI';
 import { getUserBooks } from '../../api/bookAPI';
 import { getUserPlaylists } from '../../api/playlistAPI';
 import { getUserFavorites } from '../../api/favoriteAPI';
+import AddBook from '../admin/addbook';
+import { useAuth } from '../../Context';
+import './Profile.css';
 
-const LibraryGrid = ({ type, username }) => {
+const LibraryGrid = ({ type, username, userId }) => {
   const [items, setItems] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [showAddBook, setShowAddBook] = useState(false);
+  
+
+  const { user } = useAuth();
+  
+  const effectiveUserId = user.id;
+
+  const refreshBooks = async () => {
+    if (type === 'books' && username) {
+      try {
+        const data = await getUserBooks(username);
+        setItems(data);
+      } catch (err) {
+        console.error(`Couldn't reload books:`, err);
+      }
+    }
+  };
 
   useEffect(() => {
     async function fetchData() {
@@ -38,13 +58,32 @@ const LibraryGrid = ({ type, username }) => {
     fetchData();
   }, [type, username]);
 
-  if (loading) return <div className="author-profile-loading">Loading...</div>; // neat ? 
+  if (loading) return <div className="author-profile-loading">Loading...</div>;
+
+  const handleBookAdded = () => {
+    setShowAddBook(false);
+    refreshBooks(); // Refresh the books after adding
+  };
+
+  if (showAddBook && type === 'books') {
+    return <AddBook 
+      onCancel={handleBookAdded} 
+      userId={effectiveUserId} 
+    />; 
+  }
 
   return (
     <div className="author-profile-library">
-      <h2 className="author-profile-section-title">
-        {type.charAt(0).toUpperCase() + type.slice(1)}
-      </h2>
+      <div className="author-profile-section-header">
+        <h2 className="author-profile-section-title">
+          {type.charAt(0).toUpperCase() + type.slice(1)}
+        </h2>
+        {type === 'books' && user && user.username === username && (
+          <button onClick={() => setShowAddBook(true)} className="add-book-button">
+            Add Book
+          </button>
+        )}
+      </div>
       <div className="author-profile-grid">
         {items.map((item) => (
           <div key={item.id} className="author-profile-grid-item">

@@ -49,22 +49,44 @@ const getBookDetails = async (req, res) => {
 
 const addAdminBook = async (req, res) => {
     try {
-      const { title, genre } = req.body;
+      console.log('Request body received in controller:', JSON.stringify(req.body));
+      
+      const { title, genre, authorId } = req.body;
+      
+      console.log('Parsed values from request:');
+      console.log('- title:', title);
+      console.log('- genre:', genre);
+      console.log('- authorId:', authorId);
+      console.log('- authorId type:', typeof authorId);
   
       const coverImageFile = req.files['coverImage']?.[0];
       const audioFile = req.files['audioFile']?.[0];
+      
+      console.log('Files received:');
+      console.log('- coverImage:', coverImageFile?.filename);
+      console.log('- audioFile:', audioFile?.filename);
       
       if (!coverImageFile || !audioFile) {
         return res.status(400).json({ error: 'Both image and audio files are required' });
       }
       
+      // If no authorId is provided, respond with an error
+      if (!authorId) {
+        console.log('ERROR: No authorId provided in request');
+        return res.status(400).json({ error: 'Author ID is required' });
+      }
+      
+      console.log('Creating book with authorId:', authorId);
+      
       const book = await Book.create({
         title,
         genre,
-        authorId: '2f49f1fc-1405-4a77-a8e4-a19cf4379b8a',
+        authorId: authorId,
         audioFile: `uploads/audio/${audioFile.filename}`,
         coverImage: `uploads/covers/${coverImageFile.filename}`
       });
+      
+      console.log('Book created successfully with ID:', book.id);
   
       res.status(201).json(book);
     } catch (error) {

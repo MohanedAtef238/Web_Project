@@ -4,8 +4,9 @@ import { useNavigate, Link } from "react-router-dom";
 import UploadPlaybar from '../playbar/upload_playbar.jsx';
 import Playbar from '../playbar/playbar.jsx'
 import { addAdminBook } from '../../api/bookAPI.js';
+import { useAuth } from '../../Context';
 
-function Addbook(){
+function Addbook({ onCancel, userId }){
     const [coverImageFile, setCoverImageFile] = useState(null);
     const [audioFile, setAudioFile] = useState(null);
     const [previewImageURL, setPreviewImageURL] = useState(null);
@@ -14,6 +15,9 @@ function Addbook(){
     const [genre, setGenre] = useState('');
     const [coverImageChanged, setCoverImageChanged] = useState(false);
     const [audioFileChanged, setAudioFileChanged] = useState(false);
+    
+    // Get the current authenticated user info
+    const { user } = useAuth();
 
     const handle_image_upload = (event) => {
         const file = event.target.files[0];
@@ -38,6 +42,12 @@ function Addbook(){
           const formData = new FormData();
           formData.append('title', title);
           formData.append('genre', genre);
+          if (!userId) {
+            console.error('No author ID available');
+            return;
+          }
+          formData.append('authorId', authorIdToUse);
+          
           if (coverImageChanged && coverImageFile) {
             formData.append('coverImage', coverImageFile);
           }
@@ -47,11 +57,25 @@ function Addbook(){
           await addAdminBook(formData);
           setCoverImageChanged(false);
           setAudioFileChanged(false);
-          navigate('/admin');
+          
+          if (onCancel) {
+            onCancel();
+          } else {
+            navigate('/admin');
+          }
         } catch (error) {
           console.error('Submission failed ', error.message);
         }
       };
+      
+    const handleCancel = () => {
+      if (onCancel) {
+        onCancel();
+      } else {
+        navigate('/admin');
+      }
+    };
+    
     return(
         <div>
              <form className="form">
@@ -75,11 +99,8 @@ function Addbook(){
                     }
                     <br/>
                     <div className='buttons-div'>
-                    <button type="button" disabled={!title || !genre || !coverImageFile || !audioFile} onClick={handleSubmit}>Create Book</button>
-                        <Link to='/admin'>
-                            <button className="cancel-btn submit-btn">
-                            Cancel
-                            </button> </Link>
+                      <button type="button" disabled={!title || !genre || !coverImageFile || !audioFile} onClick={handleSubmit}>Create Book</button>
+                      <button type="button" className="cancel-btn submit-btn" onClick={handleCancel}>Cancel</button>
                     </div>
                   
                     {/*I think since we need an author we can make the author the platform */}
