@@ -46,7 +46,7 @@ function Addbook({ onCancel, userId }){
             console.error('No author ID available');
             return;
           }
-          formData.append('authorId', authorIdToUse);
+          formData.append('authorId', userId);
           
           if (coverImageChanged && coverImageFile) {
             formData.append('coverImage', coverImageFile);

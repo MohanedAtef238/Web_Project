@@ -12,8 +12,7 @@ const LibraryGrid = ({ type, username, userId }) => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [showAddBook, setShowAddBook] = useState(false);
-  
-
+  const API_BASE = 'http://localhost:3000';
   const { user } = useAuth();
   
   const effectiveUserId = user.id;
@@ -71,7 +70,6 @@ const LibraryGrid = ({ type, username, userId }) => {
       userId={effectiveUserId} 
     />; 
   }
-
   return (
     <div className="author-profile-library">
       <div className="author-profile-section-header">
@@ -85,28 +83,31 @@ const LibraryGrid = ({ type, username, userId }) => {
         )}
       </div>
       <div className="author-profile-grid">
-        {items.map((item) => (
-          <div key={item.id} className="author-profile-grid-item">
-            <div className="author-profile-book-cover"
-              style={{
-                backgroundImage: `url('${('https://picsum.photos/200/300')}')`,
-                backgroundSize: 'cover',backgroundPosition: 'center'
-              }}
-            />
-            <div className="author-profile-book-info">
-              <h3 className="author-profile-book-title">
-                {type === 'following' ? item.username :
-                 type === 'playlists' ? item.name :
-                 item.title}
-              </h3>
-              <p className="author-profile-book-author">
-                {type === 'following' ? (item.isAuthor ? 'Author' : 'User') :
-                 type === 'playlists' ? `${item.bookCount || 0} books` :
-                 item.author}
-              </p>
+      {items.map((item) => {
+          const imageUrl = item.coverImage ? `${API_BASE}/${item.coverImage}` : "https://picsum.photos/200/300";
+          return (
+            <div key={item.id} className="author-profile-grid-item">
+              <div className="author-profile-book-cover"
+                style={{
+                  backgroundImage: `url('${imageUrl}')`,
+                  backgroundSize: 'cover', backgroundPosition: 'center'
+                }}
+              />
+              <div className="author-profile-book-info">
+                <h3 className="author-profile-book-title">
+                  {type === 'following' ? item.username :
+                  type === 'playlists' ? item.name :
+                  item.title}
+                </h3>
+                <p className="author-profile-book-author">
+                  {type === 'following' ? (item.isAuthor ? 'Author' : 'User') :
+                  type === 'playlists' ? `${item.bookCount || 0} books` :
+                  item.author}
+                </p>
+              </div>
             </div>
-          </div>
-        ))}
+          );
+        })}
       </div>
     </div>
   );

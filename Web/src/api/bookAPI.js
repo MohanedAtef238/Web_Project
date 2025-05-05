@@ -42,3 +42,9 @@ export async function deleteBook(bookId) {
   const response = await axios.post(`${API_BASE}/books/delete/${bookId}`);
   return response.data;
 }
+
+// export async function fetchCover(coverpath) {
+//   console.log("ferching cover image from ", coverpath);
+//   const response = await axios.get(`${API_BASE}/uploads/${coverpath}`);
+//   return response.data;
+// }

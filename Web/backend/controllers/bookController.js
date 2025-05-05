@@ -21,7 +21,7 @@ const getUserBooks = async (req, res) => {
 
         const books = await Book.findAll({
             where: { authorId: user.id },
-            attributes: ['id', 'title', 'duration']
+            attributes: ['id', 'title', 'duration', 'coverImage']
         });
 
         res.json(books);
