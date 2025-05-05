@@ -81,7 +81,6 @@ export default function Playbar() {
             <span></span>
           </button>
         </div>
-        <br />
         <div id="time-bar">
           <input type="range" id="seek-slider" max="100" value={(currentTime / duration) * 100 || 0} onChange={handleSeek}/>
           <span id="current-time" className="time" style={{ marginBottom: '1%' }}>

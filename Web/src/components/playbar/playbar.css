@@ -9,11 +9,11 @@
   transition: transform 0.2s ease, filter 0.2s ease;
 }
 
-#play-icon.paused {
+#play-icon.playing {
   background-image: url('../../assets/pauseButton.png');
 }
 
-#play-icon.playing {
+#play-icon.paused {
   background-image: url('../../assets/playButton.png');
 }
 
@@ -21,8 +21,8 @@
   background-image: url('../../assets/skipButton.png');
   background-size: contain;
   background-repeat: no-repeat;
-  width: 40px;
-  height: 40px;
+  width: 20px;
+  height: 22px;
   border-radius: 50%;
   background-position: center;
   background-color: #0B0A0A;
@@ -86,7 +86,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 30px;
+  gap: 20px;
   flex-grow: 1;
 }
 
@@ -96,32 +96,79 @@
   left: 0;
   width: 100vw;
   background-color: #0B0A0A;
-  padding: 10px 0;
+  padding: 0 20px 8px; 
   display: flex;
   flex-direction: column;
   align-items: center;
   z-index: 1000;
 }
 
+#playbar-actions {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  margin-bottom: 6px; 
+}
+
+.controls {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+  flex-grow: 1;
+}
+
 #seek-slider {
-  width: 80%;
+  width: 100%;
   height: 4px;
-  background: #505050;
-  border-radius: 5px;
+  background-color: #232020;
+  border: none;
+  border-radius: 50px;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
   outline: none;
-  margin-bottom: 12px;
-  appearance: none; 
+  margin: 0;
+  padding: 0;
 }
 
 #seek-slider::-webkit-slider-thumb {
-  appearance: none;
-  width: 12px;
-  height: 12px;
-  background: #C5C0C0; 
+  -webkit-appearance: none;
+  height: 10px;
+  width: 10px;
   border-radius: 50%;
-  cursor: pointer;
+  background: #1DB954;
   border: none;
-  box-shadow: 0 0 2px rgba(0, 0, 0, 0.5);
+  box-shadow: none;
+  margin-top: -3px;
+  cursor: pointer;
+}
+
+
+#seek-slider::-moz-range-thumb {
+  height: 10px;
+  width: 10px;
+  border-radius: 50%;
+  background: #1DB954;
+  border: none;
+  box-shadow: none;
+  cursor: pointer;
+}
+
+
+#seek-slider::-moz-range-track {
+  background: #404040;
+  height: 4px;
+  border: none;
+}
+
+
+#seek-slider::-ms-track {
+  background: transparent;
+  border-color: transparent;
+  color: transparent;
+  height: 4px;
 }
 
 
@@ -130,5 +177,15 @@
     align-items: center;
     justify-content:center;
     width: 80%;
-    gap: 0.5em;
+    gap: 0.2em;
+}
+
+#current-time {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-size: 13px;
+  color: #b3b3b3; 
+  margin-left: 8px;
+  white-space: nowrap;
+  user-select: none;
+
 }

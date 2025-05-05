@@ -1,8 +1,8 @@
 #play-icon {
     background-size: contain;
     background-repeat: no-repeat;
-    width: 55px;
-    height: 55px;
+    width: 27px;
+    height: 44px;
     border-radius: 50%;
     background-position: center;
     background-color: #0B0A0A;
@@ -10,11 +10,11 @@
   }
   
   #play-icon.paused {
-    background-image: url('../../assets/pauseButton.png');
-  }
-  
-  #play-icon.playing {
     background-image: url('../../assets/playButton.png');
+  }
+
+  #play-icon.playing {
+    background-image: url('../../assets/pauseButton.png');
   }
   
   #play-icon:hover {
@@ -55,9 +55,9 @@
   
   #seek-slider {
     width: 80%;
-    height: 4px;
-    background: #505050;
-    border-radius: 5px;
+    height: 2px;
+    background: #282727;
+    border-radius: 50px;
     outline: none;
     margin-bottom: 12px;
     appearance: none; 
@@ -66,8 +66,8 @@
   
   #seek-slider::-webkit-slider-thumb {
     appearance: none;
-    width: 12px;
-    height: 12px;
+    width: 10px;
+    height: 10px;
     background: #C5C0C0; 
     border-radius: 50%;
     cursor: pointer;
