@@ -40,3 +40,10 @@ export async function deleteUser(id){
   const response = await axios.delete(`${API_BASE}/user/admin/${id}`);
   return response.data;
 }
+
+export async function editUser(id, username, email){
+  const response = await axios.post(`${API_BASE}/user/admin/edit`, {
+    id, username, email
+  });
+  return response.data
+}

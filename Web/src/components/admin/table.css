@@ -83,3 +83,9 @@
     max-height: 150px;
     /* overflow-y: auto; */
 }
+
+.edit{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}

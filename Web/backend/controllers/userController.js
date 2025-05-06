@@ -95,4 +95,21 @@ const getUserDetails = async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 };
-module.exports = { createUser, deleteUser, getUserByCredentials , getAllUsers, getUserDetails};
+
+const editUser = async (req, res) => {
+  try {
+    const { id, username, email } = req.body;
+    const user = await User.findByPk(id);
+    if (!user) return res.status(404).json({ error: 'User not found' });
+
+    user.username = username;
+    user.email = email;
+    await user.save();
+
+    res.status(200).json(user);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
+module.exports = { createUser, deleteUser, getUserByCredentials , getAllUsers, getUserDetails, editUser};
