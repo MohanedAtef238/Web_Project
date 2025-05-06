@@ -13,6 +13,7 @@ function Addbook({ onCancel, userId }){
     const [previewAudioURL, setPreviewAudioURL] = useState(null);
     const [title, setTitle] = useState('');
     const [genre, setGenre] = useState('');
+    const [description, setDescription] = useState('');
     const [coverImageChanged, setCoverImageChanged] = useState(false);
     const [audioFileChanged, setAudioFileChanged] = useState(false);
     
@@ -42,6 +43,7 @@ function Addbook({ onCancel, userId }){
           const formData = new FormData();
           formData.append('title', title);
           formData.append('genre', genre);
+          formData.append('description', description);
           console.log('userId is ', userId, ' and user.id is ', user.id)
           if (!user.id) {
             console.error('No author ID available');
@@ -91,6 +93,7 @@ function Addbook({ onCancel, userId }){
                 <div className='content-container'>
                     <input className='add-field-input ' placeholder="e.g. Lord of The Ring" value={title}   onChange={(e) => setTitle(e.target.value)}/>
                     <input className='add-field-input ' placeholder="e.g. Fiction"   value={genre}   onChange={(e) => setGenre(e.target.value)}/> 
+                    <textarea className='add-field-input ' placeholder="Book description (optional)" value={description} onChange={(e) => setDescription(e.target.value)} rows="4"/>
                     {!audioFileChanged && <input type='file' id='audioUpload' accept='audio/mp3' onChange={handle_audio_upload}/>}
                     {previewAudioURL &&
                         <div>

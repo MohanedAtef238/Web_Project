@@ -44,7 +44,7 @@ const LibraryGrid = ({ type, username, userId }) => {
           data = await getUserFavorites(username);
         }
 
-        setItems(data);
+        setItems(data || []); // Ensure data is an array even if null
         setError(null);
       } catch (err) {
         console.error(`Couldn't load ${type}:`, err);

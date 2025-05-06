@@ -3,7 +3,7 @@ const { Book, User } = require('../models');
 
 const getAdminBookList = async (req, res) => {
     try { 
-        const books = await Book.findAll({ attributes: ['id', 'title', 'genre', 'duration'] });
+        const books = await Book.findAll({ attributes: ['id', 'title', 'genre', 'duration', 'description'] });
         res.status(200).json(books);
     } catch (error) {
         res.status(500).json({ error: error.message });
@@ -21,7 +21,7 @@ const getUserBooks = async (req, res) => {
 
         const books = await Book.findAll({
             where: { authorId: user.id },
-            attributes: ['id', 'title', 'duration', 'coverImage']
+            attributes: ['id', 'title', 'duration', 'coverImage', 'description']
         });
 
         res.json(books);
@@ -51,26 +51,17 @@ const addAdminBook = async (req, res) => {
     try {
       console.log('Request body received in controller:', JSON.stringify(req.body));
       
-      const { title, genre, authorId } = req.body;
+      const { title, genre, authorId, description } = req.body;
       
-      console.log('Parsed values from request:');
-      console.log('- title:', title);
-      console.log('- genre:', genre);
-      console.log('- authorId:', authorId);
-      console.log('- authorId type:', typeof authorId);
   
       const coverImageFile = req.files['coverImage']?.[0];
       const audioFile = req.files['audioFile']?.[0];
       
-      console.log('Files received:');
-      console.log('- coverImage:', coverImageFile?.filename);
-      console.log('- audioFile:', audioFile?.filename);
       
       if (!coverImageFile || !audioFile) {
         return res.status(400).json({ error: 'Both image and audio files are required' });
       }
       
-      // If no authorId is provided, respond with an error
       if (!authorId) {
         console.log('ERROR: No authorId provided in request');
         return res.status(400).json({ error: 'Author ID is required' });
@@ -83,7 +74,8 @@ const addAdminBook = async (req, res) => {
         genre,
         authorId: authorId,
         audioFile: `uploads/audio/${audioFile.filename}`,
-        coverImage: `uploads/covers/${coverImageFile.filename}`
+        coverImage: `uploads/covers/${coverImageFile.filename}`,
+        description: description
       });
       
       console.log('Book created successfully with ID:', book.id);
@@ -115,12 +107,15 @@ const deleteBook = async (req, res) => {
 
 const editBook = async (req, res) => {
   try {
-    const { id, title, genre } = req.body;
+    const { id, title, genre, description } = req.body;
     const book = await Book.findByPk(id);
     if (!book) return res.status(404).json({ error: 'book not found' });
 
     book.title = title;
     book.genre = genre;
+    if (description !== undefined) {
+      book.description = description;
+    }
     await book.save();
 
     res.status(200).json(book);

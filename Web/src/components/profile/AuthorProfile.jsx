@@ -33,9 +33,9 @@ const AuthorProfile = () => {
         const count = await getFollowerCount(username);
         setFollowerCount(count.count); // fix for count since the returned json is something like count : a number, using just count will try to show the whole json object which is wrong
         if (currentUser) {
-          const followers = await getAllFollowing(username);
-          const usernames = followers.map(user => user.username);
-          const isAlreadyFollowing = usernames.includes(username);
+          const followingList = await getAllFollowing(currentUser.username);
+          const followingUsernames = followingList.map(user => user.username);
+          const isAlreadyFollowing = followingUsernames.includes(username);
           setIsFollowing(isAlreadyFollowing);
         }
   
@@ -47,7 +47,7 @@ const AuthorProfile = () => {
     if (username) {
       fetchUser();
     }
-  }, [username, currentUser, isFollowing]);
+  }, [username, currentUser]);
 
   const followButton = async () => {
     try {
@@ -58,6 +58,10 @@ const AuthorProfile = () => {
         await followUser(currentUser.username, user.username);
         setIsFollowing(true);
       }
+      
+      // making sure the follower count is reflected in the front end without causing an infinite loop
+      const updatedCount = await getFollowerCount(username);
+      setFollowerCount(updatedCount.count);
     } catch (error) {
       console.error(error);
     }
