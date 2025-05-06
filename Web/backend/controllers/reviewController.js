@@ -4,17 +4,18 @@ const Book = require('../models/book');
   const addReview = async (req, res) => {
       console.log('reached add review controller with req body: ', req.body);
     try {
-      const { user, book, message } = req.body;
+      const { user, book, message, rating } = req.body;
+      
       console.log('Creating review with user:', user, ', book:', book, ', and message:', message);
       console.log('Or look at this:', req.body.user, ', book:', req.body.book, ', and message:', req.body.message);
   
-      if (!user || !book || !message) {
+      if (!user || !book || !message || rating == null) {
         console.log('Missing fields:', { user, book, message });
         return res.status(400).json({ error: 'Missing required fields' });
       }
   
       // const review = new Review({ userId: req.body.user, bookId: req.body.book, content: req.body.message});
-      const review = new Review({ username: user, bookId: book, content: message});
+      const review = new Review({ username: user, bookId: book, content: message, rating: rating});
   
       await review.save();
       console.log('Review created <3');
