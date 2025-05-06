@@ -10,13 +10,15 @@ export default function Playbar() {
   const [duration, setDuration] = useState(0);
   const audioRef = useRef(null);
   const sliderRef = useRef(null);
+
   const togglePlay = () => {
     if (!audioRef.current) return;
 
     if (isPlaying) {
-      audioRef.current.pause();
-    } else {
       audioRef.current.play();
+    } else {
+      audioRef.current.pause();
+
     }
 
     setIsPlaying(!isPlaying);
@@ -24,7 +26,10 @@ export default function Playbar() {
 
   useEffect(() => {
     const audio = audioRef.current;
-    if (!audio) return;
+    if (!audio) {
+      console.log('no audio selected')
+      return;}
+      else console.log('there is audio');
 
     const updateTime = () => {
       setCurrentTime(audio.currentTime);
@@ -62,6 +67,29 @@ export default function Playbar() {
     setIsSideDetailsOpen(!isSideDetailsOpen);
   };
 
+
+/////////////////////////////////////////
+  const [speed, setSpeed] = useState(1);
+
+  const addSpeed = () => {
+      if(speed < 2)
+        setSpeed(speed+0.5);
+  }
+
+  const removeSpeed = () => {
+    if(speed > 0.5)
+      setSpeed(speed-0.5);
+}
+
+useEffect(() => {
+  if (audioRef.current) {
+    audioRef.current.playbackRate = speed;
+  }
+}, [speed]);
+
+
+////////////////////////////////////////
+
   return (
     <>
       <div id="audio-player-container">
@@ -75,6 +103,13 @@ export default function Playbar() {
             ></button>
             <button className="skip-icon"></button>
           </div>
+
+          {/* /////////////////////////////////////// */}
+          <button onClick={addSpeed}>+</button>
+          <h2>x{speed}</h2>
+          <button onClick={removeSpeed}>-</button>
+          {/* /////////////////////////////////////// */}
+
           <button className="hamburger-menu" onClick={toggleSideDetails}>
             <span></span>
             <span></span>
