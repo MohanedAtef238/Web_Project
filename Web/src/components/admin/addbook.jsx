@@ -42,11 +42,13 @@ function Addbook({ onCancel, userId }){
           const formData = new FormData();
           formData.append('title', title);
           formData.append('genre', genre);
-          if (!userId) {
+          console.log('userId is ', userId, ' and user.id is ', user.id)
+          if (!user.id) {
             console.error('No author ID available');
             return;
           }
-          formData.append('authorId', userId);
+         
+          formData.append('authorId', user.id );
           
           if (coverImageChanged && coverImageFile) {
             formData.append('coverImage', coverImageFile);
