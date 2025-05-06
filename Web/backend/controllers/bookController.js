@@ -112,6 +112,23 @@ const deleteBook = async (req, res) => {
         res.status(500).json({ error: error.message });
     }
 }
+
+const editBook = async (req, res) => {
+  try {
+    const { id, title, genre } = req.body;
+    const book = await Book.findByPk(id);
+    if (!book) return res.status(404).json({ error: 'book not found' });
+
+    book.title = title;
+    book.genre = genre;
+    await book.save();
+
+    res.status(200).json(book);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
 // No UI currently so not using it 
 // const updateBook = async (req, res) => { 
 //     try {
@@ -132,4 +149,4 @@ const deleteBook = async (req, res) => {
 //     }
 // };
 
-module.exports = {getUserBooks,getBookDetails,addAdminBook, getAdminBookList, deleteBook}; 
+module.exports = {getUserBooks,getBookDetails,addAdminBook, getAdminBookList, deleteBook, editBook}; 

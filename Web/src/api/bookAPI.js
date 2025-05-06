@@ -43,6 +43,13 @@ export async function deleteBook(bookId) {
   return response.data;
 }
 
+export async function editBook(id, title, genre){
+  const response = await axios.post(`${API_BASE}/books/admin/editbook`, {
+    id, title, genre
+  });
+  return response.data
+}
+
 // export async function fetchCover(coverpath) {
 //   console.log("ferching cover image from ", coverpath);
 //   const response = await axios.get(`${API_BASE}/uploads/${coverpath}`);
