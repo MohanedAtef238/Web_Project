@@ -80,16 +80,16 @@
   
   .createbook,
   .cancel-btn {
-    flex: 1;               /* Makes both buttons take equal space */
-    min-width: 150px;       /* Prevents buttons from being too small */
-    padding: 11px 16px;     /* Same padding for both buttons */
+    flex: 1;             
+    min-width: 150px;       
+    padding: 11px 16px;     
     border: none;
     border-radius: 999px;
     font-weight: bold;
     font-size: 0.9rem;
     cursor: pointer;
     transition: background-color 0.3s ease, transform 0.1s ease;
-    text-align: center;     /* Center text */
+    text-align: center;    
   }
   
   .createbook {
@@ -136,7 +136,7 @@
     .image-container-bookk,
     .content-container-bookk {
       width: 100%;
-      min-width: 0; /* remove min-width restriction */
+      min-width: 0; 
     }
   
     .add-field-input-bookk,

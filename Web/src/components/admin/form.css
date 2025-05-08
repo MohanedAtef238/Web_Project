@@ -1,7 +1,7 @@
 .form {
     height: 100vh;
     display: flex;
-    background-color: #121212; /* Spotify dark background */
+    background-color: #121212; 
     font-family: 'Helvetica Neue', 'Segoe UI', sans-serif;
     gap: 5px;
 }
