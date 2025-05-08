@@ -113,3 +113,82 @@
 .stupidbuttons{
     margin-bottom: 20px;
 }
+
+
+@media (max-width: 1024px) {
+    .admin-page {
+      margin: 5% 5%;
+    }
+  
+    .page-title {
+      margin-left: 5%;
+      font-size: 1.75rem;
+    }
+  
+    .logout-button {
+      margin-right: 10px;
+      padding: 0.4rem 0.8rem;
+    }
+  
+    .div-section-layout {
+      padding: 4%;
+    }
+  }
+  
+  @media (max-width: 768px) {
+    .page-title {
+      font-size: 1.5rem;
+      margin-left: 4%;
+      text-align: center;
+    }
+  
+    .logout-button {
+      float: none;
+      display: block;
+      margin: 10px auto 20px auto;
+    }
+  
+    .tab-buttons,
+    .stupidbuttons {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+  
+    .users-table-users-button,
+    .books-table-users-button,
+    .users-table-books-button,
+    .books-table-books-button {
+      width: 100%;
+      margin: 5px 0;
+    }
+  
+    .div-section-layout {
+      padding: 5%;
+      border-radius: 8px;
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .page-title {
+      font-size: 1.25rem;
+      margin: 10px;
+    }
+  
+    .logout-button {
+      font-size: 0.9rem;
+      padding: 0.4rem 0.7rem;
+    }
+  
+    .users-table-users-button,
+    .books-table-users-button,
+    .users-table-books-button,
+    .books-table-books-button {
+      font-size: 0.9rem;
+    }
+  
+    .div-section-layout {
+      padding: 4%;
+    }
+  }
+  
