@@ -1,4 +1,4 @@
-import './form.css';
+import './addbook.css'
 import { useState } from 'react';
 import { useNavigate, Link } from "react-router-dom";
 import UploadPlaybar from '../playbar/upload_playbar.jsx';
@@ -81,19 +81,20 @@ function Addbook({ onCancel, userId }){
     };
     
     return(
-        <div>
-             <form className="form">
-                <div className='image-container'>
+   
+        <div className='form-bookk-wrapper'>
+             <form className="form-bookk">
+                <div className='image-container-bookk'>
                     <h2>
                         Upload book image
                     </h2>
                     {previewImageURL && <img src={previewImageURL} alt="Cover Image" />}
                     {!coverImageChanged && <input type='file' id='imageUpload' accept='image/*' onChange={handle_image_upload}/>}
                 </div>
-                <div className='content-container'>
-                    <input className='add-field-input ' placeholder="e.g. Lord of The Ring" value={title}   onChange={(e) => setTitle(e.target.value)}/>
-                    <input className='add-field-input ' placeholder="e.g. Fiction"   value={genre}   onChange={(e) => setGenre(e.target.value)}/> 
-                    <textarea className='add-field-input ' placeholder="Book description (optional)" value={description} onChange={(e) => setDescription(e.target.value)} rows="4"/>
+                <div className='content-container-bookk'>
+                    <input className='add-field-input-bookk ' placeholder="e.g. Lord of The Ring" value={title}   onChange={(e) => setTitle(e.target.value)}/>
+                    <input className='add-field-input-bookk ' placeholder="e.g. Fiction"   value={genre}   onChange={(e) => setGenre(e.target.value)}/> 
+                    <textarea className='add-field-input-bookk ' placeholder="Book description (optional)" value={description} onChange={(e) => setDescription(e.target.value)} rows="4"/>
                     {!audioFileChanged && <input type='file' id='audioUpload' accept='audio/mp3' onChange={handle_audio_upload}/>}
                     {previewAudioURL &&
                         <div>
@@ -103,9 +104,9 @@ function Addbook({ onCancel, userId }){
                         </div>
                     }
                     <br/>
-                    <div className='buttons-div'>
-                      <button type="button" disabled={!title || !genre || !coverImageFile || !audioFile} onClick={handleSubmit}>Create Book</button>
-                      <button type="button" className="cancel-btn submit-btn" onClick={handleCancel}>Cancel</button>
+                    <div className='buttons-div-bookk'>
+                      <button type="button" className='createbook' disabled={!title || !genre || !coverImageFile || !audioFile} onClick={handleSubmit}>Create Book</button>
+                      <button type="button" className="cancel-btn submit-btn-book" onClick={handleCancel}>Cancel</button>
                     </div>
                   
                     {/*I think since we need an author we can make the author the platform */}
@@ -113,7 +114,9 @@ function Addbook({ onCancel, userId }){
                 </div>
             </form>
         </div>
+        
     )
+    
 }
 
 export default Addbook;
