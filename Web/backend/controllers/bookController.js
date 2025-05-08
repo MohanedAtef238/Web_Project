@@ -3,7 +3,7 @@ const { Book, User } = require('../models');
 
 const getAdminBookList = async (req, res) => {
     try { 
-        const books = await Book.findAll({ attributes: ['id', 'title', 'genre', 'duration', 'description'] });
+        const books = await Book.findAll({ attributes: ['id', 'title', 'genre', 'description'] });
         res.status(200).json(books);
     } catch (error) {
         res.status(500).json({ error: error.message });
@@ -21,7 +21,7 @@ const getUserBooks = async (req, res) => {
 
         const books = await Book.findAll({
             where: { authorId: user.id },
-            attributes: ['id', 'title', 'duration', 'coverImage', 'description']
+            attributes: ['id', 'title', 'coverImage', 'description']
         });
 
         res.json(books);
