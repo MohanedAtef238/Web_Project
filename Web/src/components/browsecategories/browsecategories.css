@@ -16,11 +16,23 @@
   
   .search-container {
     display: flex;
-    justify-content: center; 
+    padding-left: 868px;
     width: 100%; 
     margin-top: 5px;
     margin-bottom: 50px;
 
+  }
+
+  @media (max-width: 768px) {
+    .search-container{
+       padding-left: 350px;
+    }
+  }
+
+   @media (max-width: 468px) {
+    .search-container{
+       padding-left: 160px;
+    }
   }
   .categories-container,
 .search-results {
