@@ -1,12 +1,14 @@
 import React from 'react';
 import { useState, useEffect } from 'react';
 import './table.css';
-import { deleteUser } from '../../api/userAPI';
+import { deleteUser, editUser } from '../../api/userAPI';
 
 const AdminUserslist = ({ users }) => {
 
     const [usersList, setUsersList] = useState(users);
     const [searchTerm, setSearchTerm] = useState('');
+    const [editingUserId, setEditingUserId] = useState(null);
+    const [editedData, setEditedData] = useState({ username: '', email: '' });
 
     useEffect(() => {
         setUsersList(users);
@@ -19,6 +21,31 @@ const AdminUserslist = ({ users }) => {
         } catch (error) {
             console.error('Failed to delete user:', error.message);
         }
+    };
+
+    //for the editing stuff:
+    const handleEditClick = (user) => {
+        setEditingUserId(user.id);
+        setEditedData({ username: user.username, email: user.email });
+    };
+
+    const handleDoneClick = async (id) => {
+        try {
+            await editUser(id, editedData.username, editedData.email);
+            setUsersList(prev =>
+                prev.map(user =>
+                    user.id === id ? { ...user, ...editedData } : user
+                )
+            );
+            setEditingUserId(null);
+        } catch (error) {
+            console.error('Failed to update user:', error.message);
+        }
+    };
+
+    const handleInputChange = (e) => {
+        const { name, value } = e.target;
+        setEditedData(prev => ({ ...prev, [name]: value }));
     };
 
     const filteredUsers = usersList.filter(user =>
@@ -55,16 +82,43 @@ const AdminUserslist = ({ users }) => {
                             (user) => (
                                 <tr key={user.id}>
                                     <td className='th-td-styling'>
-                                    {user.username}
-                                    </td>
-                                    <td className='th-td-styling'>
-                                    {user.email}
-                                    </td>
-                                    <td className='th-td-styling'>
-                                        {/* {console.log('user creteaion: ', user.createdOn)} */}
-                                    {new Date(user.createdAt).toLocaleString()}
-                                    </td>
-                                    <td className='th-td-styling'>
+                                    {editingUserId === user.id ? (
+                                    <input
+                                        name="username"
+                                        value={editedData.username}
+                                        onChange={handleInputChange}
+                                        placeholder="Username"
+                                    />
+                                ) : (
+                                    user.username
+                                )}
+                            </td>
+                            <td className='th-td-styling'>
+                                {editingUserId === user.id ? (
+                                    <input
+                                        name="email"
+                                        value={editedData.email}
+                                        onChange={handleInputChange}
+                                        placeholder="Email"
+                                    />
+                                ) : (
+                                    user.email
+                                )}
+                            </td>
+                            <td className='th-td-styling'>
+                                {new Date(user.createdAt).toLocaleString()}
+                            </td>
+                            <td className='edit th-td-styling'>
+                                {editingUserId === user.id ? (
+                                    <button
+                                        style={{ backgroundColor: 'green', color: 'white' }}
+                                        onClick={() => handleDoneClick(user.id)}
+                                    >
+                                        Done
+                                    </button>
+                                ) : (
+                                    <button onClick={() => handleEditClick(user)}>Edit</button>
+                                )}
                                         <button className='delete-button' onClick={() => deleteFromUser(user.id)}>X</button>
                                     </td>
                                 </tr>

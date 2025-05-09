@@ -3,11 +3,30 @@ import { getAllFollowing } from '../../api/followAPI';
 import { getUserBooks } from '../../api/bookAPI';
 import { getUserPlaylists } from '../../api/playlistAPI';
 import { getUserFavorites } from '../../api/favoriteAPI';
+import AddBook from '../admin/addbook';
+import { useAuth } from '../../Context';
+import './Profile.css';
 
-const LibraryGrid = ({ type, username }) => {
+const LibraryGrid = ({ type, username, userId }) => {
   const [items, setItems] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [showAddBook, setShowAddBook] = useState(false);
+  const API_BASE = 'http://localhost:3000';
+  const { user } = useAuth();
+  
+  const effectiveUserId = user.id;
+
+  const refreshBooks = async () => {
+    if (type === 'books' && username) {
+      try {
+        const data = await getUserBooks(username);
+        setItems(data);
+      } catch (err) {
+        console.error(`Couldn't reload books:`, err);
+      }
+    }
+  };
 
   useEffect(() => {
     async function fetchData() {
@@ -25,7 +44,7 @@ const LibraryGrid = ({ type, username }) => {
           data = await getUserFavorites(username);
         }
 
-        setItems(data);
+        setItems(data || []); // Ensure data is an array even if null
         setError(null);
       } catch (err) {
         console.error(`Couldn't load ${type}:`, err);
@@ -38,36 +57,57 @@ const LibraryGrid = ({ type, username }) => {
     fetchData();
   }, [type, username]);
 
-  if (loading) return <div className="author-profile-loading">Loading...</div>; // neat ? 
+  if (loading) return <div className="author-profile-loading">Loading...</div>;
 
+  const handleBookAdded = () => {
+    setShowAddBook(false);
+    refreshBooks(); // Refresh the books after adding
+  };
+
+  if (showAddBook && type === 'books') {
+    return <AddBook 
+      onCancel={handleBookAdded} 
+      userId={effectiveUserId} 
+    />; 
+  }
   return (
     <div className="author-profile-library">
-      <h2 className="author-profile-section-title">
-        {type.charAt(0).toUpperCase() + type.slice(1)}
-      </h2>
+      <div className="author-profile-section-header">
+        <h2 className="author-profile-section-title">
+          {type.charAt(0).toUpperCase() + type.slice(1)}
+        </h2>
+        {type === 'books' && user && user.username === username && (
+          <button onClick={() => setShowAddBook(true)} className="add-book-button">
+            Add Book
+          </button>
+        )}
+      </div>
       <div className="author-profile-grid">
-        {items.map((item) => (
-          <div key={item.id} className="author-profile-grid-item">
-            <div className="author-profile-book-cover"
-              style={{
-                backgroundImage: `url('${('https://picsum.photos/200/300')}')`,
-                backgroundSize: 'cover',backgroundPosition: 'center'
-              }}
-            />
-            <div className="author-profile-book-info">
-              <h3 className="author-profile-book-title">
-                {type === 'following' ? item.username :
-                 type === 'playlists' ? item.name :
-                 item.title}
-              </h3>
-              <p className="author-profile-book-author">
-                {type === 'following' ? (item.isAuthor ? 'Author' : 'User') :
-                 type === 'playlists' ? `${item.bookCount || 0} books` :
-                 item.author}
-              </p>
+      {items.map((item) => {
+          const imageUrl = item.coverImage ? `${API_BASE}/${item.coverImage}` : "https://picsum.photos/200/300";
+          return (
+            <div key={item.id} className="author-profile-grid-item">
+              <div className="author-profile-book-cover"
+                style={{
+                  backgroundImage: `url('${imageUrl}')`,
+                  backgroundSize: 'cover', backgroundPosition: 'center'
+                }}
+              />
+              <div className="author-profile-book-info">
+                <h3 className="author-profile-book-title">
+                  {type === 'following' ? item.username :
+                  type === 'playlists' ? item.name :
+                  item.title}
+                </h3>
+                <p className="author-profile-book-author">
+                  {type === 'following' ? (item.isAuthor ? 'Author' : 'User') :
+                  type === 'playlists' ? `${item.bookCount || 0} books` :
+                  item.author}
+                </p>
+              </div>
             </div>
-          </div>
-        ))}
+          );
+        })}
       </div>
     </div>
   );

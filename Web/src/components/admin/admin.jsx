@@ -121,20 +121,22 @@ function Admin(){
       
     return( 
     <div className="scrollable-div-container">
-           <h2 className="page-title"> Admin page hehe </h2>
+           <h2 className="page-title"> Admin page </h2>
         <div className='admin-page'>
             <Link to='/' onClick={ () => {logout}}>
                 <button className="logout-button">Logout</button>
             </Link>
            
             {viewTable ? (
-                    <div>
+                    <div className="buttonsalign">
+                        <div className="stupidbuttons"> 
                         <button className="users-table-users-button" onClick={() => setTable(true)}>
                             Users
                         </button>
                         <button className="users-table-books-button" onClick={() => setTable(false)}>
                             Books
                         </button>
+                        </div>
                         <div className="div-section-layout">
                             {fetchUsersError ? (
                                 <p>Error fetching users.</p>
@@ -142,53 +144,36 @@ function Admin(){
                                 <AdminUserslist users={users} />
                             )}
                             <Link to="./adduser">
-                                <button>Add new user</button>
+                                <button className="addnew">Add new user</button>
                             </Link>
                         </div>
                     </div>
                     
                     ) : (
                     <div>
+                    <div className="tab-buttons"> 
                         <button className="books-table-users-button" onClick={() => setTable(true)}>
                             Users
                         </button>
                         <button className="books-table-books-button" onClick={() => setTable(false)}>
                             Books
                         </button>
+                        </div>
                         <div className="div-section-layout">
-                        {/* {fetchBooksError ? (
-                                <p>Error fetching books.</p>
-                            ) : (
-                                <AdminBookslist books={books} />
-                            )} */}
-                            {/* by passing fetchbooks function we can now safely update the books without having to refresh the page */}
                             <AdminBookslist books={books} fetchBooks={fetchBooks}/>
                             <Link to="./addbook">
-                                <button>Add new book</button>
+                                <button className="addnew">Add new book</button>
                             </Link>
                         </div>
                     </div>
             )}
-{/* 
-            <div className="div-section-layout">
-                <AdminUserslist users={dummyusers}/>
-                <Link to="./adduser">
-                    <button>Add new user</button>
-                </Link>
-            </div>
-            <br/>
-            <div className="div-section-layout">
-                <AdminBookslist books={dummybooks}/>
-                <Link to="./addbook">
-                    <button>Add new book</button>
-                </Link>
-            </div>
-             */}
+
         </div>
        
+    
     </div>
  
-    )
+    );
 }
 
 export default Admin;

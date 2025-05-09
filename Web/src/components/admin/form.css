@@ -1,8 +1,8 @@
 .form {
     height: 100vh;
     display: flex;
-    background-color: #444444;
-    font-family: 'Segoe UI', sans-serif;
+    background-color: #121212; 
+    font-family: 'Helvetica Neue', 'Segoe UI', sans-serif;
     gap: 5px;
 }
 
@@ -10,29 +10,48 @@
     width: 100%;
     padding: 12px;
     margin-bottom: 16px;
-    border: 1px solid #ccc;
+    border: none;
     border-radius: 6px;
     font-size: 16px;
+    background-color: #2a2a2a;
+    color: white;
 }
 
-.image-container, .content-container {
+.add-field-input::placeholder {
+    color: #b3b3b3;
+}
+
+.image-container,
+.content-container {
     padding: 60px 40px;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     border-radius: 10px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
 }
 
 .image-container {
     flex: 1;
     background-color: #1a1a1a;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.image-container img {
+    max-width: 250px;
+    max-height: 300px;
+    object-fit: contain;
+    margin: 15px 0;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
 }
 
 .content-container {
     flex: 2;
-    background: linear-gradient(to bottom right, #2e2c2c, #1a1a1a);
+    background: linear-gradient(to bottom right, #2a2a2a, #121212);
     color: white;
 }
 
@@ -40,13 +59,42 @@
     max-width: 100%;
     height: auto;
     margin-bottom: 20px;
+    border-radius: 8px;
+    border: 2px solid #1DB954;
 }
 
 .add-user-form {
-    margin: 17% 30%;
+    margin: 8% auto;
+    width: 100%;
+    max-width: 400px;
+}
+
+.cancel-btn,
+.submit-btn {
+    background-color: #1DB954;
+    color: white;
+    border: none;
+    border-radius: 50px;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin: 10px;
 }
 
 .cancel-btn {
-    background-color: rgb(180, 3, 3);
-    color: whitesmoke;
+    background-color: #b30000;
+}
+
+.cancel-btn:hover {
+    background-color: #cc0000;
+}
+
+.addusertitle{
+    color: white;
+    text-align: center;
+    font-size: 2rem;
+    margin-top: 40px;
+    margin-bottom: 20px;
+    font-family: 'Helvetica Neue', 'Segoe UI', sans-serif;
 }

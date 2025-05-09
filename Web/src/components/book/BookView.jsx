@@ -10,6 +10,25 @@ import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
 dayjs.extend(relativeTime);
 
+const StarRating = ({ rating, setRating }) => {
+  return (
+    <div className="star-rating">
+      {[1, 2, 3, 4, 5].map((star) => (
+        <span
+          key={star}
+          onClick={() => setRating(star)}
+          style={{
+            cursor: 'pointer',
+            fontSize: '1.5rem',
+            color: rating >= star ? 'gold' : 'gray',
+          }}
+        >
+          ★
+        </span>
+      ))}
+    </div>
+  );
+};
 
 const Book = () => {
   const { title } = useParams(); 
@@ -21,6 +40,8 @@ const Book = () => {
           handleSubmit,
           formState: { errors },
         } = useForm();
+
+  const [rating, setRating] = useState(0);
 
   const [likedCount, setLikedCount] = useState(10000);
   const [isLiked, setIsLiked] = useState(false);
@@ -59,7 +80,7 @@ const [bookData, setBookData] = useState({
               }
           }
           get_Reviews();
-      }, []);
+      }, [book.id]);  //////// does this fix the review appears for all books bug
 
     async function handleAddReview(data) {
       try {
@@ -68,10 +89,12 @@ const [bookData, setBookData] = useState({
           user: user.username,
           book: book.id,
           message: data.conent,
+          rating,
         });
         console.log('frontend: added comment yay');
 
         setReviews([...reviews, review]);
+        setRating(0); //maybe remove this idk
       } catch (err) {
         console.error("Create review error:", err);
         // setAddError(true);
@@ -142,6 +165,17 @@ const [bookData, setBookData] = useState({
                     <span className="comment-user">{comment.username || 'fail'}</span>
                     {/* <span className="comment-date">{new Date(comment.createdAt).toLocaleString() || 'fail'}</span> */}
                     <span className="comment-date">{dayjs(comment.createdAt).fromNow() || 'fail'}</span>
+                    {[1, 2, 3, 4, 5].map((star) => (
+                      <span
+                        key={star}
+                        style={{
+                          fontSize: '1rem',
+                          color: comment.rating >= star ? 'gold' : 'gray',
+                        }}
+                      >
+                        ★
+                      </span>
+                    ))}
                   </div>
                 </div>
               ))
@@ -156,6 +190,7 @@ const [bookData, setBookData] = useState({
               className="comment-input"
               {...register("conent", { required: "lol idiot you didnt add a comment" })}
             />
+            <StarRating rating={rating} setRating={setRating} />
             <button type="submit" className="comment-submit-btn">
               Post Comment
             </button>

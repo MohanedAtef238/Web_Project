@@ -17,9 +17,24 @@ export async function getAdminBookList(){
   return response.data;
 }
 
-export async function addAdminBook(book) {
-  const response = await axios.post(`${API_BASE}/books/admin/book/add`, book);
-  return response.data;
+export async function addAdminBook(formData) {
+  try {
+    console.log('Sending form data to backend');
+    
+    const response = await axios.post(
+      `${API_BASE}/books/admin/book/add`,
+      formData,
+      {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
+      }
+    );
+    return response.data;
+  } catch (error) {
+    console.error('Error in addAdminBook API call:', error.response ? error.response.data : error.message);
+    throw error;
+  }
 }
 
 export async function deleteBook(bookId) {
@@ -27,3 +42,16 @@ export async function deleteBook(bookId) {
   const response = await axios.post(`${API_BASE}/books/delete/${bookId}`);
   return response.data;
 }
+
+export async function editBook(id, title, genre){
+  const response = await axios.post(`${API_BASE}/books/admin/editbook`, {
+    id, title, genre
+  });
+  return response.data
+}
+
+// export async function fetchCover(coverpath) {
+//   console.log("ferching cover image from ", coverpath);
+//   const response = await axios.get(`${API_BASE}/uploads/${coverpath}`);
+//   return response.data;
+// }

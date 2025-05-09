@@ -26,6 +26,8 @@ function Adduser(){
       }
 
     return(
+      <>
+        <h2 className='addusertitle'>Add User</h2>
         <form className='add-user-form' onSubmit={handleSubmit(handleAddUser)}>
             <input className='add-field-input ' placeholder='Username' {...register("username", {
                 required: "Username is required"})}/>
@@ -57,6 +59,7 @@ function Adduser(){
         </div>
         
       </form>
+      </>
     )
 }
 

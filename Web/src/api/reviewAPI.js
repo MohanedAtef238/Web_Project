@@ -3,16 +3,13 @@ import axios from 'axios';
 const API_BASE = 'http://localhost:3000';
 
 export async function getReviews(bookId) {
-    console.log('API: sending to controller now book id: ',bookId,' :D');
-    const response = await axios.post(`${API_BASE}/review/bookreviews`, { bookId });
-    return response.data;
-  }  
+  const response = await axios.post(`${API_BASE}/review/bookreviews`, { bookId });
+  return response.data;
+}
 
-export async function addReview({user, book, message}) {
-  console.log('api: sending review with details: ', user, book, message);
+export async function addReview({ user, book, message, rating }) {
   const response = await axios.post(`${API_BASE}/review/add`, {
-    user, book, message
+    user, book, message, rating
   });
-  console.log('api: done yay');
   return response.data;
 }

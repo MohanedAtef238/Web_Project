@@ -66,7 +66,7 @@ const getUserByCredentials = async (req, res) => {
       username: user.username,
       isAdmin: user.username.toLowerCase() === 'admin'
     };
-    const token = jwt.sign(tokenPayload, SECRET_KEY, { expiresIn: '1m' });  //change this later, this is just for testing
+    const token = jwt.sign(tokenPayload, SECRET_KEY, { expiresIn: '24h' });// yes its a day, i am not trying to get kicked out </3
 
     res.status(200).json({token, user: tokenPayload});
   } catch (error) {
@@ -95,4 +95,21 @@ const getUserDetails = async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 };
-module.exports = { createUser, deleteUser, getUserByCredentials , getAllUsers, getUserDetails};
+
+const editUser = async (req, res) => {
+  try {
+    const { id, username, email } = req.body;
+    const user = await User.findByPk(id);
+    if (!user) return res.status(404).json({ error: 'User not found' });
+
+    user.username = username;
+    user.email = email;
+    await user.save();
+
+    res.status(200).json(user);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
+module.exports = { createUser, deleteUser, getUserByCredentials , getAllUsers, getUserDetails, editUser};
