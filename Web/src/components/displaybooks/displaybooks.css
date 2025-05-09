@@ -1,15 +1,21 @@
 .display-booksd {
   color: white;
-  padding-top: 0;
+  padding-top: 10px;
   width: 100%;
   height: 100%;
   overflow-y: auto;
-  background-color: #0B0A0A;
+  background-color: #121212;
   box-sizing: border-box;
-  margin: 20px
+  margin: 0px;
+  flex-grow: 1;  
+   min-width: 100vh;   
+   padding-left: 20px;
+     overflow-y: scroll; /* or auto */
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE 10+ */
+  
 }
 
-    
   
 
   .rowd {
@@ -26,6 +32,7 @@
     margin-bottom: 20px;
     text-align: left;
   }
+  
   
 
   .book-rowd {
