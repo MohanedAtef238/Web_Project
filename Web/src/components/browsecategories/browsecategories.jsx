@@ -56,6 +56,7 @@ export default function BrowseCategories() {
 
   return (
     <div className="categories-container">
+      
       <div className="search-container">
         <SearchBar value={searchQuery} onChange={handleSearch} />
       </div>

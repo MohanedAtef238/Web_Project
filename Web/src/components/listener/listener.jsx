@@ -2,14 +2,16 @@ import React, { useState, useEffect, useRef } from "react";
 import Peer from "simple-peer";
 import { io } from "socket.io-client";
 import './listener.css';
+import { useNavigate } from 'react-router-dom';
+import { FaArrowLeft } from 'react-icons/fa';
 
-// Use Vite's environment variable convention
 const SIGNALING_SERVER_URL = import.meta.env.VITE_SIGNALING_SERVER_URL || "http://localhost:3000";
 
 const Listener = () => {
   const [isListening, setIsListening] = useState(false);
   const [streamId, setStreamId] = useState("");
   const audioRef = useRef(null);
+   const navigate = useNavigate();
 
   useEffect(() => {
     if (!isListening || !streamId) return;
@@ -48,6 +50,9 @@ const Listener = () => {
 
   return (
     <div className="listener-container">
+         <button className="back-buttonn" onClick={() => navigate(-1)}>
+        <FaArrowLeft/>
+      </button>
       <div className="input-button-group">
         <input
           type="text"

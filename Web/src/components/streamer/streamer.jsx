@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import Peer from "simple-peer";
 import { io } from "socket.io-client";
+import { FaArrowLeft } from 'react-icons/fa';
+import { useNavigate } from 'react-router-dom';
 import "./streamer.css"
 
 // Use Vite's environment variable convention
@@ -11,6 +13,7 @@ const Streamer = () => {
   const [streamId, setStreamId] = useState("");
   const [stream, setStream] = useState(null);
   const [socket, setSocket] = useState(null);
+  const navigate = useNavigate(); 
 
   const peers = {};
 
@@ -85,13 +88,18 @@ const Streamer = () => {
 return (
  
   <div className="bg-color">
-    <div className="imageContainer"></div>
-    <button className="startstreaming" onClick={isStreaming ? endStream : startStream}>
-      {isStreaming ? "End Streaming" : "Start Streaming Audio"}
-    </button>
-   </div>
-);
+      <div className="listener-container">
+        <button className="back-buttonn" onClick={() => navigate(-1)}>
+          <FaArrowLeft />
+        </button>
 
+        <div className="imageContainer"></div>
+
+        <button className="startstreaming" onClick={isStreaming ? endStream : startStream}>
+          {isStreaming ? "End Streaming" : "Start Streaming Audio"}
+        </button>
+      </div>
+    </div>
+  );
 };
-
 export default Streamer;

@@ -20,6 +20,7 @@
     width: 100%; 
     margin-top: 5px;
     margin-bottom: 50px;
+    flex:10000;
 
   }
 
@@ -31,7 +32,7 @@
 
    @media (max-width: 468px) {
     .search-container{
-       padding-left: 160px;
+       padding-left: 271px;
     }
   }
   .categories-container,
@@ -139,4 +140,16 @@
 .no-results p{
    justify-content: center ;
    margin-right: 20px;
+}
+
+.slay{
+  min-height: 100vh;
+    min-width: 100vw;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    background: #121212;
+    padding-left:10px;
+    position: relative;
 }
