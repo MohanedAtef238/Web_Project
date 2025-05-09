@@ -167,3 +167,45 @@
 }
 
 
+
+
+
+
+.headerSection-container {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 20px;
+}
+
+.top-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.nav-buttons {
+  display: flex;
+  gap: 12px;
+}
+
+
+.nav-buttons {
+  display: flex;
+  gap: 12px;
+}
+
+
+.nav-buttons button {
+  border: none;              
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.nav-buttons button:hover {
+  background-color: #282828;  
+  transform: scale(1.05);  
+}
+
+
