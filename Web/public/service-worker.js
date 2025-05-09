@@ -40,16 +40,7 @@ self.addEventListener('activate', (event) => {
 // });
 
 self.addEventListener('fetch', (event) => {
-  const url = new URL(event.request.url)
-  if (url.pathname.endsWith('.mp3')) {
-    console.log('SW handling audio fetch:', url.pathname);
-
-    event.respondWith(
-      caches.match(event.request).then((cachedResponse) => {
-        return cachedResponse || fetch(event.request);
-      })
-    );
-  }
+  event.respondWith(fetch(event.request));
 });
 
 
