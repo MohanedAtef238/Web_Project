@@ -4,8 +4,8 @@
 
 .startstreaming {
     display: block;
-    margin: 30px auto; /* centers the button horizontally */
-    background: #1db954; /* Spotify green */
+    margin: 30px auto; 
+    background: #1db954; 
     color: #fff;
     border: none;
     border-radius: 25px;
@@ -19,7 +19,7 @@
   }
   
   .startstreaming:hover {
-    background: #1ed760; /* lighter green on hover */
+    background: #1ed760;
     transform: scale(1.03);
   }
   
@@ -35,3 +35,12 @@
     font-weight: 500;
   }
   
+  .bg-color{
+    background-color: #121212;
+      min-height: 100vh; 
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+  }

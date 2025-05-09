@@ -83,14 +83,13 @@ const Streamer = () => {
   };
 
 return (
-  <>
+ 
+  <div className="bg-color">
     <div className="imageContainer"></div>
     <button className="startstreaming" onClick={isStreaming ? endStream : startStream}>
       {isStreaming ? "End Streaming" : "Start Streaming Audio"}
     </button>
-
-    {streamId && <div className="streamId">Stream ID: {streamId}</div>}
-  </>
+   </div>
 );
 
 };

@@ -1,11 +1,12 @@
 .categories-container {
-    max-width: 1200px;
+    max-width: 2000px;
     margin: 0 auto;
     height: 80vh;
     overflow-y: auto;
     display: flex;
     flex-direction: column;
     align-items: center;
+    background-color: #121212;
     
   }
 
@@ -21,6 +22,10 @@
     margin-bottom: 50px;
 
   }
+  .categories-container,
+.search-results {
+  padding-bottom: 80px; 
+}
   
   .categories-grid {
     display: grid;
