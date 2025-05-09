@@ -2,8 +2,9 @@ import './displaybooks.css';
 import SearchBar from '../searchbar/searchbar';
 import { useEffect, useState } from "react";
 import { useNavigate,Link } from 'react-router-dom';
-import { FaCog, FaSignOutAlt } from 'react-icons/fa'; 
+import { FaCog, FaSignOutAlt, FaUser } from 'react-icons/fa'; 
 import { useAuth } from '../../Context';
+
 
 function BookCard({ title, author, cover, onClick }) {
   return (
@@ -41,7 +42,7 @@ export default function DisplayBooks() {
   const [books, setBooks] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  const {logout} = useAuth();
+   const { logout, user } = useAuth();
 
   const categories = ['fantasy', 'science_fiction', 'biographies', 'recipes', 
     'romance', 'textbooks', 'children', 'history', 'religion', 
@@ -60,6 +61,15 @@ export default function DisplayBooks() {
     mystery_and_detective_stories: 'Mystery & Detective',
     plays: 'Plays & Dramas',
     science: 'Science & Technology'
+  };
+
+  const handleProfileClick = () => {
+    if (user && user.username) {
+      navigate(`/profile/${user.username}`);
+    } else {
+      console.log("No username found, redirecting to login...");
+      navigate('/login'); 
+    }
   };
 
   const handleBookClick = async (book) => {
@@ -172,6 +182,9 @@ export default function DisplayBooks() {
       <SearchBar value={searchQuery} onChange={handleSearch} />
     </div>
     <div className="button-container">
+      <div className="profile-icon" onClick={handleProfileClick}>
+        <FaUser size={20} color="#fff" />
+      </div>
       <div className="settings-icon" onClick={() => navigate('/settings')}>
         <FaCog size={20} color="#fff" />
       </div>
@@ -183,7 +196,7 @@ export default function DisplayBooks() {
     </div>
   </div>
 </div>
-  {x}
+{x}
 </div>
 
   );

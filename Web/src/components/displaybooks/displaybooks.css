@@ -136,7 +136,8 @@
 }
 
 .settings-icon,
-.logout-icon {
+.logout-icon,
+.profile-icon {
   cursor: pointer;
   padding: 8px;
   border-radius: 50%;
@@ -146,11 +147,16 @@
   justify-content: center;
   transition: background-color 0.3s;
   margin-right: 4px;
+  margin-top: 4px;
+
 }
 
-.logout-icon {   margin-right: 20px;}
+.logout-icon {   margin-right: 40px;}
 
 .settings-icon:hover,
-.logout-icon:hover {
+.logout-icon:hover,
+.profile-icon:hover {
   background-color: #555;
 }
+
+
