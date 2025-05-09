@@ -41,15 +41,16 @@ function RoutesWrapper() {
         <Routes>
           {/* <Route path="/testingroute" element={<ProtectedRoute><Admin /></ProtectedRoute>} /> */}
           <Route path="/" element={<Login />} />
-          {user?.isAdmin ? (
+          {/* {user?.isAdmin ? (
             <>
+            <Route path="/signup" element={<SignUp />} />
               <Route path="/admin/adduser" element={<ProtectedRoute><Adduser /></ProtectedRoute>} />
               <Route path="/admin/addbook" element={<ProtectedRoute><Addbook /></ProtectedRoute>} />
               <Route path="/admin" element={<ProtectedRoute><Admin /></ProtectedRoute>} />
             </>
-          ) : (
+          ) : ( */}
             <>
-              <Route path="/signup" element={<SignUp />} />
+              
               <Route path="/profile/:username" element={<AuthorProfile />} />
               <Route path="/userprofile/:username" element={<UserProfile />} />
               <Route path="/homepage" element={<ProtectedRoute><DisplayBooks /></ProtectedRoute>} />
@@ -61,7 +62,7 @@ function RoutesWrapper() {
               <Route path="/streamer" element={<Streamer />} />
               <Route path="/listener" element={<Listener />} />
             </>
-          )}
+          {/* )} */}
         </Routes>
       </div>
 
@@ -76,6 +77,19 @@ function App() {
       <RoutesWrapper />
     </AuthProvider>
   );
+}
+
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker
+      .register('../public/service-worker.js')
+      .then((registration) => {
+        console.log('SW registered: ', registration);
+      })
+      .catch((registrationError) => {
+        console.log('SW registration failed: ', registrationError);
+      });
+  });
 }
 
 export default App;

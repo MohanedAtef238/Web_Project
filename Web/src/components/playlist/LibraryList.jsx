@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import './Playlist.css';
 import playButtonImage from '../../assets/min-play.png';
 
+import sample from '../../../public/sample.mp3'
+
 
 const mockBooks = [
   {
@@ -58,6 +60,19 @@ const LibraryList = ({ type = 'books', authorName, header, book }) => {
     ///// nzwd here later
   };
 
+
+  const downloadBook = () => {
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.ready.then((registration) => {
+        registration.active.postMessage({
+          type: 'CACHE_AUDIO',
+          url: sample,
+        });
+      });
+    }
+  };
+
+  
   const handlePlay = () => {
     const playButton = document.querySelector('#audio-player-container #play-icon');
     if (playButton) {
@@ -108,6 +123,14 @@ const LibraryList = ({ type = 'books', authorName, header, book }) => {
               >
                 +
               </button>
+
+              <button
+                className="download-btn"
+                onClick={() => downloadBook(item.id)}
+                aria-label="Download Book Offline"
+              >
+                +
+              </button>
             </div>
           </div>
         ))}
@@ -117,3 +140,12 @@ const LibraryList = ({ type = 'books', authorName, header, book }) => {
 };
 
 export default LibraryList;
+
+
+
+
+
+
+
+
+
