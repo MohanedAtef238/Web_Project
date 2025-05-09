@@ -177,27 +177,32 @@ export default function DisplayBooks() {
   return (
     <div className="display-booksd">
       <div className="header">
-  <div className="search-and-buttons">
-    <div className="search-bar-container">
-      <SearchBar value={searchQuery} onChange={handleSearch} />
-    </div>
-    <div className="button-container">
-      <div className="profile-icon" onClick={handleProfileClick}>
-        <FaUser size={20} color="#fff" />
-      </div>
-      <div className="settings-icon" onClick={() => navigate('/settings')}>
-        <FaCog size={20} color="#fff" />
-      </div>
-      <Link to='/' onClick={logout}>
-        <div className="logout-icon">
-          <FaSignOutAlt size={20} color="#fff" />
+          <div className="search-and-buttons">
+            <div className="search-bar-container">
+              <SearchBar value={searchQuery} onChange={handleSearch} />
+            </div>
+            <div className="button-container">
+              <div className="profile-icon" onClick={handleProfileClick}>
+                <FaUser size={20} color="#fff" />
+              </div>
+              <div className="settings-icon" onClick={() => navigate('/settings')}>
+                <FaCog size={20} color="#fff" />
+              </div>
+              <Link to='/' onClick={logout}>
+                <div className="logout-icon">
+                  <FaSignOutAlt size={20} color="#fff" />
+                </div>
+              </Link>
+            </div>
+          </div>
+          <div className="nav-buttons">
+            <button  onClick={() => navigate('/browsecategories')}>Browse by Categories</button>
+            <button onClick={() => navigate('/listener')}>Listen Along</button>
+            <button onClick={() => navigate('/streamer')}>Stream Now</button>
+          </div>
         </div>
-      </Link>
-    </div>
+     {x}
   </div>
-</div>
-{x}
-</div>
 
   );
 }
