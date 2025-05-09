@@ -10,11 +10,11 @@
   }
   
   #play-icon.paused {
-    background-image: url('../../assets/playButton.png');
+    background-image: url('../../assets/pauseButton.png');
   }
 
   #play-icon.playing {
-    background-image: url('../../assets/pauseButton.png');
+    background-image: url('../../assets/playButton.png');
   }
   
   #play-icon:hover {
