@@ -215,7 +215,7 @@
   cursor: pointer;
   transition: color 0.2s ease;
   padding: 0; 
-  padding-left: 13px;
+  padding-left: 5px;
 }
 
 .like-btn:hover {
@@ -238,9 +238,9 @@
 }
 
 
-.add-to-playlist-btn {
+/* .add-to-playlist-btn {
   background: none;
-  /* border: 1px solid #b3b3b3; */
+  border: 1px solid #b3b3b3; 
   border-radius: 50%; 
   width: 24px;
   height: 24px;
@@ -251,9 +251,9 @@
   align-items: center;
   justify-content: center;
   transition: all 0.2s ease;
-}
+} */
 
-.add-to-playlist-btn:hover {
+/* .add-to-playlist-btn:hover {
   border-color: #ffffff;
   color: #ffffff;
 }
@@ -262,7 +262,7 @@
   outline: none;
   box-shadow: none;
   border: none;
-}
+} */
 
 button.playButtonMini {
   border-radius: 50%;
@@ -294,4 +294,17 @@ button.playButtonMini::before {
 button.playButtonMini:hover {
   transform: scale(1.1);
   background-color: rgba(255, 255, 255, 0.1);
+}
+
+
+
+.download-btn {
+  cursor: pointer;
+  padding: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 4px;
+  margin-top: 4px;
+  border:none;
 }

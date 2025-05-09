@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import './Playlist.css';
 import playButtonImage from '../../assets/min-play.png';
+import { HiOutlineDownload } from 'react-icons/hi';
+
 
 import sample from '../../../public/sample.mp3'
 
@@ -116,21 +118,19 @@ const LibraryList = ({ type = 'books', authorName, header, book }) => {
               >
                 {item.liked ? '❤️' : '♡'} 
               </button>
-              <button
+              {/* <button
                 className="add-to-playlist-btn"
                 onClick={() => addToPlaylist(item.id)}
                 aria-label="Add to playlist"
               >
                 +
-              </button>
+              </button> */}
 
-              <button
-                className="download-btn"
-                onClick={() => downloadBook(item.id)}
-                aria-label="Download Book Offline"
-              >
-                +
-              </button>
+
+              <div className="download-btn" onClick={() => downloadBook(item.id)} aria-label="Download Book Offline">
+                   <HiOutlineDownload />
+              </div>
+
             </div>
           </div>
         ))}
