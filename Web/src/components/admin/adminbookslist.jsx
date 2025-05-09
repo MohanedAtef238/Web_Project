@@ -72,7 +72,7 @@ const AdminBookslist = ({ books, fetchBooks }) => {
                     {/* {books && books.map( */}
                     {filteredBooks && filteredBooks.map(
                         (book) => (
-                            <tr key={book.id}>
+                            <tr className='rowrow' key={book.id}>
                                 <td className='th-td-styling'>
                                     <Link to={book.file_url}>
                                         <img src={book.cover_image_url} className="book-cover-img" />
@@ -105,7 +105,7 @@ const AdminBookslist = ({ books, fetchBooks }) => {
                                 <td className='th-td-styling'>
                                     {book.duration}
                                 </td>
-                                <td className='edit'>
+                                <td className='edit-booklist'>
                                     {editingBookId === book.id ? (
                                         <button
                                             style={{ backgroundColor: 'green', color: 'white' }}
