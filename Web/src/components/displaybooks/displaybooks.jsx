@@ -2,7 +2,7 @@ import './displaybooks.css';
 import SearchBar from '../searchbar/searchbar';
 import { useEffect, useState } from "react";
 import { useNavigate,Link } from 'react-router-dom';
-import { FaCog } from 'react-icons/fa'; 
+import { FaCog, FaSignOutAlt } from 'react-icons/fa'; 
 import { useAuth } from '../../Context';
 
 function BookCard({ title, author, cover, onClick }) {
@@ -166,17 +166,25 @@ export default function DisplayBooks() {
 
   return (
     <div className="display-booksd">
-      <SearchBar value={searchQuery} onChange={handleSearch}/>
-      <Link to='/' onClick={ () => {logout}}>
-        <button className='logout-btn'>
-          Logout
-        </button>
-      </Link>
-     
-      <div className="settings-icon" onClick={() => navigate('/settings')}>
-          <FaCog size={30} />
-      </div>
-        {x}
+      <div className="header">
+  <div className="search-and-buttons">
+    <div className="search-bar-container">
+      <SearchBar value={searchQuery} onChange={handleSearch} />
     </div>
+    <div className="button-container">
+      <div className="settings-icon" onClick={() => navigate('/settings')}>
+        <FaCog size={20} color="#fff" />
+      </div>
+      <Link to='/' onClick={logout}>
+        <div className="logout-icon">
+          <FaSignOutAlt size={20} color="#fff" />
+        </div>
+      </Link>
+    </div>
+  </div>
+</div>
+  {x}
+</div>
+
   );
 }
