@@ -8,6 +8,7 @@ export default function Playbar() {
   const [isSideDetailsOpen, setIsSideDetailsOpen] = useState(false);
   const [currentTime, setCurrentTime] = useState(0);
   const [duration, setDuration] = useState(0);
+  const [speed, setSpeed] = useState(1);
   const audioRef = useRef(null);
   const sliderRef = useRef(null);
 
@@ -69,23 +70,11 @@ export default function Playbar() {
 
 
 /////////////////////////////////////////
-  const [speed, setSpeed] = useState(1);
-
-  const addSpeed = () => {
-      if(speed < 2)
-        setSpeed(speed+0.5);
-  }
-
-  const removeSpeed = () => {
-    if(speed > 0.5)
-      setSpeed(speed-0.5);
-}
-
-useEffect(() => {
-  if (audioRef.current) {
-    audioRef.current.playbackRate = speed;
-  }
-}, [speed]);
+  useEffect(() => {
+    if (audioRef.current) {
+      audioRef.current.playbackRate = speed;
+    }
+  }, [speed]);
 
 
 ////////////////////////////////////////
@@ -105,9 +94,15 @@ useEffect(() => {
           </div>
 
           {/* /////////////////////////////////////// */}
-          <button onClick={addSpeed}>+</button>
-          <h2>x{speed}</h2>
-          <button onClick={removeSpeed}>-</button>
+             <select 
+                value={speed}
+                onChange={(e) => setSpeed(parseFloat(e.target.value))}
+                className="text-sm px-2 py-1 rounded bg-gray-800 text-white">
+                <option value="0.5">0.5x</option>
+                <option value="1">1x</option>
+                <option value="1.5">1.5x</option>
+                <option value="2">2x</option>
+              </select>
           {/* /////////////////////////////////////// */}
 
           <button className="hamburger-menu" onClick={toggleSideDetails}>

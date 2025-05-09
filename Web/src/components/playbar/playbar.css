@@ -10,11 +10,11 @@
 }
 
 #play-icon.playing {
-  background-image: url('../../assets/pauseButton.png');
+  background-image: url('../../assets/playButton.png');
 }
 
 #play-icon.paused {
-  background-image: url('../../assets/playButton.png');
+  background-image: url('../../assets/pauseButton.png');
 }
 
 .skip-icon {
@@ -39,7 +39,10 @@
   justify-content: space-between;
   width: 40px;
   height: 30px;
-  position: relative;
+ position: absolute; 
+  right: 20px;
+  top: 50%; 
+  transform: translateY(-50%); 
   z-index: 1001;
 }
 
@@ -87,7 +90,8 @@
   justify-content: center;
   align-items: center;
   gap: 20px;
-  flex-grow: 1;
+  flex-grow: 0;
+  margin-right: 50px;
 }
 
 #audio-player-container {
@@ -111,13 +115,6 @@
   margin-bottom: 6px; 
 }
 
-.controls {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 20px;
-  flex-grow: 1;
-}
 
 #seek-slider {
   width: 100%;
@@ -188,4 +185,94 @@
   white-space: nowrap;
   user-select: none;
 
+}
+
+select {
+  appearance: none; 
+  background-color: #333; 
+  color: #fff; 
+  font-size: 14px;
+  font-weight: 500;
+  border-radius: 20px; 
+  border: 1px solid #444; 
+  cursor: pointer;
+  outline: none;
+  transition: all 0.3s ease; 
+  width: 41px; 
+  text-align: center;
+   position: absolute; 
+  right: 100px; 
+  margin-top: 13px;
+}
+
+
+select::-ms-expand {
+  display: none; 
+}
+
+select:hover {
+  background-color: #444;
+}
+
+
+option {
+  background-color: #333;
+  color: white; 
+  padding: 8px 20px; 
+  cursor: pointer;
+  transition: background-color 0.3s ease; 
+}
+
+select::-webkit-dropdown-button {
+  transition: transform 0.2s ease; 
+}
+
+@media (max-width: 768px) {
+  #playbar-actions {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  .controls {
+    gap: 15px;
+    margin-right: 0;
+  }
+
+  .hamburger-menu {
+    right: 10px;
+  }
+
+  select {
+    right: 80px;
+    margin-top: 14px;
+    width: 33px; 
+  }
+
+  #seek-slider {
+    width: 90%;
+  }
+
+  #current-time {
+    font-size: 12px;
+  }
+}
+
+@media (max-width: 480px) {
+  select {
+    right: 48px; 
+  }
+
+  .controls {
+    gap: 10px;
+  }
+
+  .hamburger-menu {
+    right: 5px;
+  }
+
+  #playbar-actions {
+    flex-direction: column;
+    align-items: center;
+  }
 }
