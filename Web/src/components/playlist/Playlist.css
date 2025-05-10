@@ -230,7 +230,7 @@
 
 
 .like-btn.liked {
-  color: #1DB954; 
+  color: #b91d1d; 
 }
 
 .like-btn.liked:hover {
@@ -307,4 +307,10 @@ button.playButtonMini:hover {
   margin-right: 4px;
   margin-top: 4px;
   border:none;
+}
+
+.download-btn:hover {
+  border-radius: 50%;
+   transform: scale(1.1);
+   background-color: rgba(255, 255, 255, 0.1);
 }

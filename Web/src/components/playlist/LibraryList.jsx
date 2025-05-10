@@ -112,11 +112,11 @@ const LibraryList = ({ type = 'books', authorName, header, book }) => {
                 aria-label="Play audiobook"
               ></button>
               <button
-                className={`like-btn ${item.liked ? 'liked' : ''}`}
+                className={`like-btn ${item.liked ? 'liked' : ''}` }
                 onClick={() => toggleLike(item.id)}
                 aria-label={item.liked ? "Unlike" : "Like"}
               >
-                {item.liked ? '❤️' : '♡'} 
+                {item.liked ? '♥' : '♡'} 
               </button>
               {/* <button
                 className="add-to-playlist-btn"
