@@ -97,6 +97,7 @@ const getUserDetails = async (req, res) => {
 };
 
 const editUser = async (req, res) => {
+  console.log('if in admin ignore, user edit profile tho reached, req.body is: ', req.body);
   try {
     const { id, username, email } = req.body;
     const user = await User.findByPk(id);
@@ -112,4 +113,62 @@ const editUser = async (req, res) => {
   }
 };
 
-module.exports = { createUser, deleteUser, getUserByCredentials , getAllUsers, getUserDetails, editUser};
+const userEditUser = async (req, res) => {
+  console.log("edit user controller, this is the request body: ", req.body)
+  try {
+    const { id, bio, firstName, lastName } = req.body;
+    const user = await User.findByPk(id);
+    if (!user) return res.status(404).json({ error: 'User not found' });
+
+    if(firstName !== null)
+    {
+      console.log("changing first name with: ", firstName);
+      user.firstName = firstName;
+    }
+    if(lastName !== null)
+    {
+      user.lastName = lastName;
+    }
+      
+    if(bio !== null)
+      user.bio = bio;
+    console.log("user before changing: ", user);
+    await user.save();
+    console.log("user after changing: ", user);
+    res.status(200).json(user);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
+const getUserEditProfile = async (req, res) => {
+  console.log("hi, reached controller, this is the request body: ", req.body," and \nuser id: ", req.body.id)
+  try {
+    const { id } = req.body;
+    const user = await User.findByPk(id);//, {attributes: ['username', 'email', 'firstname', 'lastname', 'password', 'bio']});
+    if (!user) return res.status(404).json({ error: 'User not found' });
+    res.status(200).json(user);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
+const changePassword = async  (req, res) => {
+  console.log("reached password contorller, rewuest: ", req.body);
+  try {
+    const { id, oldpass, newpass } = req.body;
+    const user = await User.findByPk(id);
+    if (!user) return res.status(404).json({ error: 'User not found' });
+    const validate = await bcrypt.compare(oldpass, user.password);
+    if(!validate) return res.status(400).json({ error: "Wrong password"});
+    const hashedPassword = await bcrypt.hash(newpass, 10);
+    user.password = hashedPassword;
+    await user.save();
+    res.status(200).json(user);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
+userEditUser, getUserEditProfile, changePassword
+module.exports = { createUser, deleteUser, getUserByCredentials , getAllUsers, getUserDetails, editUser, userEditUser, getUserEditProfile, changePassword};

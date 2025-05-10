@@ -47,3 +47,28 @@ export async function editUser(id, username, email){
   });
   return response.data
 }
+
+//for the edit user along with editUser
+
+export async function getUserEditProfile(id) {
+  console.log("api: hi, searching with id", id);
+   const response = await axios.post(`${API_BASE}/user/edituser`, {
+    id
+  });
+  return response.data
+}
+
+export async function editUserProfile({id, bio, firstname, lastname}) {
+   const response = await axios.post(`${API_BASE}/user/edituser/profile`, {
+    id, bio, firstname, lastname
+  });
+  return response.data
+}
+
+export async function editUserPassword(id, oldpass, newpass ) {
+  console.log("api: the id is ",id, "and password are: ", oldpass, " and ", newpass)
+   const response = await axios.post(`${API_BASE}/user/edituser/password`, {
+    id, oldpass, newpass 
+  });
+  return response.data
+}

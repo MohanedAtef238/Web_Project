@@ -16,6 +16,7 @@ import CategoryBooks from './components/Categorypage/catagorypage.jsx';
 import Settings from './components/settings/settings.jsx';
 import { AuthProvider, useAuth } from './Context.jsx';
 import ProtectedRoute from './ProtectedRoute.jsx';
+import EditProfile from './components/settings/editprofile.jsx';
 import Streamer from './components/streamer/streamer.jsx';
 import Listener from './components/listener/listener.jsx';
 
@@ -39,7 +40,8 @@ function RoutesWrapper() {
       <div style={{ flex: 1, overflow: 'hidden' }}>
         <Routes>
           {/* <Route path="/testingroute" element={<ProtectedRoute><Admin /></ProtectedRoute>} /> */}
-          <Route path="/" element={<Login />} />
+          <Route path="/" element={<Login />} /> 
+          <Route path="/signup" element={<SignUp />} />
           {user?.isAdmin ? (
             <>
               <Route path="/admin/adduser" element={<ProtectedRoute><Adduser /></ProtectedRoute>} />
@@ -48,7 +50,6 @@ function RoutesWrapper() {
             </>
           ) : (
             <>
-              <Route path="/signup" element={<SignUp />} />
               <Route path="/profile/:username" element={<AuthorProfile />} />
               <Route path="/homepage" element={<ProtectedRoute><DisplayBooks /></ProtectedRoute>} />
               <Route path="/playlist/:name" element={<Playlist />} />
@@ -56,6 +57,7 @@ function RoutesWrapper() {
               <Route path="/browsecategories" element={<BrowseCategories />} />
               <Route path="/browsecategories/:id" element={<CategoryBooks />} />
               <Route path="/settings" element={<Settings />} />
+              <Route path="/editprofile" element={<EditProfile />} />
               <Route path="/streamer" element={<Streamer />} />
               <Route path="/listener" element={<Listener />} />
             </>
