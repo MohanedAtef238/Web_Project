@@ -16,7 +16,7 @@ function Signup() {
     async function handleSignup(data) {
       try {
         const user = await createUser(data);
-        navigate(`/profile/${user.username}`);
+        navigate(`/homepage`);
       } catch (err) {
         console.error("Signup error:", err);
         setLoginError(true);
