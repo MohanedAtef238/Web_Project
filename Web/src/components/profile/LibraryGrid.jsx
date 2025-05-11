@@ -5,6 +5,7 @@ import { getUserPlaylists } from '../../api/playlistAPI';
 import { getUserFavorites } from '../../api/favoriteAPI';
 import AddBook from '../admin/addbook';
 import { useAuth } from '../../Context';
+import { useNavigate } from 'react-router-dom';
 import './Profile.css';
 
 const LibraryGrid = ({ type, username, userId }) => {
@@ -14,8 +15,27 @@ const LibraryGrid = ({ type, username, userId }) => {
   const [showAddBook, setShowAddBook] = useState(false);
   const API_BASE = 'http://localhost:3000';
   const { user } = useAuth();
+  const navigate = useNavigate();
   
   const effectiveUserId = user.id;
+
+  const handleBookClick = async (book) => {
+    console.log(`Clicked book: ${book.title}`);
+    navigate(`/book/${book.title}`, {
+      state: {
+        book: {
+          ...book,
+          cover: book.coverImage ? `${API_BASE}/${book.coverImage}` : "https://picsum.photos/200/300",
+          author: username
+        },
+      },
+    });
+  };
+// very simple implementation for accessing user profiles as a button. dont look into it >:c
+  const handleProfileClick = (profileUsername) => {
+    console.log(`Clicked profile: ${profileUsername}`);
+    navigate(`/profile/${profileUsername}`);
+  };
 
   const refreshBooks = async () => {
     if (type === 'books' && username) {
@@ -36,8 +56,6 @@ const LibraryGrid = ({ type, username, userId }) => {
         let data;
         if (type === 'books') {
           data = await getUserBooks(username);
-        } else if (type === 'playlists') {
-          data = await getUserPlaylists(username);
         } else if (type === 'following') {
           data = await getAllFollowing(username);
         } else if (type === 'favorites') {
@@ -86,7 +104,18 @@ const LibraryGrid = ({ type, username, userId }) => {
       {items.map((item) => {
           const imageUrl = item.coverImage ? `${API_BASE}/${item.coverImage}` : "https://picsum.photos/200/300";
           return (
-            <div key={item.id} className="author-profile-grid-item">
+            <div 
+              key={item.id} 
+              className="author-profile-grid-item"
+              onClick={() => {
+                if (type === 'books') {
+                  handleBookClick(item);
+                } else if (type === 'following') {
+                  handleProfileClick(item.username);
+                }
+              }}
+              style={{ cursor: (type === 'books' || type === 'following') ? 'pointer' : 'default' }}
+            >
               <div className="author-profile-book-cover"
                 style={{
                   backgroundImage: `url('${imageUrl}')`,

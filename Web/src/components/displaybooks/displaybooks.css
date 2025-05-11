@@ -8,11 +8,11 @@
   box-sizing: border-box;
   margin: 0px;
   flex-grow: 1;  
-   min-width: 100vh;   
-   padding-left: 20px;
-     overflow-y: scroll; /* or auto */
-  scrollbar-width: none; /* Firefox */
-  -ms-overflow-style: none; /* IE 10+ */
+  min-width: 100vh;   
+  padding-left: 20px;
+  overflow-y: scroll; 
+  scrollbar-width: none; 
+  -ms-overflow-style: none; 
   
 }
 

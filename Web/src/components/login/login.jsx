@@ -38,7 +38,7 @@ function Login() {
   }
 
   return (
-    <div className="login-container">
+   <div className="login-container">
       <div className="login-left">
         <form className="login-form" onSubmit={handleSubmit(handleLogin)}>
           <h2>Login to Your Account</h2>
@@ -51,11 +51,11 @@ function Login() {
               required: "Username or Email is required",
               pattern: {
                 value: /^[a-zA-Z0-9._@-]{3,}$/,
-                message: "Invalid input",
+                message: "Invalid input ",
               },
             })}
           />
-          {errors.email && <p className="error">{errors.email.message}</p>}
+          {errors.username && <p className="error">{errors.username.message}</p>}
 
           <input
             className="login-form-input"
@@ -77,7 +77,7 @@ function Login() {
 
       <div className="login-right">
         <h2>New Here?</h2>
-        <p>Sign up and discover a great amount of new opportunities!</p>
+        <p>Start your free reading journey today</p>
         <Link to="/signup">
           <button className="signup-btn">Sign up</button>
         </Link>

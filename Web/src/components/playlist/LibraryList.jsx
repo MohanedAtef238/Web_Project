@@ -1,9 +1,14 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './Playlist.css';
 import playButtonImage from '../../assets/min-play.png';
 import { HiOutlineDownload } from 'react-icons/hi';
-import { useBook } from './BookContext';
-import sample from '../../../public/sample.mp3';
+import { toggleFavorite, isFavorited } from '../../api/favoriteAPI';
+import { useAuth } from '../../Context';
+
+
+import sample from '../../../public/sample.mp3'
+
+
 
 const LibraryList = ({ type = 'books', authorName, header, book, books = [] }) => {
   const { handlePlayBook, selectedBookId } = useBook();
@@ -15,6 +20,20 @@ const getItems = () => {
   if (book) return [book];
   return [];
 };
+const LibraryList = ({ type = 'books', authorName, header, book }) => {
+  const { user } = useAuth();
+  const [isLiked, setisLiked] = useState(false);
+  const checkFavoriteStatus = async () => {
+    if (!user || !book?.id) return;
+    
+    try {
+      const favorited = await isFavorited(user.id, book.id);
+      setisLiked(favorited);
+    } catch (error) {
+      console.error(error);
+      setisLiked(false);
+    }
+  };
 
   const initialItems = getItems();
   const [items, setItems] = useState(
@@ -22,11 +41,22 @@ const getItems = () => {
   );
 
   console.log('LibraryList Items:', items);
+  useEffect(() => {
+    checkFavoriteStatus();
+  }, [book, user]);
 
-  const toggleLike = (id) => {
-    setItems((items) =>
-      items.map((item) => (item.id === id ? { ...item, liked: !item.liked } : item))
-    );
+  const handleLikeClick = async () => {
+    if (!user || !book?.id) {
+      console.log('User not logged in or missing book id');
+      return;
+    }
+
+    try {
+      await toggleFavorite(user.id, book.id);
+      checkFavoriteStatus();
+    } catch (error) {
+      console.error('Error toggling favorite', error);
+    }
   };
 
   const downloadBook = () => {
@@ -61,44 +91,32 @@ const getItems = () => {
     <div className="playlist-library">
       <h2 className="playlist-section-title">{header || defaultHeader}</h2>
       <div className="playlist-list">
-        {items.map((item) => (
-          <div key={item.id} className="playlist-list-item">
-            <div
-              className="playlist-list-item-cover"
-              style={{
-                backgroundImage: `url('${item.coverUrl || item.cover || item.profilePic}')`,
-                backgroundSize: 'cover',
-                backgroundPosition: 'center',
-              }}
-            />
-            <div className="playlist-list-info">
-              <h3 className="playlist-book-title">{item.title}</h3>
-              <p className="playlist-book-author">{item.author}</p>
-            </div>
-            <div className="playlist-list-actions">
-              <button
-                className={`playButtonMini ${selectedBookId === item.id ? 'playing' : ''}`}
-                style={{ backgroundImage: `url(${playButtonImage})` }}
-                onClick={() => handlePlay(item.id)}
-                aria-label="Play audiobook"
-              ></button>
-              <button
-                className={`like-btn ${item.liked ? 'liked' : ''}`}
-                onClick={() => toggleLike(item.id)}
-                aria-label={item.liked ? 'Unlike' : 'Like'}
-              >
-                {item.liked ? '❤️' : '♡'}
-              </button>
-              <div
-                className="download-btn"
-                onClick={() => downloadBook(item.id)}
-                aria-label="Download Book Offline"
-              >
-                <HiOutlineDownload />
-              </div>
+        <div className="playlist-list-item">
+          <div
+            className="playlist-list-item-cover"
+            style={{
+              backgroundImage: `url('${book.cover}')`,
+              backgroundSize: 'cover',
+              backgroundPosition: 'center',
+            }}
+          />
+          <div className="playlist-list-info">
+            <h3 className="playlist-book-title">{book.title}</h3>
+            <p className="playlist-book-author">{book.author}</p>
+          </div>
+          <div className="playlist-list-actions">
+            <button
+              className="playButtonMini"
+              style={{ backgroundImage: `url(${playButtonImage})` }}
+              onClick={handlePlay}
+              aria-label="Play audiobook"
+            />  
+              <button className={`book-view-thing-${isLiked ? 'liked' : 'not-liked'}-icon`} onClick={handleLikeClick}/>
+            <div className="download-btn" onClick={() => downloadBook(book.id)} aria-label="Download Book Offline">
+              <HiOutlineDownload />
             </div>
           </div>
-        ))}
+        </div>
       </div>
     </div>
   );

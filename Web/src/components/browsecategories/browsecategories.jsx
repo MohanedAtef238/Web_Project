@@ -12,6 +12,7 @@ import image9 from'../../assets/image9.jpg'
 import image10 from'../../assets/image10.jpg'
 import image11 from'../../assets/image11.jpg'
 import image12 from'../../assets/image12.jpg'
+import { FaArrowRight } from 'react-icons/fa';
 
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -56,7 +57,9 @@ export default function BrowseCategories() {
 
   return (
     <div className="categories-container">
-      
+          <button className="back-buttonnn-right" onClick={() => navigate(-1)}>
+        <FaArrowRight/>
+      </button>
       <div className="search-container">
         <SearchBar value={searchQuery} onChange={handleSearch} />
       </div>

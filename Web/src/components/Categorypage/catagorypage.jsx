@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import './categorypage.css';
+import { FaArrowRight } from 'react-icons/fa';
 
 export default function CategoryBooks() {
   const { id } = useParams();
@@ -54,6 +55,9 @@ export default function CategoryBooks() {
 
   return (
     <div>
+      <button className="back-button-right" onClick={() => navigate(-1)}>
+              <FaArrowRight/>
+            </button>
       <h1 className='catname'>Books in {categoryName} Category</h1>
       <div className="books-grid">
         {books.length > 0 ? (
