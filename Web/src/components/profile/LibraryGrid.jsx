@@ -107,13 +107,13 @@ const LibraryGrid = ({ type, username, userId }) => {
               key={item.id} 
               className="author-profile-grid-item"
               onClick={() => {
-                if (type === 'books') {
+                if (type === 'books' || type === 'favorites') {
                   handleBookClick(item);
                 } else if (type === 'following') {
                   handleProfileClick(item.username);
                 }
               }}
-              style={{ cursor: (type === 'books' || type === 'following') ? 'pointer' : 'default' }}
+              style={{ cursor: (type === 'books' || type === 'following' || type === 'favorites') ? 'pointer' : 'default' }}
             >
               <div className="author-profile-book-cover"
                 style={{
