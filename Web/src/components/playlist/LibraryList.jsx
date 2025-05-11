@@ -2,66 +2,32 @@ import React, { useState } from 'react';
 import './Playlist.css';
 import playButtonImage from '../../assets/min-play.png';
 import { HiOutlineDownload } from 'react-icons/hi';
+import { useBook } from './BookContext';
+import sample from '../../../public/sample.mp3';
 
+const LibraryList = ({ type = 'books', authorName, header, book, books = [] }) => {
+  const { handlePlayBook, selectedBookId } = useBook();
 
-import sample from '../../../public/sample.mp3'
+  console.log('LibraryList BookContext:', { handlePlayBook, selectedBookId }); 
 
-
-const mockBooks = [
-  {
-    id: 1,
-    title: "The Great Gatsby",
-    author: "F. Scott Fitzgerald",
-    coverUrl: "https://picsum.photos/600/600?random=1"
-  },
-  {
-    id: 2,
-    title: "To Kill a Mockingbird",
-    author: "Harper Lee",
-    coverUrl: "https://picsum.photos/600/600?random=2"
-  },
-  {
-    id: 3,
-    title: "1984",
-    author: "George Orwell",
-    coverUrl: "https://picsum.photos/600/600?random=3"
-  }
-];
-
-
-const LibraryList = ({ type = 'books', authorName, header, book }) => {
-
-  const mockRecording = {
-    title: book.title,
-    author: book.author,
-    coverUrl: book.cover
-  };
-
-  
-  const getItems = () => {
-    switch (type) {
-      case 'books':
-        return mockBooks;
-      case 'playlists':
-        return [mockRecording];
-      default:
-        return mockBooks;
-    }
-  };
+const getItems = () => {
+  if (books.length > 0) return books;
+  if (book) return [book];
+  return [];
+};
 
   const initialItems = getItems();
-  const [items, setItems] = useState(initialItems.map(item => ({ ...item, liked: false })));
+  const [items, setItems] = useState(
+    initialItems.map((item) => ({ ...item, liked: false }))
+  );
+
+  console.log('LibraryList Items:', items);
 
   const toggleLike = (id) => {
-    setItems(items.map(item =>
-      item.id === id ? { ...item, liked: !item.liked } : item
-    ));
+    setItems((items) =>
+      items.map((item) => (item.id === id ? { ...item, liked: !item.liked } : item))
+    );
   };
-
-  const addToPlaylist = (id) => {
-    ///// nzwd here later
-  };
-
 
   const downloadBook = () => {
     if ('serviceWorker' in navigator) {
@@ -74,11 +40,12 @@ const LibraryList = ({ type = 'books', authorName, header, book }) => {
     }
   };
 
-  
-  const handlePlay = () => {
-    const playButton = document.querySelector('#audio-player-container #play-icon');
-    if (playButton) {
-      playButton.click();
+  const handlePlay = (bookId) => {
+    console.log('handlePlay received bookId:', bookId); 
+    if (handlePlayBook) {
+      handlePlayBook(bookId);
+    } else {
+      console.error('handlePlayBook is not WORKINGF JEewfFIJWEFNOWEIFF');
     }
   };
 
@@ -86,16 +53,14 @@ const LibraryList = ({ type = 'books', authorName, header, book }) => {
 
   return (
     <div className="playlist-library">
-      <h2 className="playlist-section-title">
-        {header || defaultHeader}
-      </h2>
+      <h2 className="playlist-section-title">{header || defaultHeader}</h2>
       <div className="playlist-list">
         {items.map((item) => (
           <div key={item.id} className="playlist-list-item">
             <div
               className="playlist-list-item-cover"
               style={{
-                backgroundImage: `url('${item.coverUrl || item.profilePic}')`,
+                backgroundImage: `url('${item.coverUrl || item.cover || item.profilePic}')`,
                 backgroundSize: 'cover',
                 backgroundPosition: 'center',
               }}
@@ -105,32 +70,26 @@ const LibraryList = ({ type = 'books', authorName, header, book }) => {
               <p className="playlist-book-author">{item.author}</p>
             </div>
             <div className="playlist-list-actions">
-            <button
-                className="playButtonMini"
+              <button
+                className={`playButtonMini ${selectedBookId === item.id ? 'playing' : ''}`}
                 style={{ backgroundImage: `url(${playButtonImage})` }}
-                onClick={handlePlay}
+                onClick={() => handlePlay(item.id)}
                 aria-label="Play audiobook"
               ></button>
               <button
                 className={`like-btn ${item.liked ? 'liked' : ''}`}
                 onClick={() => toggleLike(item.id)}
-                aria-label={item.liked ? "Unlike" : "Like"}
+                aria-label={item.liked ? 'Unlike' : 'Like'}
               >
-                {item.liked ? '❤️' : '♡'} 
+                {item.liked ? '❤️' : '♡'}
               </button>
-              {/* <button
-                className="add-to-playlist-btn"
-                onClick={() => addToPlaylist(item.id)}
-                aria-label="Add to playlist"
+              <div
+                className="download-btn"
+                onClick={() => downloadBook(item.id)}
+                aria-label="Download Book Offline"
               >
-                +
-              </button> */}
-
-
-              <div className="download-btn" onClick={() => downloadBook(item.id)} aria-label="Download Book Offline">
-                   <HiOutlineDownload />
+                <HiOutlineDownload />
               </div>
-
             </div>
           </div>
         ))}
@@ -140,12 +99,3 @@ const LibraryList = ({ type = 'books', authorName, header, book }) => {
 };
 
 export default LibraryList;
-
-
-
-
-
-
-
-
-

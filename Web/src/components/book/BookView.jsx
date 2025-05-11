@@ -47,6 +47,7 @@ const Book = () => {
   const [isLiked, setIsLiked] = useState(false);
   const [isAuthorBooks, setIsAuthorBooks] = useState(true);
 const [bookData, setBookData] = useState({
+      BookID: book?.id,
       BookCoverImage: book?.cover || 'https://picsum.photos/200/300',
       description: book?.description || 'No description available.',
       author: book?.author || 'Unknown Author',
@@ -145,7 +146,7 @@ const [bookData, setBookData] = useState({
 
         <div className="book-content">
           <LibraryList
-            key={1} //this needs a key but idk what this is hehe, i just put 1 for now
+            //key={1} //this needs a key but idk what this is hehe, i just put 1 for now
             type="playlists"
             title={title}
             header={'Listen Now'}
