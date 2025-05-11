@@ -1,5 +1,17 @@
 const { Book, User, ReadingProgress } = require('../models');
 
+
+
+
+// exports.getReadingProgress = (req, res) => {
+//   res.send("getReadingProgress hit");
+// };
+
+// exports.updateReadingProgress = (req, res) => {
+//   res.send("updateReadingProgress hit");
+// };
+
+
 const getReadingProgress = async (req, res) => {
     try {
         const { userId, bookId } = req.params;

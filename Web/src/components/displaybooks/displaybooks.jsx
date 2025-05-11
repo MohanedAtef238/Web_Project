@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { useNavigate,Link } from 'react-router-dom';
 import { FaCog, FaSignOutAlt, FaUser } from 'react-icons/fa'; 
 import { useAuth } from '../../Context';
-
+import { v4 as uuidv4 } from 'uuid';
 
 function BookCard({ title, author, cover, onClick }) {
   return (
@@ -105,7 +105,7 @@ export default function DisplayBooks() {
               const author = authors && authors.length > 0 ? authors[0].name : "Unknown";
               
               return {
-                id: `${category}-${index}`,
+                id: uuidv4(),
                 title,
                 author,
                 category: categoryNamesMapping[category] || category,
