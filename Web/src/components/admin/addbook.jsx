@@ -6,6 +6,25 @@ import Playbar from '../playbar/playbar.jsx'
 import { addAdminBook } from '../../api/bookAPI.js';
 import { useAuth } from '../../Context';
 
+const categories = ['fantasy', 'science_fiction', 'biographies', 'recipes', 
+    'romance', 'textbooks', 'children', 'history', 'religion', 
+    'mystery_and_detective_stories', 'plays', 'science'];
+
+const categoryNamesMapping = {
+    fantasy: 'Must Read',
+    science_fiction: 'Science Fiction',
+    biographies: 'Biographies',
+    recipes: 'Recipes',
+    romance: 'Romance Novels',
+    textbooks: 'Textbooks',
+    children: 'Children\'s Books',
+    history: 'History & Culture',
+    religion: 'Religion & Philosophy',
+    mystery_and_detective_stories: 'Mystery & Detective',
+    plays: 'Plays & Dramas',
+    science: 'Science & Technology'
+};
+
 function Addbook({ onCancel, userId }){
     const [coverImageFile, setCoverImageFile] = useState(null);
     const [audioFile, setAudioFile] = useState(null);
@@ -39,6 +58,10 @@ function Addbook({ onCancel, userId }){
     };
     const navigate = useNavigate();
     const handleSubmit = async () => {
+        if (!genre) {
+            alert("Please select a genre.");
+            return;
+        }
         try {
           const formData = new FormData();
           formData.append('title', title);
@@ -93,7 +116,14 @@ function Addbook({ onCancel, userId }){
                 </div>
                 <div className='content-container-bookk'>
                     <input className='add-field-input-bookk ' placeholder="e.g. Lord of The Ring" value={title}   onChange={(e) => setTitle(e.target.value)}/>
-                    <input className='add-field-input-bookk ' placeholder="e.g. Fiction"   value={genre}   onChange={(e) => setGenre(e.target.value)}/> 
+                    <select className='add-field-input-bookk book-genre-dropdown' value={genre} onChange={(e) => setGenre(e.target.value)} required>
+                        <option value="">Select a genre</option>
+                        {categories.map(category => (
+                            <option key={category} value={category}>
+                                {categoryNamesMapping[category]}
+                            </option>
+                        ))}
+                    </select>
                     <textarea className='add-field-input-bookk ' placeholder="Book description (optional)" value={description} onChange={(e) => setDescription(e.target.value)} rows="4"/>
                     {!audioFileChanged && <input type='file' id='audioUpload' accept='audio/mp3' onChange={handle_audio_upload}/>}
                     {previewAudioURL &&
