@@ -2,24 +2,47 @@ const { Favorite, User, Book } = require('../models');
 
 const getUserFavorites = async (req, res) => {
     try {
-        const { userId } = req.params;
-        const user = await User.findByPk(userId);
-        
+        const { username } = req.params;
+        const user = await User.findOne({ 
+            where: { username: username },
+            attributes: ['id']
+        });
+        console.log('user', user);
         if (!user) {
             return res.status(404).json({ error: 'User not found' });
         }
 
         const favorites = await Favorite.findAll({
-            where: { userId },
+            where: { userId: user.id },
             include: [{
                 model: Book,
-                attributes: ['id', 'title', 'coverUrl', 'author']
+                as: 'book',
+                attributes: ['id']
             }]
         });
 
-        res.json(favorites.map(f => f.Book));
+        const bookIds = favorites.map(f => f.book.id);
+        const books = await Book.findAll({
+            where: { id: bookIds },
+            attributes: ['id', 'title', 'coverImage', 'authorId'],
+            include: [{
+                model: User,
+                as: 'author',
+                attributes: ['username']
+            }]
+        });
+
+        // Format the response
+        const formattedBooks = books.map(book => ({
+            id: book.id,
+            title: book.title,
+            coverImage: book.coverImage,
+            authorName: book.author.username
+        }));
+
+        res.json(formattedBooks);
     } catch (error) {
-        console.error('Error in getUserFavorites:', error);
+        console.error('Error in getUserFavorites :(((', error);
         res.status(500).json({ error: error.message });
     }
 };
