@@ -10,7 +10,6 @@ const bookRoutes = require('./routes/books');
 const playlistRoutes = require('./routes/playlists');
 const favoriteRoutes = require('./routes/favorites');
 const reviewRoutes = require('./routes/review');
-const progressRoutes = require('./routes/progress');
 
 const connectMongoDB = require('./config/mongodb');
 const { sequelize, syncDatabase } = require('./models');
@@ -44,7 +43,6 @@ app.use('/books', bookRoutes);
 app.use('/playlists', playlistRoutes);
 app.use('/favorites', favoriteRoutes);
 app.use('/review', reviewRoutes);
-app.use('/progress', progressRoutes);
 
 
 io.on("connection", (socket) => {

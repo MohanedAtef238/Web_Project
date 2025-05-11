@@ -66,7 +66,7 @@ const getUserByCredentials = async (req, res) => {
       username: user.username,
       isAdmin: user.username.toLowerCase() === 'admin'
     };
-    const token = jwt.sign(tokenPayload, SECRET_KEY, { expiresIn: '24h' });// yes its a day, i am not trying to get kicked out </3 //marry me
+    const token = jwt.sign(tokenPayload, SECRET_KEY, { expiresIn: '24h' });// yes its a day, i am not trying to get kicked out </3
 
     res.status(200).json({token, user: tokenPayload});
   } catch (error) {
@@ -74,7 +74,7 @@ const getUserByCredentials = async (req, res) => {
   }
 };
 
-const getAllUsers = async(req, res) => { 
+const getAllUsers = async(req, res) => {
   try {
     console.log('fetch users reached controller')
     const users = await User.findAll();

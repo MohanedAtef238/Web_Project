@@ -4,22 +4,12 @@ import playButtonImage from '../../assets/min-play.png';
 import { HiOutlineDownload } from 'react-icons/hi';
 import { toggleFavorite, isFavorited } from '../../api/favoriteAPI';
 import { useAuth } from '../../Context';
-import { useBook } from './BookContext';
-import sample from '../../../public/sample.mp3';
+
+
+import sample from '../../../public/sample.mp3'
 
 
 
-
-const LibraryList = ({ type = 'books', authorName, header, book, books = [] }) => {
-  const { handlePlayBook, selectedBookId } = useBook();
-
-  console.log('LibraryList BookContext:', { handlePlayBook, selectedBookId }); 
-
-const getItems = () => {
-  if (books.length > 0) return books;
-  if (book) return [book];
-  return [];
-};
 const LibraryList = ({ type = 'books', authorName, header, book }) => {
   const { user } = useAuth();
   const [isLiked, setisLiked] = useState(false);
@@ -35,12 +25,6 @@ const LibraryList = ({ type = 'books', authorName, header, book }) => {
     }
   };
 
-  const initialItems = getItems();
-  const [items, setItems] = useState(
-    initialItems.map((item) => ({ ...item, liked: false }))
-  );
-
-  console.log('LibraryList Items:', items);
   useEffect(() => {
     checkFavoriteStatus();
   }, [book, user]);
@@ -70,26 +54,21 @@ const LibraryList = ({ type = 'books', authorName, header, book }) => {
     }
   };
 
-  const handlePlay = (bookId) => {
-    console.log('handlePlay received bookId:', bookId); 
-    if (handlePlayBook) {
-      handlePlayBook(bookId);
-    } else {
-      console.error('handlePlayBook is not WORKINGF JEewfFIJWEFNOWEIFF');
-    }
-
+  
+  const handlePlay = () => {
     const playButton = document.querySelector('#audio-player-container #play-icon');
     if (playButton) {
       playButton.click();
     }
-    
   };
 
   const defaultHeader = type.charAt(0).toUpperCase() + type.slice(1);
 
   return (
     <div className="playlist-library">
-      <h2 className="playlist-section-title">{header || defaultHeader}</h2>
+      <h2 className="playlist-section-title">
+        {header || defaultHeader}
+      </h2>
       <div className="playlist-list">
         <div className="playlist-list-item">
           <div
@@ -108,7 +87,7 @@ const LibraryList = ({ type = 'books', authorName, header, book }) => {
             <button
               className="playButtonMini"
               style={{ backgroundImage: `url(${playButtonImage})` }}
-              onClick={() => handlePlay(item.id)}
+              onClick={handlePlay}
               aria-label="Play audiobook"
             />  
               <button className={`book-view-thing-${isLiked ? 'liked' : 'not-liked'}-icon`} onClick={handleLikeClick}/>
@@ -121,6 +100,14 @@ const LibraryList = ({ type = 'books', authorName, header, book }) => {
     </div>
   );
 };
-}
 
 export default LibraryList;
+
+
+
+
+
+
+
+
+

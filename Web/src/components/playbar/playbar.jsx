@@ -2,10 +2,8 @@ import { useEffect, useRef, useState } from 'react';
 import './playbar.css';
 import SideDetails from '../sideDetails/SideDetails';
 import dummyaudio from '../../../public/sample.mp3';
-import { getReadingProgress, updateReadingProgress } from "../../api/progressAPI";
-import { useAuth } from '../../Context';
 
-export default function Playbar({ bookId }) {
+export default function Playbar() {
   const [isPlaying, setIsPlaying] = useState(false);
   const [isSideDetailsOpen, setIsSideDetailsOpen] = useState(false);
   const [currentTime, setCurrentTime] = useState(0);
@@ -13,56 +11,6 @@ export default function Playbar({ bookId }) {
   const [speed, setSpeed] = useState(1);
   const audioRef = useRef(null);
   const sliderRef = useRef(null);
-  const lastSavedTime = useRef(0);
-
-  const { user } = useAuth();
-  const userId = user.id;
-
-  useEffect(() => {
-    console.log(bookId, userId)
-    if (!userId || !bookId) return;
-
-    const fetchProgress = async () => {
-      try {
-        const progress = await getReadingProgress(userId);
-        console.log(progress);
-        if (progress.currentTime && audioRef.current) {
-          audioRef.current.currentTime = progress.currentTime;
-          setCurrentTime(progress.currentTime);
-          lastSavedTime.current = progress.currentTime;
-        }
-      } catch (error) {
-        console.error('Failed to fetch reading progress:', error);
-      }
-    };
-
-    fetchProgress();
-  }, [userId, bookId]);
-
-
-  useEffect(() => {
-    if (!userId || !bookId || !isPlaying) return;
-
-    console.log("pleawefwekmfuff")
-
-    const saveProgress = async () => {
-      if (Math.abs(currentTime - lastSavedTime.current) >= 5) {
-        try {
-              console.log("please save el current time stuff")
-          await updateReadingProgress(userId, bookId, Math.floor(currentTime));
-          lastSavedTime.current = currentTime;
-        } catch (error) {
-          console.error('Failed to update reading progress:', error);
-        }
-      }
-    };
-
-    const interval = setInterval(saveProgress, 5000); 
-
-    return () => clearInterval(interval); 
-  }, [userId, bookId, currentTime, isPlaying]);
-
-
 
   const togglePlay = () => {
     if (!audioRef.current) return;

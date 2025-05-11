@@ -46,17 +46,12 @@ const Book = () => {
   const [rating, setRating] = useState(0);
   const [likedCount, setLikedCount] = useState(10000);
   const [isAuthorBooks, setIsAuthorBooks] = useState(true);
-const [bookData, setBookData] = useState({
-      BookID: book?.id,
-      BookCoverImage: book?.cover || 'https://picsum.photos/200/300',
-      description: book?.description || 'No description available.',
-      author: book?.author || 'Unknown Author',
+  const [bookData, setBookData] = useState({
+    BookCoverImage: book?.cover || 'https://picsum.photos/200/300',
+    description: book?.description || 'No description available.',
+    author: book?.author || 'Unknown Author',
+    id: book?.id
   });
-
-  // const [comments, setComments] = useState([
-  //   { id: 1, text: "Great book!", user: "Reader1", date: "2025-04-08" },
-  //   { id: 2, text: "Really enjoyed the plot", user: "BookLover", date: "2025-04-09" }
-  // ]);
 
   const [reviews, setReviews] = useState([]);
 
