@@ -13,29 +13,28 @@ const { Book, User, ReadingProgress } = require('../models');
 
 
 const getReadingProgress = async (req, res) => {
+    console.log("uswfjwkfwenfjkw");
     try {
-        const { userId, bookId } = req.params;
+ 
+        const { userId} = req.params;
+        console.log(userId);
         
         const user = await User.findByPk(userId);
         if (!user) {
-            return res.status(404).json({ error: 'User not found' });
-        }
-        const book = await Book.findByPk(bookId);
-        if (!book) {
-            return res.status(404).json({ error: 'Book not found' });
+            return res.status(405).json({ error: 'User not found' });
         }
 
         const progress = await ReadingProgress.findOne({
-            where: { userId, bookId },
+            where: { userId},
             include: [
-                { model: User, as: 'user' },
-                { model: Book, as: 'book' }
+                 { model: User, as: 'user' }
+            //     { model: Book, as: 'book' }
             ]
         });
 
-        // if (!progress) {
-        //     return res.status(404).json({ error: 'Reading progress not found' });
-        // }
+        if (!progress) {
+            return;// res.status(408).json({ error: 'Reading progress not found' });
+        }
 
         res.status(200).json(progress);
     } catch (error) {
@@ -53,10 +52,6 @@ const updateReadingProgress = async (req, res) => {
             return res.status(404).json({ error: 'User not found' });
         }
 
-        const book = await Book.findByPk(bookId);
-        if (!book) {
-            return res.status(404).json({ error: 'Book not found' });
-        }
 
         let progress = await ReadingProgress.findOne({
             where: { userId, bookId }

@@ -47,6 +47,12 @@ const getItems = () => {
     } else {
       console.error('handlePlayBook is not WORKINGF JEewfFIJWEFNOWEIFF');
     }
+
+    const playButton = document.querySelector('#audio-player-container #play-icon');
+    if (playButton) {
+      playButton.click();
+    }
+    
   };
 
   const defaultHeader = type.charAt(0).toUpperCase() + type.slice(1);

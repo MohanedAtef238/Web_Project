@@ -24,7 +24,7 @@ export default function Playbar({ bookId }) {
 
     const fetchProgress = async () => {
       try {
-        const progress = await getReadingProgress(userId, bookId);
+        const progress = await getReadingProgress(userId);
         console.log(progress);
         if (progress.currentTime && audioRef.current) {
           audioRef.current.currentTime = progress.currentTime;
@@ -43,9 +43,12 @@ export default function Playbar({ bookId }) {
   useEffect(() => {
     if (!userId || !bookId || !isPlaying) return;
 
+    console.log("pleawefwekmfuff")
+
     const saveProgress = async () => {
       if (Math.abs(currentTime - lastSavedTime.current) >= 5) {
         try {
+              console.log("please save el current time stuff")
           await updateReadingProgress(userId, bookId, Math.floor(currentTime));
           lastSavedTime.current = currentTime;
         } catch (error) {
