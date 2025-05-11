@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { getAllFollowing } from '../../api/followAPI';
 import { getUserBooks } from '../../api/bookAPI';
-import { getUserPlaylists } from '../../api/playlistAPI';
 import { getUserFavorites } from '../../api/favoriteAPI';
 import AddBook from '../admin/addbook';
 import { useAuth } from '../../Context';
@@ -73,7 +72,7 @@ const LibraryGrid = ({ type, username, userId }) => {
     }
 
     fetchData();
-  }, [type, username]);
+  }, [type, username, userId]);
 
   if (loading) return <div className="author-profile-loading">Loading...</div>;
 

@@ -4,9 +4,9 @@ import playButtonImage from '../../assets/min-play.png';
 import { HiOutlineDownload } from 'react-icons/hi';
 import { toggleFavorite, isFavorited } from '../../api/favoriteAPI';
 import { useAuth } from '../../Context';
+import { useBook } from './BookContext';
+import sample from '../../../public/sample.mp3';
 
-
-import sample from '../../../public/sample.mp3'
 
 
 
@@ -108,7 +108,7 @@ const LibraryList = ({ type = 'books', authorName, header, book }) => {
             <button
               className="playButtonMini"
               style={{ backgroundImage: `url(${playButtonImage})` }}
-              onClick={handlePlay}
+              onClick={() => handlePlay(item.id)}
               aria-label="Play audiobook"
             />  
               <button className={`book-view-thing-${isLiked ? 'liked' : 'not-liked'}-icon`} onClick={handleLikeClick}/>
@@ -121,5 +121,6 @@ const LibraryList = ({ type = 'books', authorName, header, book }) => {
     </div>
   );
 };
+}
 
 export default LibraryList;

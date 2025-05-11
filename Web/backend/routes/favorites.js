@@ -6,7 +6,7 @@ const {
     isFavorited
 } = require('../controllers/favoriteController');
 
-router.get('/user/:userId', getUserFavorites);
+router.get('/user/:username', getUserFavorites);
 
 router.get('/user/:userId/book/:bookId', isFavorited);
 
