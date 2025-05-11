@@ -51,7 +51,7 @@ function Login() {
               required: "Username or Email is required",
               pattern: {
                 value: /^[a-zA-Z0-9._@-]{3,}$/,
-                message: "Invalid input",
+                message: "Invalid input ",
               },
             })}
           />
