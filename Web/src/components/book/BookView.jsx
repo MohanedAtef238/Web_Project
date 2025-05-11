@@ -84,6 +84,11 @@ const Book = () => {
         setRating(0);
       } catch (err) {
         console.error("Create review error:", err);
+        if (err.response?.data?.error === 'already reviewed') {
+          alert('You have already reviewed this book. You can only review a book once.');
+        } else {
+          alert('Failed to add review. Please try again.');
+        }
       }
     }
 
@@ -164,7 +169,7 @@ const Book = () => {
             <textarea
               placeholder="Add your comment..."
               className="comment-input"
-              {...register("conent", { required: "lol idiot you didnt add a comment" })}
+              {...register("content", { required: "lol idiot you didnt add a comment" })}
             />
             <StarRating rating={rating} setRating={setRating} />
             <button type="submit" className="comment-submit-btn">

@@ -17,7 +17,7 @@ const Book = sequelize.define('Book', {
 Book.associate = function(models) {
   Book.belongsTo(models.User, { foreignKey: 'authorId', as: 'author' });
   Book.hasMany(models.Favorite, { foreignKey: 'bookId', as: 'favoritedBy' });
-  Book.hasMany(models.ReadingProgress, { foreignKey: 'bookId', as: 'readers' });
+  //Book.hasMany(models.ReadingProgress, { foreignKey: 'bookId', as: 'readers' });
 };
 
 module.exports = Book; 
