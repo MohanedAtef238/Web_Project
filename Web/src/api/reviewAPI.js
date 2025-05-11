@@ -3,7 +3,7 @@ import axios from 'axios';
 const API_BASE = 'http://localhost:3000';
 
 export async function getReviews(bookId) {
-  const response = await axios.post(`${API_BASE}/review/bookreviews`, { bookId });
+  const response = await axios.get(`${API_BASE}/review/${bookId}`);
   return response.data;
 }
 
