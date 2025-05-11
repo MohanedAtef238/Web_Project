@@ -108,13 +108,11 @@ const AuthorProfile = () => {
               // Author view
               <>
                 <LibraryGrid type="books" username={user.username} />
-                <LibraryGrid type="playlists" username={user.username} />
               </>
             ) : (
               //Uset view
               <>
                 <LibraryGrid type="favorites" username={user.username} />
-                <LibraryGrid type="playlists" username={user.username} />
                 <LibraryGrid type="following" username={user.username} />
               </>
             )}
