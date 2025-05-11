@@ -1,10 +1,10 @@
 import './displaybooks.css';
 import SearchBar from '../searchbar/searchbar';
 import { useEffect, useState } from "react";
-import { useNavigate,Link } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { FaCog, FaSignOutAlt, FaUser } from 'react-icons/fa'; 
 import { useAuth } from '../../Context';
-
+import { addInteractions, fetchRecommendations } from '../../api/recommendationAPI';
 
 function BookCard({ title, author, cover, onClick }) {
   return (
@@ -41,8 +41,9 @@ export default function DisplayBooks() {
   const [searchResults, setSearchResults] = useState([]);
   const [books, setBooks] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [recommendations, setRecommendations] = useState([]);
 
-   const { logout, user } = useAuth();
+  const { logout, user } = useAuth();
 
   const categories = ['fantasy', 'science_fiction', 'biographies', 'recipes', 
     'romance', 'textbooks', 'children', 'history', 'religion', 
@@ -64,16 +65,20 @@ export default function DisplayBooks() {
   };
 
   const handleProfileClick = () => {
-    if (user && user.username) {
+    if (user?.username) {
       navigate(`/profile/${user.username}`);
     } else {
-      console.log("No username found, redirecting to login...");
-      navigate('/login'); 
+      navigate('/login');
     }
   };
 
   const handleBookClick = async (book) => {
-    console.log(`Clicked book: ${book.title}`);
+    try {
+      await addInteractions(user?.id, book.id, "click");
+      console.log('added interaction!');
+    } catch (error) {
+      console.error("Failed to log interaction", error);
+    }
 
     let description = 'No description available.'; 
     try {
@@ -102,8 +107,7 @@ export default function DisplayBooks() {
           .then((data) => {
             return data.works.map((book, index) => {
               const { title, authors, key } = book;
-              const author = authors && authors.length > 0 ? authors[0].name : "Unknown";
-              
+              const author = authors?.[0]?.name || "Unknown";
               return {
                 id: `${category}-${index}`,
                 title,
@@ -116,11 +120,18 @@ export default function DisplayBooks() {
           })
       )
     ).then((allBooksByCategory) => {
-      const all = allBooksByCategory.flat();
-      setBooks(all);
+      setBooks(allBooksByCategory.flat());
       setLoading(false);
     });
   }, []);
+
+  useEffect(() => {
+    if (user?.id) {
+      fetchRecommendations(user.id)
+        .then(setRecommendations)
+        .catch(console.error);
+    }
+  }, [user]);
 
   const handleSearch = (e) => {
     const query = e.target.value;
@@ -128,81 +139,100 @@ export default function DisplayBooks() {
     if (query.trim() === "") {
       setSearchResults([]);
     } else {
-      const results = books.filter((book) =>
-        book.title.toLowerCase().includes(query.toLowerCase())
+      setSearchResults(
+        books.filter((book) =>
+          book.title.toLowerCase().includes(query.toLowerCase())
+        )
       );
-      setSearchResults(results);
     }
   };
 
-  let x;
+  let content;
   if (loading) {
-    x = <p>Loading books...</p>;
+    content = <p>Loading books...</p>;
   } else if (searchQuery.trim() !== "") {
-    if (searchResults.length > 0) {
-      x = (
-        <div className="search-resultsd">
-          <h3>Results</h3>
-          <div className="book-rowd">
-            {searchResults.map((book) => (
-              <BookCard
-                key={book.id}
-                title={book.title}
-                author={book.author}
-                cover={book.cover}
-                onClick={() => handleBookClick(book)}
-              />
-            ))}
-          </div>
+    content = searchResults.length > 0 ? (
+      <div className="search-resultsd">
+        <h3>Results</h3>
+        <div className="book-rowd">
+          {searchResults.map((book) => (
+            <BookCard
+              key={book.id}
+              title={book.title}
+              author={book.author}
+              cover={book.cover}
+              onClick={() => handleBookClick(book)}
+            />
+          ))}
         </div>
-      );
-    } else {
-      x = <p>No results found for "{searchQuery}"</p>;
-    }
+      </div>
+    ) : (
+      <p>No results found for "{searchQuery}"</p>
+    );
   } else {
-    const grouped = categories.map((category) => {
-      const finalBooks = books.filter((book) => book.category === categoryNamesMapping[category]);
+    content = categories.map((category) => {
+      const categoryBooks = books.filter(
+        (book) => book.category === categoryNamesMapping[category]
+      );
       return (
         <Row
           key={category}
           category={categoryNamesMapping[category]}
-          books={finalBooks}
+          books={categoryBooks}
           onClick={handleBookClick}
         />
       );
     });
-    x = grouped;
   }
 
   return (
     <div className="display-booksd">
       <div className="header">
-          <div className="search-and-buttons">
-            <div className="search-bar-container">
-              <SearchBar value={searchQuery} onChange={handleSearch} />
-            </div>
-            <div className="button-container">
-              <div className="profile-icon" onClick={handleProfileClick}>
-                <FaUser size={20} color="#fff" />
-              </div>
-              <div className="settings-icon" onClick={() => navigate('/settings')}>
-                <FaCog size={20} color="#fff" />
-              </div>
-              <Link to='/' onClick={logout}>
-                <div className="logout-icon">
-                  <FaSignOutAlt size={20} color="#fff" />
-                </div>
-              </Link>
-            </div>
+        <div className="search-and-buttons">
+          <div className="search-bar-container">
+            <SearchBar value={searchQuery} onChange={handleSearch} />
           </div>
-          <div className="nav-buttons">
-            <button  onClick={() => navigate('/browsecategories')}>Browse by Categories</button>
-            <button onClick={() => navigate('/listener')}>Listen Along</button>
-            <button onClick={() => navigate('/streamer')}>Stream Now</button>
+          <div className="button-container">
+            <div className="profile-icon" onClick={handleProfileClick}>
+              <FaUser size={20} color="#fff" />
+            </div>
+            <div className="settings-icon" onClick={() => navigate('/settings')}>
+              <FaCog size={20} color="#fff" />
+            </div>
+            <Link to='/' onClick={logout}>
+              <div className="logout-icon">
+                <FaSignOutAlt size={20} color="#fff" />
+              </div>
+            </Link>
           </div>
         </div>
-     {x}
-  </div>
+        <div className="nav-buttons">
+          <button onClick={() => navigate('/browsecategories')}>Browse by Categories</button>
+          <button onClick={() => navigate('/listener')}>Listen Along</button>
+          <button onClick={() => navigate('/streamer')}>Stream Now</button>
+        </div>
+      </div>
 
+      {loading ? (
+        <p>Loading books...</p>
+      ) : (
+        <>
+          {recommendations.length > 0 && (
+            <Row
+              category="Recommended For You"
+              books={recommendations.map((book, index) => ({
+                id: `rec-${index}`,
+                title: book.title,
+                author: book.author || 'Unknown',
+                cover: book.cover || `https://picsum.photos/600?random=recommend-${index}`,
+                key: book.key || '',
+              }))}
+              onClick={handleBookClick}
+            />
+          )}
+          {content}
+        </>
+      )}
+    </div>
   );
 }

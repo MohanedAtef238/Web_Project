@@ -10,6 +10,7 @@ const bookRoutes = require('./routes/books');
 const playlistRoutes = require('./routes/playlists');
 const favoriteRoutes = require('./routes/favorites');
 const reviewRoutes = require('./routes/review');
+const recommendationRoutes = require('./routes/recommedations');
 
 const connectMongoDB = require('./config/mongodb');
 const { sequelize, syncDatabase } = require('./models');
@@ -43,6 +44,7 @@ app.use('/books', bookRoutes);
 app.use('/playlists', playlistRoutes);
 app.use('/favorites', favoriteRoutes);
 app.use('/review', reviewRoutes);
+app.use('/recommendation', recommendationRoutes);
 
 
 io.on("connection", (socket) => {
@@ -78,7 +80,7 @@ io.on("connection", (socket) => {
     }
   });
 });
-app.use('/review', reviewRoutes);
+// app.use('/review', reviewRoutes);    //why is this here twice?
 
 const initializeApp = async () => {
   try {

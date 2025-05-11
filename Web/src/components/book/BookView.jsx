@@ -5,6 +5,7 @@ import './BookView.css';
 import LibraryList from '../playlist/LibraryList';
 import { addReview, getReviews } from '../../api/reviewAPI';
 import { useAuth } from '../../Context';
+import { addInteractions } from '../../api/recommendationAPI';
 
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
@@ -31,75 +32,61 @@ const StarRating = ({ rating, setRating }) => {
 };
 
 const Book = () => {
-  const { title } = useParams(); 
-  const location = useLocation(); 
-  const book = location.state?.book;
+  const { title } = useParams();
+  const location = useLocation();
+  const book = location.state?.book;  // Ensure the book is passed through location state.
 
-   const {
-          register,
-          handleSubmit,
-          formState: { errors },
-        } = useForm();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
 
   const [rating, setRating] = useState(0);
+  const [reviews, setReviews] = useState([]);
+  const { user } = useAuth();
 
-  const [likedCount, setLikedCount] = useState(10000);
-  const [isLiked, setIsLiked] = useState(false);
-  const [isAuthorBooks, setIsAuthorBooks] = useState(true);
-const [bookData, setBookData] = useState({
-      BookCoverImage: book?.cover || 'https://picsum.photos/200/300',
-      description: book?.description || 'No description available.',
-      author: book?.author || 'Unknown Author',
+  // This state holds book data like description and author
+  const [bookData, setBookData] = useState({
+    BookCoverImage: book?.cover || 'https://picsum.photos/200/300',
+    description: book?.description || 'No description available.',
+    author: book?.author || 'Unknown Author',
   });
 
-  // const [comments, setComments] = useState([
-  //   { id: 1, text: "Great book!", user: "Reader1", date: "2025-04-08" },
-  //   { id: 2, text: "Really enjoyed the plot", user: "BookLover", date: "2025-04-09" }
-  // ]);
-
-  const [reviews , setReviews ] = useState([]);
-  // const [comment, setComment ] = useState([
-  //     { id: 1, text: "Great book!", user: "Reader1", date: "2025-04-08" },
-  //     { id: 2, text: "Really enjoyed the plot", user: "BookLover", date: "2025-04-09" }
-  //   ]);
-
-  const {user} = useAuth();
-
-   useEffect(() =>{
-          async function get_Reviews() {
-              try {
-                  console.log("Fetching reviews... for book id: ", book.id);  //remove after debugging
-                  const fetchedreviews = await getReviews(book.id);
-                  console.log("Fetched reviews:", fetchedreviews);
-                  //setUsers(fetchedreviews);
-                  setReviews(fetchedreviews);
-              }
-              catch (error) {
-                  console.error("Fetching reviews error: ", error);
-                  // setFetchReviewssError(true);  //add errors later
-              }
-          }
-          get_Reviews();
-      }, [book.id]);  //////// does this fix the review appears for all books bug
-
-    async function handleAddReview(data) {
-      try {
-        console.log('frontend: sending maya, ', book.id, ', and ', data);
-        const review = await addReview({
-          user: user.username,
-          book: book.id,
-          message: data.conent,
-          rating,
-        });
-        console.log('frontend: added comment yay');
-
-        setReviews([...reviews, review]);
-        setRating(0); //maybe remove this idk
-      } catch (err) {
-        console.error("Create review error:", err);
-        // setAddError(true);
+  // Fetch reviews for the specific book
+  useEffect(() => {
+    if (book && book.id) {
+      async function get_Reviews() {
+        try {
+          const fetchedReviews = await getReviews(book.id);
+          setReviews(fetchedReviews);
+        } catch (error) {
+          console.error("Fetching reviews error: ", error);
+        }
       }
+      get_Reviews();
     }
+  }, [book?.id]);  // Run only when the book's id changes
+
+  // Handle adding a review
+  async function handleAddReview(data) {
+    try {
+      const newReview = await addReview({
+        user: user.username,
+        book: book.id,
+        author: book.author,
+        genre: book.genre,
+        message: data.content,
+        rating,
+      });
+
+      // Add the new review to the reviews list
+      setReviews((prevReviews) => [...prevReviews, newReview]);
+      setRating(0); // Reset rating after posting a review
+    } catch (err) {
+      console.error("Create review error:", err);
+    }
+  }
 
   let likedButtonClass = 'book-not-liked-btn';
   if (isLiked) {
@@ -115,37 +102,25 @@ const [bookData, setBookData] = useState({
     <div className="book-wrapper">
       <div className="book-container">
         <div className="book-profile">
-        <div className="book-header">
-        <div className="book-header-content">
-            <img
-            src={bookData.BookCoverImage}
-            alt={`${title} cover`}
-            className="book-cover"
-            />
-            <div className="book-info">
-            <h1 className="book-title">{title}</h1>
-            <p className="book-author">{bookData.author}</p>
-            <p className="book-description">{bookData.description}</p>
-            {/* <p className="book-liked-count">
-                {likedCount.toLocaleString()} Likes
-            </p> */}
-            {/* <div className="book-actions">
-                <button
-                className={likedButtonClass}
-                onClick={() => setIsLiked(!isLiked)}
-                >
-                {ButtonText}
-                </button>
-            </div> */}
+          <div className="book-header">
+            <div className="book-header-content">
+              <img
+                src={bookData.BookCoverImage}
+                alt={`${title} cover`}
+                className="book-cover"
+              />
+              <div className="book-info">
+                <h1 className="book-title">{title}</h1>
+                <p className="book-author">{bookData.author}</p>
+                <p className="book-description">{bookData.description}</p>
+              </div>
             </div>
-        </div>
-        </div>
           </div>
         </div>
 
         <div className="book-content">
           <LibraryList
-            key={1} //this needs a key but idk what this is hehe, i just put 1 for now
+            key={book.id}  // Use book.id as key here
             type="playlists"
             title={title}
             header={'Listen Now'}
@@ -158,13 +133,14 @@ const [bookData, setBookData] = useState({
 
           <div className="comments-list">
             {reviews.length > 0 ? (
-              reviews.map(comment => (
+              reviews.map((comment) => (
                 <div key={comment.id} className="comment-item">
-                  <p className="comment-text">{comment.content || 'fail'}</p>
-                  <div className="comment-box-thing ">
-                    <span className="comment-user">{comment.username || 'fail'}</span>
-                    {/* <span className="comment-date">{new Date(comment.createdAt).toLocaleString() || 'fail'}</span> */}
-                    <span className="comment-date">{dayjs(comment.createdAt).fromNow() || 'fail'}</span>
+                  <p className="comment-text">{comment.content || 'No comment content'}</p>
+                  <div className="comment-box-thing">
+                    <span className="comment-user">{comment.username || 'Anonymous'}</span>
+                    <span className="comment-date">
+                      {dayjs(comment.createdAt).fromNow() || 'No date available'}
+                    </span>
                     {[1, 2, 3, 4, 5].map((star) => (
                       <span
                         key={star}
@@ -188,7 +164,7 @@ const [bookData, setBookData] = useState({
             <textarea
               placeholder="Add your comment..."
               className="comment-input"
-              {...register("conent", { required: "lol idiot you didnt add a comment" })}
+              {...register("content", { required: "Please write a comment!" })}
             />
             <StarRating rating={rating} setRating={setRating} />
             <button type="submit" className="comment-submit-btn">
@@ -197,7 +173,7 @@ const [bookData, setBookData] = useState({
           </form>
         </div>
       </div>
-    
+    </div>
   );
 };
 

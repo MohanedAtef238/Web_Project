@@ -170,5 +170,4 @@ const changePassword = async  (req, res) => {
   }
 };
 
-userEditUser, getUserEditProfile, changePassword
 module.exports = { createUser, deleteUser, getUserByCredentials , getAllUsers, getUserDetails, editUser, userEditUser, getUserEditProfile, changePassword};

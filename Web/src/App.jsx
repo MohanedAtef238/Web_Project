@@ -26,7 +26,7 @@ function RoutesWrapper() {
 
   const { user } = useAuth();
 
-  const hidePlaybar = path === '/' || path === '/signup' || path.startsWith('/admin');
+  const hidePlaybar = path === '/' || path === '/signup'|| path === '/settings'|| path === '/editprofile'|| path === '/streamer'|| path === '/listener' || path.startsWith('/admin');
 
   return (
     <div

@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_BASE = 'http://localhost:3000';
+const API_BASE = 'http://localhost:3000'; //make this :3000/user later and fix it everywhere
 
 export async function createUser({ username, email, password }) {
   const response = await axios.post(`${API_BASE}/user/signup`, {

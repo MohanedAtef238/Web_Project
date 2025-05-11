@@ -11,6 +11,10 @@ const reviewSchema = new mongoose.Schema({
   // helpfulVotes: {type: Number, default: 0},
   createdAt: {type: Date, default: Date.now},
   // updatedAt: {type: Date, default: Date.now}
+
+  //added these 2 for recs
+  genre: { type: String },
+  author: { type: String },
 }, {
   timestamps: true // helps in sorting and what not
 });
