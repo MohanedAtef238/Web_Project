@@ -19,12 +19,13 @@ import ProtectedRoute from './ProtectedRoute.jsx';
 import EditProfile from './components/settings/editprofile.jsx';
 import Streamer from './components/streamer/streamer.jsx';
 import Listener from './components/listener/listener.jsx';
+import { BookProvider, useBook } from './components/playlist/BookContext';
 
 function RoutesWrapper() {
   const location = useLocation();
   const path = location.pathname;
-
   const { user } = useAuth();
+  const { selectedBookId } = useBook(); 
 
   const hidePlaybar = path === '/' || path === '/signup' || path.startsWith('/admin');
 
@@ -39,8 +40,7 @@ function RoutesWrapper() {
     >
       <div style={{ flex: 1, overflow: 'hidden' }}>
         <Routes>
-          {/* <Route path="/testingroute" element={<ProtectedRoute><Admin /></ProtectedRoute>} /> */}
-          <Route path="/" element={<Login />} /> 
+          <Route path="/" element={<Login />} />
           <Route path="/signup" element={<SignUp />} />
           {user?.isAdmin ? (
             <>
@@ -64,8 +64,7 @@ function RoutesWrapper() {
           )}
         </Routes>
       </div>
-
-      {!hidePlaybar && <Playbar />}
+      {!hidePlaybar  && <Playbar bookId={selectedBookId} />}
     </div>
   );
 }
@@ -73,12 +72,12 @@ function RoutesWrapper() {
 function App() {
   return (
     <AuthProvider>
-      <RoutesWrapper />
+      <BookProvider>
+        <RoutesWrapper />
+      </BookProvider>
     </AuthProvider>
   );
 }
-
-
 
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {
@@ -92,6 +91,5 @@ if ('serviceWorker' in navigator) {
       });
   });
 }
-
 
 export default App;
