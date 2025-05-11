@@ -16,6 +16,7 @@ const Book = sequelize.define('Book', {
 
 Book.associate = function(models) {
   Book.belongsTo(models.User, { foreignKey: 'authorId', as: 'author' });
+  Book.belongsToMany(models.Playlist, { through: models.PlaylistBook, foreignKey: 'bookId' });
   Book.hasMany(models.Favorite, { foreignKey: 'bookId', as: 'favoritedBy' });
   Book.hasMany(models.ReadingProgress, { foreignKey: 'bookId', as: 'readers' });
 };
