@@ -7,8 +7,6 @@ const reviewSchema = new mongoose.Schema({
   //title: {type: String, required: true, trim: true, maxlength: 100},
   content: {type: String, required: true, trim: true},
   // likes: {type: Number, default: 0},
-  //isVerifiedPurchase: {type: Boolean, default: false},
-  // helpfulVotes: {type: Number, default: 0},
   createdAt: {type: Date, default: Date.now},
   // updatedAt: {type: Date, default: Date.now}
 }, {
