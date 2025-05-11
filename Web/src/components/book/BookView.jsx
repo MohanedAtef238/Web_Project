@@ -72,11 +72,10 @@ const Book = () => {
 
     async function handleAddReview(data) {
       try {
-        console.log('frontend: sending maya, ', bookData.id, ', and ', data);
         const review = await addReview({
-          user: user.username,
+          user: user.id,
           book: bookData.id,
-          message: data.conent,
+          message: data.content,
           rating,
         });
         console.log('frontend: added comment yay');
