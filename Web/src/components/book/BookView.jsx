@@ -46,6 +46,7 @@ const Book = () => {
   const [rating, setRating] = useState(0);
   const [likedCount, setLikedCount] = useState(10000);
   const [isAuthorBooks, setIsAuthorBooks] = useState(true);
+  const [errorMessage, setErrorMessage] = useState('');
   const [bookData, setBookData] = useState({
     BookCoverImage: book?.cover || 'https://picsum.photos/200/300',
     description: book?.description || 'No description available.',
@@ -79,16 +80,17 @@ const Book = () => {
           rating,
         });
         console.log('frontend: added comment yay');
-
+        setErrorMessage('');
         setReviews([...reviews, review]);
         setRating(0);
       } catch (err) {
         console.error("Create review error:", err);
         if (err.response?.data?.error === 'already reviewed') {
-          alert('You have already reviewed this book. You can only review a book once.');
+          setErrorMessage('You have already reviewed this book. You can only review a book once.');
         } else {
-          alert('Failed to add review. Please try again.');
+          setErrorMessage('Failed to add review. Please try again.');
         }
+        setTimeout(() => setErrorMessage(''), 3000);
       }
     }
 
@@ -166,6 +168,20 @@ const Book = () => {
           </div>
 
           <form className="comment-form" onSubmit={handleSubmit(handleAddReview)}>
+            {/* googled an implementation for this error message thats why its inline */}
+            {errorMessage && (
+              <div className="error-notification" style={{
+                backgroundColor: '#ffebee',
+                color: '#c62828',
+                padding: '10px',
+                borderRadius: '4px',
+                marginBottom: '10px',
+                fontSize: '14px',
+                border: '1px solid #ef9a9a'
+              }}>
+                {errorMessage}
+              </div>
+            )}
             <textarea
               placeholder="Add your comment..."
               className="comment-input"
