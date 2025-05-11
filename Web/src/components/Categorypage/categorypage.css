@@ -97,21 +97,7 @@
     flex-grow: 1; 
 }
 
-.back-button-right {
-  position: fixed;
-  top: 20px; 
-  right: 20px;  
-  background-color: transparent;
-  border: none;
-  font-size: 24px;
-  cursor: pointer;
-  z-index: 1000;
-  transition: color 0.2s ease;
-}
 
-.back-button-right:hover {
-  color: #b6c2ba;  
-}
 @media (max-width: 768px) {
     .books-grid {
         grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); 

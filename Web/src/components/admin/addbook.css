@@ -172,21 +172,4 @@
       width: 100%;
     }
   }
-  .book-genre-dropdown {
-    width: 100% !important;
-    max-width: 350px !important;
-    min-width: 150px;
-    position: relative !important;
-    box-sizing: border-box !important;
-    margin: 0 0 20px 0 !important;
-    display: block !important;
-    z-index: 1;
-    background: #282828;
-    color: #fff;
-    border-radius: 10px;
-    border: none;
-    right : 0 !important;
-    padding: 12px 16px;
-    font-size: 1.05rem;
-  }
   

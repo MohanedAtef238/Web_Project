@@ -86,27 +86,20 @@ const Streamer = () => {
   };
 
 return (
+ 
   <div className="bg-color">
-    <div className="listener-container">
-      <button className="back-buttonn" onClick={() => navigate(-1)}>
-        <FaArrowLeft />
-      </button>
+      <div className="listener-container">
+        <button className="back-buttonn" onClick={() => navigate(-1)}>
+          <FaArrowLeft />
+        </button>
 
-      <div className="imageContainer"></div>
+        <div className="imageContainer"></div>
 
-      {isStreaming && streamId && (
-        <div className="stream-id-display">
-          <p>Stream ID: <strong>{streamId}</strong></p>
-        </div>
-      )}
-
-      <button className="startstreaming" onClick={isStreaming ? endStream : startStream}>
-        {isStreaming ? "End Streaming" : "Start Streaming Audio"}
-      </button>
+        <button className="startstreaming" onClick={isStreaming ? endStream : startStream}>
+          {isStreaming ? "End Streaming" : "Start Streaming Audio"}
+        </button>
+      </div>
     </div>
-  </div>
-);
-
-
+  );
 };
 export default Streamer;

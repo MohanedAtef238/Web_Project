@@ -3,11 +3,8 @@ import { Link } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import {editUser,getUserEditProfile,editUserProfile,editUserPassword} from '../../api/userAPI';
 import "./editprofile.css";
-import { FaArrowRight } from 'react-icons/fa';
-import { useNavigate } from 'react-router-dom';
 
 export default function EditProfile() {
-   const navigate = useNavigate();
   const { user } = useAuth();
 
   const [userInfo, setUserInfo] = useState(null);
@@ -105,30 +102,28 @@ export default function EditProfile() {
   };
 
   return (
-    <div className="edit-account-container">
-       <button className="back-button" onClick={() => navigate(-1)}>
-        <FaArrowRight />
-      </button>
+    <div>
+      <Link to='/settings'><h4>Back</h4></Link>
 
       {/* Account Info */}
-      <div className="edit-account-card">
+      <div className="card">
         <h2 className="cardtitle">Edit Account</h2>
         <button onClick={() => setAccountInfoEdit(!accountInfoEdit)}>Edit</button>
         {accountInfoEdit ? (
           <div>
             <label>Username</label>
             <input name="username" value={accountInfo.username} onChange={handleAccountChange} />
-    
+            <br />
             <label>Email</label>
             <input name="email" value={accountInfo.email} onChange={handleAccountChange} />
-            <br/>
-            <button className="leavemealone" onClick={handleAccountEdit}>Save Changes</button>
+            <br />
+            <button onClick={handleAccountEdit}>Save Changes</button>
           </div>
         ) : (
           <div>
             <label>Username</label>
             <h3>{userInfo?.username}</h3>
-           
+            <br />
             <label>Email</label>
             <h3>{userInfo?.email}</h3>
           </div>
@@ -136,30 +131,30 @@ export default function EditProfile() {
       </div>
 
       {/* Profile Info */}
-      <div className="edit-account-card">
+      <div className="card">
         <h2 className="cardtitle">Edit Profile</h2>
         <button onClick={() => setProfileInfoEdit(!profileInfoEdit)}>Edit</button>
         {profileInfoEdit ? (
           <form onSubmit={handleProfileEdit}>
             <label>First Name</label>
             <input name="firstname" value={profileInfo.firstname} onChange={handleProfileChange} />
-        
+            <br />
             <label>Last Name</label>
             <input name="lastname" value={profileInfo.lastname} onChange={handleProfileChange} />
-
+            <br />
             <label>Bio</label>
             <input name="bio" value={profileInfo.bio} onChange={handleProfileChange} />
-            <br/>
-            <button className="leavemealone" type="submit">Save Changes</button>
+            <br />
+            <button type="submit">Save Changes</button>
           </form>
         ) : (
           <div>
             <label>First Name</label>
             <h3>{userInfo?.firstname}</h3>
-            
+            <br />
             <label>Last Name</label>
             <h3>{userInfo?.lastname}</h3>
-      
+            <br />
             <label>Bio</label>
             <h3>{userInfo?.bio}</h3>
           </div>
@@ -167,7 +162,7 @@ export default function EditProfile() {
       </div>
 
       {/* Password Section */}
-      <div className="edit-account-card">
+      <div className="card">
         <h2 className="cardtitle">Change Password</h2>
         <button onClick={() => setPasswordEdit(!passwordEdit)}>Change Password</button>
         {passwordEdit && (
@@ -200,7 +195,7 @@ export default function EditProfile() {
             />
             <br />
             {passwordError && <p style={{ color: 'red' }}>{passwordError}</p>}
-            <button className="leavemealone" type="submit">Update Password</button>
+            <button type="submit">Update Password</button>
           </form>
         )}
       </div>

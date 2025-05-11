@@ -194,18 +194,3 @@
     margin-top: 12px;
     padding-left: 10px;
   }
-.back-buttonn:hover {
-  background-color: #555;
-  outline: none;
-}
-
-.back-buttonn:focus {
-  outline: none; 
-  border: none;  
-}
-
-.back-buttonn:focus,
-.back-buttonn:hover {
-  outline: none;
-  border: none;
-}
