@@ -1,5 +1,6 @@
 const User = require('../models/user');
 const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
 
 // use in admin add user and signups
 const createUser = async (req, res) => {
@@ -11,19 +12,55 @@ const createUser = async (req, res) => {
         console.log('Missing fields:', { username, email, password });
         return res.status(400).json({ error: 'Missing required fields' });
       }
+
+      const existingUser = await User.findOne({
+        where: {
+          [User.Sequelize.Op.or]: [
+            { username: username },
+            { email: email }
+          ]
+        }
+      });
+
+      if (existingUser) {
+        return res.status(400).json({
+          error: existingUser.username === username ? 
+            'Username already taken' : 
+            'Email already registered'
+        });
+      }
   
       const hashedPassword = await bcrypt.hash(password, 10);
-      console.log('Hashed password:', hashedPassword);
+      
+      const user = await User.create({ 
+        username, 
+        email, 
+        password: hashedPassword,
+        isAuthor: false 
+      });
+
+      // Create token payload
+      const tokenPayload = {
+        id: user.id,
+        username: user.username,
+        email: user.email,
+        isAdmin: user.username.toLowerCase() === 'admin',
+        isAuthor: user.isAuthor || false
+      };
+
+      // Sign token
+      const token = jwt.sign(
+        tokenPayload,
+        process.env.JWT_SECRET || 'very_secret_key',
+        { expiresIn: '24h' }
+      );
   
-      const user = await User.create({ username, email, password: hashedPassword });
-      console.log('User created:', user.username);
-  
-      res.status(201).json(user);
+      res.status(201).json({ token, user: tokenPayload });
     } catch (error) {
       console.error("Error in createUser:", error);
       res.status(500).json({ error: error.message });
     }
-  };
+};
   
 
 // in admin delete user button or in user settings delete account (not implemented yet)
@@ -43,9 +80,6 @@ const deleteUser = async (req, res) => {
 };
 
 // login
-
-const jwt = require('jsonwebtoken');
-const SECRET_KEY = 'very_secret_key';
 
 const getUserByCredentials = async (req, res) => {
   try {
