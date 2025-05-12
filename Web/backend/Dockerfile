@@ -9,8 +9,7 @@ RUN mkdir -p /app/uploads && \
     chown -R node:node /app/uploads && \
     chmod 755 /app/uploads
 
-# Copy backend package files
-COPY package*.json ./
+COPY package.json package-lock.json* ./
 
 # Install dependencies
 RUN npm install
