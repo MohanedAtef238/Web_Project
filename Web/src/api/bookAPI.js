@@ -1,18 +1,20 @@
 import axios from 'axios';
 import { API_BASE } from '../config/api';
 
+axios.defaults.baseURL = API_BASE;
+
 export async function getUserBooks(username) {
-  const response = await axios.get(`${API_BASE}/books/user/${username}`);
+  const response = await axios.get(`/books/user/${username}`);
   return response.data;
 }
 
 export async function getBookDetails(bookId) {
-  const response = await axios.get(`${API_BASE}/books/details/${bookId}`);
+  const response = await axios.get(`/books/details/${bookId}`);
   return response.data;
 }
 
-export async function getAdminBookList(){
-  const response = await axios.get(`${API_BASE}/books/admin/books`);
+export async function getAdminBookList() {
+  const response = await axios.get('/books/admin/books');
   return response.data;
 }
 
@@ -21,7 +23,7 @@ export async function addAdminBook(formData) {
     console.log('Sending form data to backend');
     
     const response = await axios.post(
-      `${API_BASE}/books/admin/book/add`,
+      '/books/admin/book/add',
       formData,
       {
         headers: {
@@ -38,7 +40,7 @@ export async function addAdminBook(formData) {
 
 export async function deleteBook(bookId) {
   console.log("Deleting book:", bookId);
-  const response = await axios.post(`${API_BASE}/books/delete/${bookId}`);
+  const response = await axios.post(`/books/delete/${bookId}`);
   return response.data;
 }
 
@@ -50,7 +52,7 @@ export async function editBook(id, title, genre){
 }
 
 export async function getBooksByGenre(genre) {
-  const response = await axios.get(`${API_BASE}/books/genre/${genre}`);
+  const response = await axios.get(`/books/genre/${genre}`);
   return response.data;
 }
 
