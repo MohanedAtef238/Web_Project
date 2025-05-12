@@ -103,8 +103,8 @@ async function seedBooks() {
           description: bookData.description,
           genre: bookData.genre,
           authorId: adminUser.id,
-          coverImage: `uploads/covers/default-${bookData.genre}.jpg`,
-          audioFile: `uploads/audio/default-${bookData.genre}.mp3`,
+          coverImage: `/app/uploads/covers/default-${bookData.genre}.jpg`,
+          audioFile: `/app/uploads/audio/default-${bookData.genre}.mp3`,
           createdAt: new Date()
         });
         console.log(`Created book: ${bookData.title}`);

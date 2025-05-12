@@ -86,7 +86,11 @@ const LibraryList = ({ type = 'books', authorName, header, book, books = [] }) =
             <div
               className="playlist-list-item-cover"
               style={{
-                backgroundImage: `url('${item.coverUrl || item.cover || item.profilePic}')`,
+                backgroundImage: `url('${
+                  item.coverUrl || 
+                  (item.coverImage ? `${API_BASE}${item.coverImage.replace('/app', '')}` : item.cover) || 
+                  item.profilePic
+                }')`,
                 backgroundSize: 'cover',
                 backgroundPosition: 'center',
               }}

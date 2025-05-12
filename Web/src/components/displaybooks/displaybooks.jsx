@@ -207,8 +207,10 @@ export default function DisplayBooks() {
       const localBooksForCategory = localBooks[category] || [];
       const allBooksForCategory = [...openLibraryBooksForCategory, ...localBooksForCategory].map(book => ({
         ...book,
-        cover: book.cover || (book.coverImage ? `${API_BASE}/${book.coverImage}` : 'https://picsum.photos/600?random=fallback')
-      })); // final fix with unpack operator and fallback image
+        cover: book.cover || (book.coverImage 
+          ? `${API_BASE}${book.coverImage.replace('/app', '')}` 
+          : 'https://picsum.photos/600?random=fallback')
+      }));
 
       return (
         <Row

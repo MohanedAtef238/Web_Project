@@ -101,7 +101,9 @@ const LibraryGrid = ({ type, username, userId }) => {
       </div>
       <div className="author-profile-grid">
       {items.map((item) => {
-          const imageUrl = item.coverImage ? `${API_BASE}/${item.coverImage}` : "https://picsum.photos/200/300";
+          const imageUrl = item.coverImage 
+            ? `${API_BASE}${item.coverImage.replace('/app', '')}` 
+            : "https://picsum.photos/200/300";
           return (
             <div 
               key={item.id} 

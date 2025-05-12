@@ -11,16 +11,21 @@ const {
     editBook,
     getBooksByGenre
 } = require('../controllers/bookController');
-const storage = multer.diskStorage({ // file upload middleware to handle file uploads in the revamped addAdminBook function
+
+const storage = multer.diskStorage({
     destination: (req, file, cb) => {
-        const folder = file.fieldname === 'coverImage' ? 'uploads/covers' : 'uploads/audio'; //checking what to append the file path for 
-        cb(null, path.join(__dirname, '..', folder));
+        const folder = file.fieldname === 'coverImage' ? '/app/uploads/covers' : '/app/uploads/audio';
+        // Ensure the directories exist
+        const fs = require('fs');
+        fs.mkdirSync(folder, { recursive: true });
+        cb(null, folder);
     },
     filename: (req, file, cb) => {
         const uniqueName = Date.now() + '-' + file.originalname;
         cb(null, uniqueName);
     }
 });
+
 const upload = multer({ storage });
 
 router.get('/user/:username', getUserBooks);

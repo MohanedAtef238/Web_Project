@@ -53,10 +53,8 @@ const addAdminBook = async (req, res) => {
       
       const { title, genre, authorId, description } = req.body;
       
-  
       const coverImageFile = req.files['coverImage']?.[0];
       const audioFile = req.files['audioFile']?.[0];
-      
       
       if (!coverImageFile || !audioFile) {
         return res.status(400).json({ error: 'Both image and audio files are required' });
@@ -69,12 +67,15 @@ const addAdminBook = async (req, res) => {
       
       console.log('Creating book with authorId:', authorId);
       
+      const coverImagePath = `/app/uploads/covers/${coverImageFile.filename}`;
+      const audioFilePath = `/app/uploads/audio/${audioFile.filename}`;
+      
       const book = await Book.create({
         title,
         genre,
         authorId: authorId,
-        audioFile: `uploads/${audioFile.filename}`,
-        coverImage: `uploads/${coverImageFile.filename}`,        
+        audioFile: audioFilePath,
+        coverImage: coverImagePath,
         description: description
       });
       
@@ -164,7 +165,7 @@ const getBooksByGenre = async (req, res) => {
         const formattedBooks = books.map(book => ({
             ...book.toJSON(),
             author: book.author.username,
-            coverImage: book.coverImage ? `/${book.coverImage}` : null
+            coverImage: book.coverImage ? book.coverImage.replace('/app', '') : null
         }));
 
         res.json(formattedBooks);

@@ -3,6 +3,7 @@ const cors = require('cors');
 const http = require('http');
 const { Server } = require('socket.io');  // Add this to import socket.io
 const seedBooks = require('./seeders/bookSeeder');
+const fs = require('fs');
 
 const userRoutes = require('./routes/users');
 const followingRoutes = require('./routes/following');
@@ -29,8 +30,17 @@ const PORT = process.env.PORT || 3000;
 
 app.use(cors());
 app.use(express.json());
-const path = require('path');
+
+// Serve static files from the Railway volume
 app.use('/uploads', express.static('/app/uploads'));
+
+// Create upload directories if they don't exist
+const uploadDirs = ['/app/uploads', '/app/uploads/covers', '/app/uploads/audio'];
+uploadDirs.forEach(dir => {
+  if (!fs.existsSync(dir)) {
+    fs.mkdirSync(dir, { recursive: true });
+  }
+});
 
 app.use('/user', userRoutes);
 app.use('/follow', followingRoutes);
