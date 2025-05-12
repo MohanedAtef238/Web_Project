@@ -7,10 +7,15 @@ import { useAuth } from '../../Context';
 import { v4 as uuidv4 } from 'uuid';
 import { getBooksByGenre } from '../../api/bookAPI';
 
+const API_BASE = 'http://localhost:3000';
+
 function BookCard({ title, author, cover, onClick }) {
   return (
     <div className="book-cardd" onClick={onClick}>
-      <img src={cover} alt={title} />
+      <img src={cover} alt={title} onError={(e) => {
+        e.target.onerror = null;
+        e.target.src = 'https://picsum.photos/600?random=fallback';
+      }} />
       <h3>{title}</h3>
       <p>{author}</p>
     </div>
@@ -185,7 +190,7 @@ export default function DisplayBooks() {
                 key={book.id}
                 title={book.title}
                 author={book.author}
-                cover={book.cover || book.coverImage}
+                cover={book.cover || (book.coverImage ? `${API_BASE}/${book.coverImage}` : 'https://picsum.photos/600?random=fallback')}// we also use the fallback so we dont end up with an ugly UI if any failure occures
                 onClick={() => handleBookClick(book)}
               />
             ))}
@@ -201,7 +206,10 @@ export default function DisplayBooks() {
         (book) => book.category === categoryNamesMapping[category]
       );
       const localBooksForCategory = localBooks[category] || [];
-      const allBooksForCategory = [...openLibraryBooksForCategory, ...localBooksForCategory];
+      const allBooksForCategory = [...openLibraryBooksForCategory, ...localBooksForCategory].map(book => ({
+        ...book,
+        cover: book.cover || (book.coverImage ? `${API_BASE}/${book.coverImage}` : 'https://picsum.photos/600?random=fallback')
+      })); // final fix with unpack operator and fallback image
 
       return (
         <Row

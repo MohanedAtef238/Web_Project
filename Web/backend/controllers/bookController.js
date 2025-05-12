@@ -163,7 +163,8 @@ const getBooksByGenre = async (req, res) => {
 
         const formattedBooks = books.map(book => ({
             ...book.toJSON(),
-            author: book.author.username
+            author: book.author.username,
+            coverImage: book.coverImage ? `/${book.coverImage}` : null
         }));
 
         res.json(formattedBooks);
