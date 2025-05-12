@@ -18,8 +18,11 @@ COPY vite.config.js .
 COPY nginx.conf .
 
 # Build the app with environment variables
-ARG VITE_API_URL
-ENV VITE_API_URL=${VITE_API_URL}
+ARG VITE_API_BASE_URL
+ENV VITE_API_BASE_URL=${VITE_API_BASE_URL}
+
+ARG VITE_SIGNALING_SERVER_URL
+ENV VITE_SIGNALING_SERVER_URL=${VITE_SIGNALING_SERVER_URL}
 
 # Build the app
 RUN npm run build
