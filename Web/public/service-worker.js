@@ -30,7 +30,7 @@ self.addEventListener('activate', (event) => {
 });
 
 self.addEventListener('fetch', (event) => {
-  console.log('SW fetching:', event.request.url);
+  //console.log('SW fetching:', event.request.url);
 
   event.respondWith(
     caches.match(event.request).then((cachedResponse) => {
