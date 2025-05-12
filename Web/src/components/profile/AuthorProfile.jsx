@@ -53,6 +53,12 @@ const AuthorProfile = () => {
 
   const followButton = async () => {
     try {
+      console.log('Follow button clicked:', {
+        currentUser: currentUser?.username,
+        targetUser: user?.username,
+        isFollowing
+      });
+
       if (isFollowing) {
         await unfollowUser(currentUser.username, user.username);
         setIsFollowing(false);
@@ -65,7 +71,7 @@ const AuthorProfile = () => {
       const updatedCount = await getFollowerCount(username);
       setFollowerCount(updatedCount.count);
     } catch (error) {
-      console.error(error);
+      console.error('Follow error:', error.response?.data || error);
     }
   };
   

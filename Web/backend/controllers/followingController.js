@@ -30,26 +30,50 @@ const followUser = async (req, res) => {
         const { username } = req.params;
         const { targetUsername } = req.body;
         
+        console.log('Follow request:', { username, targetUsername });
+        
         const [follower, target] = await Promise.all([
             User.findOne({ where: { username } }),
             User.findOne({ where: { username: targetUsername } })
         ]);
 
+        console.log('Found users:', { 
+            follower: follower ? { id: follower.id, username: follower.username } : null,
+            target: target ? { id: target.id, username: target.username } : null 
+        });
+
         if (!follower || !target) {
             return res.status(404).json({ error: 'User not found' });
         }
-        const followRecord = await Following.findOne({where: {followerId: follower.id,followedId: target.id}});
+
+        const followRecord = await Following.findOne({
+            where: {
+                followerId: follower.id,
+                followedId: target.id
+            }
+        });
+
+        console.log('Existing follow record:', followRecord);
+
         if (followRecord) {
-            return res.status(209).json({ info : 'record exists' });
+            return res.status(209).json({ info: 'record exists' });
         }
-        await Following.create({
+
+        const newFollow = await Following.create({
             followerId: follower.id,
             followedId: target.id
         });
 
+        console.log('Created new follow record:', newFollow);
+
         res.status(201).json({ message: 'Successfully followed user' });
     } catch (error) {
         console.error('Error in followUser:', error);
+        console.error('Error details:', {
+            name: error.name,
+            message: error.message,
+            stack: error.stack
+        });
         res.status(500).json({ error: error.message });
     }
 };
