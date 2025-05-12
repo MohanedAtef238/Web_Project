@@ -4,6 +4,11 @@ FROM node:18-alpine
 # Create app directory
 WORKDIR /app
 
+# Create uploads directory
+RUN mkdir -p /app/uploads && \
+    chown -R node:node /app/uploads && \
+    chmod 755 /app/uploads
+
 # Copy backend package files
 COPY package*.json ./
 
@@ -12,14 +17,6 @@ RUN npm install
 
 # Copy backend source
 COPY . .
-
-# Copy public directory from root
-COPY ../public ./public
-
-# Create uploads directory
-RUN mkdir -p /app/uploads && \
-    chown -R node:node /app/uploads && \
-    chmod 755 /app/uploads
 
 # Define environment variables with defaults
 ENV NODE_ENV=production
