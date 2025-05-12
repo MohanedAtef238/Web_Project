@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate, Link } from "react-router-dom";
 import { useAuth } from '../../Context.jsx'
-import "./Login.css";
+import './login.css';
 import { login } from "../../api/userAPI";
 
 function Login() {

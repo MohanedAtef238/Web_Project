@@ -9,10 +9,10 @@ RUN mkdir -p /app/uploads && \
     chown -R node:node /app/uploads && \
     chmod 755 /app/uploads
 
-COPY package.json package-lock.json* ./
-
 # Install dependencies
-RUN npm install
+COPY package.json ./
+RUN npm cache clean --force && \
+    npm install --no-package-lock
 
 # Copy backend source
 COPY . .
