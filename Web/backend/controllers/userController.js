@@ -64,9 +64,11 @@ const getUserByCredentials = async (req, res) => {
     const tokenPayload = {
       id: user.id,
       username: user.username,
-      isAdmin: user.username.toLowerCase() === 'admin'
+      email: user.email,
+      isAdmin: user.username.toLowerCase() === 'admin',
+      isAuthor: user.isAuthor || false
     };
-    const token = jwt.sign(tokenPayload, SECRET_KEY, { expiresIn: '24h' });// yes its a day, i am not trying to get kicked out </3 //marry me
+    const token = jwt.sign(tokenPayload, process.env.JWT_SECRET, { expiresIn: '24h' });
 
     res.status(200).json({token, user: tokenPayload});
   } catch (error) {

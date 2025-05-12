@@ -30,18 +30,25 @@ export const AuthProvider = ({ children }) => {
     if (token) {
       try {
         const decoded = jwtDecode(token);
-        console.log("context: the set expiry is ", decoded.exp * 1000)
-        console.log('context: and the token is ', token, " or ", decoded)
         if (decoded.exp * 1000 < Date.now()) {
-            console.log('context: session expired, logging out...')
+          console.log('Session expired, logging out...');
           logout();
         } else {
-          setUser(decoded);
+          // Ensure all required properties are present
+          setUser({
+            id: decoded.id || null,
+            username: decoded.username || null,
+            isAdmin: decoded.isAdmin || false,
+            ...decoded
+          });
         }
       } catch (err) {
-        console.log("invalid token: ", err)
+        console.error("Invalid token:", err);
         logout();
       }
+    } else {
+      // Reset user when token is null
+      setUser(null);
     }
   }, [token]);
 
@@ -53,9 +60,18 @@ export const AuthProvider = ({ children }) => {
     
     try {
       const decoded = jwtDecode(newToken);
+      // Validate that required fields are present
+      if (!decoded.id || !decoded.username) {
+        throw new Error("Token missing required fields");
+      }
       localStorage.setItem('jwt', newToken);
       setToken(newToken);
-      setUser(decoded);
+      setUser({
+        id: decoded.id,
+        username: decoded.username,
+        isAdmin: decoded.isAdmin || false,
+        ...decoded
+      });
     } catch (err) {
       console.error("Invalid token format:", err);
       logout();
@@ -63,7 +79,6 @@ export const AuthProvider = ({ children }) => {
   };
 
   const logout = () => {
-    console.log("logging out in context.jsx")
     localStorage.removeItem('jwt');
     setToken(null);
     setUser(null);
