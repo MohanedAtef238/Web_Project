@@ -16,8 +16,16 @@ const User = sequelize.define('User', {
 User.associate = function(models) {
   User.hasMany(models.Book, { foreignKey: 'authorId', as: 'books' });
   User.hasMany(models.Favorite, { foreignKey: 'userId', as: 'favorites' });
-  User.hasMany(models.Following, { as: 'following', foreignKey: 'followerId' });
-  User.hasMany(models.Following, { as: 'followers', foreignKey: 'followedId' });
+  User.hasMany(models.Following, { 
+    as: 'following',
+    foreignKey: 'followerId',
+    sourceKey: 'id'
+  });
+  User.hasMany(models.Following, { 
+    as: 'followers',
+    foreignKey: 'followedId',
+    sourceKey: 'id'
+  });
   User.hasMany(models.ReadingProgress, { foreignKey: 'userId', as: 'readingProgress' });
 };
 

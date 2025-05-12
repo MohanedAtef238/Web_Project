@@ -38,11 +38,13 @@ Following.associate = function(models) {
   Following.belongsTo(models.User, {
     as: 'follower',
     foreignKey: 'followerId',
+    targetKey: 'id',
     onDelete: 'CASCADE'
   });
   Following.belongsTo(models.User, {
     as: 'followed',
     foreignKey: 'followedId',
+    targetKey: 'id',
     onDelete: 'CASCADE'
   });
 };
