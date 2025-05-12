@@ -51,7 +51,7 @@ const createUser = async (req, res) => {
       // Sign token
       const token = jwt.sign(
         tokenPayload,
-        process.env.JWT_SECRET || 'very_secret_key',
+        process.env.JWT_SECRET,
         { expiresIn: '24h' }
       );
   
