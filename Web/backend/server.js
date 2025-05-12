@@ -12,7 +12,6 @@ const favoriteRoutes = require('./routes/favorites');
 const reviewRoutes = require('./routes/review');
 const progressRoutes = require('./routes/progress');
 
-const connectMongoDB = require('./config/mongodb');
 const { sequelize, syncDatabase } = require('./models');
 
 
@@ -84,9 +83,6 @@ app.use('/review', reviewRoutes);
 
 const initializeApp = async () => {
   try {
-   
-    await connectMongoDB();
-    console.log('MongoDB connected successfully');
     
    
     await sequelize.authenticate();
