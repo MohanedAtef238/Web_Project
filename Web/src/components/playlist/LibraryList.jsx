@@ -89,7 +89,7 @@ const LibraryList = ({ type = 'books', authorName, header, book, books = [] }) =
               style={{
                 backgroundImage: `url('${
                   item.coverUrl || 
-                  (item.coverImage ? `${API_BASE}/uploads/${item.coverImage.split('/').pop()}` : item.cover) || 
+                  (item.coverImage ? `${API_BASE}/app/uploads/${item.coverImage.split('/').pop()}` : item.cover) || 
                   item.profilePic
                 }')`,
                 backgroundSize: 'cover',

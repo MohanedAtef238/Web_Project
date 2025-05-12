@@ -220,7 +220,7 @@ export default function DisplayBooks() {
                 key={book.id}
                 title={book.title}
                 author={book.author}
-                cover={book.cover || (book.coverImage ? `${API_BASE}/${book.coverImage}` : 'https://picsum.photos/600?random=fallback')}// we also use the fallback so we dont end up with an ugly UI if any failure occures
+                cover={book.cover || (book.coverImage ? `${API_BASE}/app/uploads/${book.coverImage.split('/').pop()}` : 'https://picsum.photos/600?random=fallback')}// we also use the fallback so we dont end up with an ugly UI if any failure occures
                 onClick={() => handleBookClick(book)}
               />
             ))}
@@ -239,7 +239,7 @@ export default function DisplayBooks() {
       const allBooksForCategory = [...openLibraryBooksForCategory, ...localBooksForCategory].map(book => ({
         ...book,
         cover: book.cover || (book.coverImage 
-          ? `${API_BASE}${book.coverImage.replace('/app', '')}` 
+          ? `${API_BASE}/app/uploads/${book.coverImage.split('/').pop()}` 
           : 'https://picsum.photos/600?random=fallback')
       }));
 
