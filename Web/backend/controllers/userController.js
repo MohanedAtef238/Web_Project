@@ -1,6 +1,7 @@
 const User = require('../models/user');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
+const { Op } = require('sequelize');
 require('dotenv').config();
 
 // use in admin add user and signups
@@ -16,7 +17,7 @@ const createUser = async (req, res) => {
 
       const existingUser = await User.findOne({
         where: {
-          [User.Sequelize.Op.or]: [
+          [Op.or]: [
             { username: username },
             { email: email }
           ]
@@ -155,19 +156,9 @@ const editUser = async (req, res) => {
 const userEditUser = async (req, res) => {
   console.log("edit user controller, this is the request body: ", req.body)
   try {
-    const { id, bio, firstName, lastName } = req.body;
+    const { id, bio } = req.body;
     const user = await User.findByPk(id);
     if (!user) return res.status(404).json({ error: 'User not found' });
-
-    if(firstName !== null)
-    {
-      console.log("changing first name with: ", firstName);
-      user.firstName = firstName;
-    }
-    if(lastName !== null)
-    {
-      user.lastName = lastName;
-    }
       
     if(bio !== null)
       user.bio = bio;
