@@ -1,51 +1,44 @@
 import { createContext, useContext, useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { jwtDecode } from 'jwt-decode';
 
 const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
-  const [token, setToken] = useState(() => {
-    const storedToken = localStorage.getItem('jwt');
-    return storedToken || null;
-  });
+  const navigate = useNavigate();
+  const [token, setToken] = useState(() => localStorage.getItem('jwt') || null);
+  const [user, setUser] = useState(() => (token ? jwtDecode(token) : null));
 
-  const [user, setUser] = useState(() => {
-    const storedToken = localStorage.getItem('jwt');
-    if (storedToken) {
+  console.log('from context: user is: ', user);
+
+  useEffect(() => {
+    if (token) {
       try {
-        return jwtDecode(storedToken);
-      } catch (error) {
-        console.error('Error decoding token:', error);
-        localStorage.removeItem('jwt');
-        return null;
+        const decoded = jwtDecode(token);
+        if (decoded.exp * 1000 < Date.now()) {
+          console.log('Session expired, logging out...');
+          logout();
+        }
+      } catch (err) {
+        console.error("Invalid token:", err);
+        logout();
       }
     }
-    return null;
-  });
+  }, [token]);
 
   const login = (newToken) => {
-    if (!newToken) {
-      console.error('No token provided');
-      return;
-    }
-
-    try {
-      const decoded = jwtDecode(newToken);
-      localStorage.setItem('jwt', newToken);
-      setToken(newToken);
-      setUser(decoded);
-    } catch (error) {
-      console.error('Error during login:', error);
-      localStorage.removeItem('jwt');
-      setToken(null);
-      setUser(null);
-    }
+    console.log('context, login: token: ', newToken)
+    console.log("logging in in context.jsx")
+    localStorage.setItem('jwt', newToken);
+    setToken(newToken);
+    setUser(jwtDecode(newToken));
   };
 
   const logout = () => {
     localStorage.removeItem('jwt');
     setToken(null);
     setUser(null);
+    navigate('/');
   };
 
   return (
@@ -55,10 +48,4 @@ export const AuthProvider = ({ children }) => {
   );
 };
 
-export const useAuth = () => {
-  const context = useContext(AuthContext);
-  if (!context) {
-    throw new Error('useAuth must be used within an AuthProvider');
-  }
-  return context;
-};
+export const useAuth = () => useContext(AuthContext);
