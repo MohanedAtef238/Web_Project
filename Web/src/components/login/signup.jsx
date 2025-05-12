@@ -57,7 +57,18 @@ return (
           className="login-form-input"
           type="password"
           placeholder="Password"
-          {...register("password", { required: "Password is required" })}
+          // some light validation for password creations
+          {...register("password", { 
+            required: "Password is required",
+            minLength: {
+              value: 6,
+              message: "Password must be at least 6 characters long"
+            },
+            pattern: {
+              value: /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{6,}$/,
+              message: "Password must contain at least one letter, one number, and one special character"
+            }
+          })}
         />
         {errors.password && <p className="error">{errors.password.message}</p>}
 

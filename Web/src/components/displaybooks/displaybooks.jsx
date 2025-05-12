@@ -6,8 +6,7 @@ import { FaCog, FaSignOutAlt, FaUser } from 'react-icons/fa';
 import { useAuth } from '../../Context';
 import { v4 as uuidv4 } from 'uuid';
 import { getBooksByGenre } from '../../api/bookAPI';
-
-const API_BASE = 'http://localhost:3000';
+import { API_BASE } from '../../config/api';
 
 function BookCard({ title, author, cover, onClick }) {
   return (
