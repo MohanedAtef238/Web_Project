@@ -128,7 +128,7 @@ const getAllUsers = async(req, res) => {
 
 const getUserDetails = async (req, res) => {
   try {
-    const user = await User.findOne({ where: { username: req.params.name },  attributes: ['id', 'username', 'isAuthor', 'bio', 'profilePicture']});
+    const user = await User.findOne({ where: { username: req.params.name },  attributes: ['id', 'username', 'isAuthor', 'bio']});
     if (!user) return res.status(404).json({ error: 'User not found' });
     res.status(200).json(user);
   } catch (error) {
