@@ -127,10 +127,10 @@ function Addbook({ onCancel, userId }){
                     <textarea className='add-field-input-bookk ' placeholder="Book description (optional)" value={description} onChange={(e) => setDescription(e.target.value)} rows="4"/>
                     {!audioFileChanged && <input type='file' id='audioUpload' accept='audio/mp3' onChange={handle_audio_upload}/>}
                     {previewAudioURL &&
-                        <div>
-                        <audio controls>
-                            <source src={previewAudioURL} type='audio/mp3' />
-                        </audio>
+                        <div className="audio-preview-container">
+                            <audio controls>
+                                <source src={previewAudioURL} type='audio/mp3' />
+                            </audio>
                         </div>
                     }
                     <br/>
