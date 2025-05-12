@@ -1,0 +1,94 @@
+# Dependencies
+node_modules
+npm-debug.log
+yarn-debug.log
+yarn-error.log
+.pnpm-debug.log
+
+# Build outputs
+dist
+build
+.next
+out
+.cache
+
+# Environment and config files
+.env
+.env.local
+.env.*.local
+.env.development
+.env.test
+.env.production
+*.env
+config.local.js
+
+# Version control
+.git
+.gitignore
+.gitattributes
+.github
+
+# IDE and editor files
+.idea
+.vscode
+*.swp
+*.swo
+*.sublime-workspace
+*.sublime-project
+.project
+.settings
+.classpath
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Test and coverage
+coverage
+.nyc_output
+__tests__
+*.test.js
+*.spec.js
+jest.config.js
+cypress
+
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Docker files
+Dockerfile*
+docker-compose*
+.dockerignore
+
+# Temporary files
+*.tmp
+*.temp
+.temp
+.tmp
+*.bak
+*.swp
+*~
+
+# Documentation
+README.md
+CHANGELOG.md
+docs
+*.md
+!README.md
+
+# Misc
+.editorconfig
+.eslintrc
+.prettierrc
+.stylelintrc
+.babelrc
+tsconfig.tsbuildinfo 
