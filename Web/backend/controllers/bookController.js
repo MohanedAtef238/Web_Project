@@ -73,8 +73,8 @@ const addAdminBook = async (req, res) => {
         title,
         genre,
         authorId: authorId,
-        audioFile: `uploads/audio/${audioFile.filename}`,
-        coverImage: `uploads/covers/${coverImageFile.filename}`,
+        audioFile: `uploads/${audioFile.filename}`,
+        coverImage: `uploads/${coverImageFile.filename}`,        
         description: description
       });
       

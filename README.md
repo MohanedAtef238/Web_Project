@@ -1,7 +1,7 @@
 # Booktify
 
 Is a website like Spotify, but for books where u can browse, listen, and keep track of your favourite books.
-
+Deployment link: https://front-production-7ae8.up.railway.app/
 
 ## Running
 To run project locally:

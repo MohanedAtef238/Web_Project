@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
-import { useParams, useLocation, useNavigate } from 'react-router-dom';
+import { useParams, useLocation, useNavigate, Link } from 'react-router-dom';
 import './BookView.css';
 import LibraryList from '../playlist/LibraryList';
 import { addReview, getReviews } from '../../api/reviewAPI';
@@ -120,7 +120,19 @@ const Book = () => {
               />
               <div className="book-info">
                 <h1 className="book-title">{title}</h1>
-                <p className="book-author">{bookData.author}</p>
+                <Link // added in a hurry, its literally 3pm
+                  to={`/profile/${bookData.author}`} 
+                  className="book-author"
+                  style={{ 
+                    textDecoration: 'none',
+                    cursor: 'pointer',
+                    transition: 'color 0.2s ease'
+                  }}
+                  onMouseEnter={(e) => e.target.style.color = '#1DB954'}
+                  onMouseLeave={(e) => e.target.style.color = '#b3b3b3'}
+                >
+                  {bookData.author}
+                </Link>
                 <p className="book-description">{bookData.description}</p>
               </div>
             </div>
