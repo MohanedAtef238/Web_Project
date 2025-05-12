@@ -1,27 +1,28 @@
 import axios from 'axios';
 import { API_BASE } from '../config/api';
 
-export async function createUser({ username, email, password }) {
-  const response = await axios.post(`${API_BASE}/user/signup`, {
-    username,
-    email,
-    password,
-  });
-  return response.data;
+export async function createUser(data) {
+  try {
+    const response = await axios.post(`${API_BASE}/user/signup`, data);
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
 }
 
-export async function login({ username, password }) {
-  const response = await axios.post(`${API_BASE}/user`, {
-    inputUsername: username,
-    inputPassword: password
-  });
-  if (response.status === 200) {
-    const userData = response.data;
-    //localStorage.setItem('user', JSON.stringify(userData));
-    return userData;
+export async function login(data) {
+  try {
+    const response = await axios.post(`${API_BASE}/user/login`, {
+      inputUsername: data.username,
+      inputPassword: data.password
+    });
+    
+    console.log('Login API response:', response.data);
+    return response.data;
+  } catch (error) {
+    console.error('Login API error:', error.response?.data || error.message);
+    throw error;
   }
-  
-  throw new Error('Login failed');
 }
 
 export async function getAllUsers() {

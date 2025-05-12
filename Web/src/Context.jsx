@@ -1,80 +1,44 @@
 import { createContext, useContext, useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-import {jwtDecode} from 'jwt-decode';
+import { jwtDecode } from 'jwt-decode';
 
 const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
-  const navigate = useNavigate();
   const [token, setToken] = useState(() => {
+    const storedToken = localStorage.getItem('jwt');
+    return storedToken || null;
+  });
+
+  const [user, setUser] = useState(() => {
     const storedToken = localStorage.getItem('jwt');
     if (storedToken) {
       try {
-        const parts = storedToken.split('.');
-        if (parts.length !== 3) {
-          localStorage.removeItem('jwt');
-          return null;
-        }
-        return storedToken;
-      } catch (err) {
+        return jwtDecode(storedToken);
+      } catch (error) {
+        console.error('Error decoding token:', error);
         localStorage.removeItem('jwt');
         return null;
       }
     }
     return null;
   });
-  
-  const [user, setUser] = useState(null);
-
-  useEffect(() => {
-    if (token) {
-      try {
-        const decoded = jwtDecode(token);
-        if (decoded.exp * 1000 < Date.now()) {
-          console.log('Session expired, logging out...');
-          logout();
-        } else {
-          // Ensure all required properties are present
-          setUser({
-            id: decoded.id || null,
-            username: decoded.username || null,
-            isAdmin: decoded.isAdmin || false,
-            ...decoded
-          });
-        }
-      } catch (err) {
-        console.error("Invalid token:", err);
-        logout();
-      }
-    } else {
-      // Reset user when token is null
-      setUser(null);
-    }
-  }, [token]);
 
   const login = (newToken) => {
     if (!newToken) {
-      console.error("No token provided");
+      console.error('No token provided');
       return;
     }
-    
+
     try {
       const decoded = jwtDecode(newToken);
-      // Validate that required fields are present
-      if (!decoded.id || !decoded.username) {
-        throw new Error("Token missing required fields");
-      }
       localStorage.setItem('jwt', newToken);
       setToken(newToken);
-      setUser({
-        id: decoded.id,
-        username: decoded.username,
-        isAdmin: decoded.isAdmin || false,
-        ...decoded
-      });
-    } catch (err) {
-      console.error("Invalid token format:", err);
-      logout();
+      setUser(decoded);
+    } catch (error) {
+      console.error('Error during login:', error);
+      localStorage.removeItem('jwt');
+      setToken(null);
+      setUser(null);
     }
   };
 
@@ -82,7 +46,6 @@ export const AuthProvider = ({ children }) => {
     localStorage.removeItem('jwt');
     setToken(null);
     setUser(null);
-    navigate('/');
   };
 
   return (
@@ -92,4 +55,10 @@ export const AuthProvider = ({ children }) => {
   );
 };
 
-export const useAuth = () => useContext(AuthContext);
+export const useAuth = () => {
+  const context = useContext(AuthContext);
+  if (!context) {
+    throw new Error('useAuth must be used within an AuthProvider');
+  }
+  return context;
+};

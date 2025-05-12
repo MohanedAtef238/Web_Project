@@ -1,6 +1,7 @@
 const User = require('../models/user');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
+require('dotenv').config();
 
 // use in admin add user and signups
 const createUser = async (req, res) => {
@@ -104,8 +105,10 @@ const getUserByCredentials = async (req, res) => {
     };
     const token = jwt.sign(tokenPayload, process.env.JWT_SECRET, { expiresIn: '24h' });
 
-    res.status(200).json({token, user: tokenPayload});
+    console.log('Login successful, sending response:', { token, user: tokenPayload });
+    res.status(200).json({ token, user: tokenPayload });
   } catch (error) {
+    console.error('Login error:', error);
     res.status(500).json({ error: error.message });
   }
 };
