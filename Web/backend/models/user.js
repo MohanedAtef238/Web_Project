@@ -6,12 +6,6 @@ const User = sequelize.define('User', {
   username: {type: DataTypes.STRING, allowNull: false, unique: true},
   email: {type: DataTypes.STRING, allowNull: false, unique: true},
   password: {type: DataTypes.STRING, allowNull: false}, // Password validation will be added in frontend and backend
-  
-  // Profile info - keeping these optional for quick signups
-  firstName: {type: DataTypes.STRING, allowNull: true},
-  lastName: {type: DataTypes.STRING, allowNull: true},
-  bio: {type: DataTypes.TEXT, allowNull: true},
-  profilePicture: {type: DataTypes.STRING, allowNull: true},
   isAuthor: {type: DataTypes.BOOLEAN, defaultValue: false}, // this was added to change the view of the profile for authors and non-authors
   createdAt: {type: DataTypes.DATE, defaultValue: DataTypes.NOW}
 }, {
