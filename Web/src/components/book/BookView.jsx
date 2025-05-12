@@ -5,6 +5,7 @@ import './BookView.css';
 import LibraryList from '../playlist/LibraryList';
 import { addReview, getReviews } from '../../api/reviewAPI';
 import { useAuth } from '../../Context';
+import { API_BASE } from '../../config/api';
 
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
@@ -47,6 +48,7 @@ const Book = () => {
   const [likedCount, setLikedCount] = useState(10000);
   const [isAuthorBooks, setIsAuthorBooks] = useState(true);
   const [errorMessage, setErrorMessage] = useState('');
+  const [bookCover, setBookCover] = useState(book?.cover || 'https://picsum.photos/200/300');
   const [bookData, setBookData] = useState({
     BookCoverImage: book?.cover || 'https://picsum.photos/200/300',
     description: book?.description || 'No description available.',
@@ -55,6 +57,35 @@ const Book = () => {
   });
 
   const [reviews, setReviews] = useState([]);
+
+  useEffect(() => {
+    const fetchOpenLibraryCover = async () => {
+      // Only try to fetch from OpenLibrary if we don't have a proper cover
+      if (!book?.cover || book.cover.includes('picsum.photos')) {
+        try {
+          const searchResponse = await fetch(`https://openlibrary.org/search.json?title=${encodeURIComponent(title)}&limit=1`);
+          const searchData = await searchResponse.json();
+          
+          if (searchData.docs && searchData.docs.length > 0) {
+            const coverId = searchData.docs[0].cover_i;
+            if (coverId) {
+              const openLibraryCover = `https://covers.openlibrary.org/b/id/${coverId}-L.jpg`;
+              setBookCover(openLibraryCover);
+              setBookData(prev => ({
+                ...prev,
+                BookCoverImage: openLibraryCover
+              }));
+              return;
+            }
+          }
+        } catch (error) {
+          console.error('Error fetching OpenLibrary cover:', error);
+        }
+      }
+    };
+
+    fetchOpenLibraryCover();
+  }, [title, book]);
 
   useEffect(() =>{
           async function get_Reviews() {
@@ -114,13 +145,17 @@ const Book = () => {
           <div className="book-header">
             <div className="book-header-content">
               <img
-                src={bookData.BookCoverImage}
+                src={bookCover}
                 alt={`${title} cover`}
                 className="book-cover"
+                onError={(e) => {
+                  e.target.onerror = null;
+                  e.target.src = 'https://picsum.photos/200/300';
+                }}
               />
               <div className="book-info">
                 <h1 className="book-title">{title}</h1>
-                <Link // added in a hurry, its literally 3pm
+                <Link
                   to={`/profile/${bookData.author}`} 
                   className="book-author"
                   style={{ 

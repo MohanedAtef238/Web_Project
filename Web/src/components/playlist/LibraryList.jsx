@@ -6,6 +6,7 @@ import { toggleFavorite, isFavorited } from '../../api/favoriteAPI';
 import { useAuth } from '../../Context';
 import { useBook } from './BookContext';
 import sample from '../../../public/sample.mp3';
+import { API_BASE } from '../../config/api';
 
 const LibraryList = ({ type = 'books', authorName, header, book, books = [] }) => {
   const { handlePlayBook, selectedBookId } = useBook();
@@ -88,7 +89,7 @@ const LibraryList = ({ type = 'books', authorName, header, book, books = [] }) =
               style={{
                 backgroundImage: `url('${
                   item.coverUrl || 
-                  (item.coverImage ? `${API_BASE}${item.coverImage.replace('/app', '')}` : item.cover) || 
+                  (item.coverImage ? `${API_BASE}/uploads/${item.coverImage.split('/').pop()}` : item.cover) || 
                   item.profilePic
                 }')`,
                 backgroundSize: 'cover',

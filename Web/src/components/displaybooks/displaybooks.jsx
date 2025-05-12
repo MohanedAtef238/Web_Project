@@ -9,9 +9,35 @@ import { getBooksByGenre } from '../../api/bookAPI';
 import { API_BASE } from '../../config/api';
 
 function BookCard({ title, author, cover, onClick }) {
+  const [bookCover, setBookCover] = useState(cover);
+
+  useEffect(() => {
+    const fetchOpenLibraryCover = async () => {
+      if (!cover || cover.includes('picsum.photos')) {
+        try {
+          // Search OpenLibrary for the book
+          const searchResponse = await fetch(`https://openlibrary.org/search.json?title=${encodeURIComponent(title)}&limit=1`);
+          const searchData = await searchResponse.json();
+          
+          if (searchData.docs && searchData.docs.length > 0) {
+            const coverId = searchData.docs[0].cover_i;
+            if (coverId) {
+              setBookCover(`https://covers.openlibrary.org/b/id/${coverId}-L.jpg`);
+              return;
+            }
+          }
+        } catch (error) {
+          console.error('Error fetching OpenLibrary cover:', error);
+        }
+      }
+    };
+
+    fetchOpenLibraryCover();
+  }, [title, cover]);
+
   return (
     <div className="book-cardd" onClick={onClick}>
-      <img src={cover} alt={title} onError={(e) => {
+      <img src={bookCover} alt={title} onError={(e) => {
         e.target.onerror = null;
         e.target.src = 'https://picsum.photos/600?random=fallback';
       }} />
@@ -80,13 +106,17 @@ export default function DisplayBooks() {
   const handleBookClick = async (book) => {
     console.log(`Clicked book: ${book.title}`);
 
-    let description = 'No description available.'; 
-    try {
-      const response = await fetch(`https://openlibrary.org${book.key}.json`);
-      const bookDetails = await response.json();
-      description = bookDetails.description?.value || bookDetails.description || description;
-    } catch (error) {
-      console.error(`Error fetching description for ${book.title}:`, error);
+    let description = book.description || 'No description available.';
+    
+    // Only fetch from OpenLibrary if it's an OpenLibrary book (has a key property)
+    if (book.key) {
+      try {
+        const response = await fetch(`https://openlibrary.org${book.key}.json`);
+        const bookDetails = await response.json();
+        description = bookDetails.description?.value || bookDetails.description || description;
+      } catch (error) {
+        console.error(`Error fetching description for ${book.title}:`, error);
+      }
     }
 
     navigate(`/book/${book.title}`, {
@@ -94,6 +124,7 @@ export default function DisplayBooks() {
         book: {
           ...book,
           description,
+          cover: book.cover || (book.coverImage ? `${API_BASE}/app/uploads/${book.coverImage.split('/').pop()}` : 'https://picsum.photos/600?random=fallback')
         },
       },
     });
