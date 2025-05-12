@@ -15,8 +15,10 @@ COPY . .
 
 # Build the app with environment variables
 ARG VITE_API_BASE_URL
+ARG JWT_SECRET
 ENV VITE_API_BASE_URL=${VITE_API_BASE_URL}
 ENV VITE_BACKEND_URL=${VITE_API_BASE_URL}
+ENV JWT_SECRET=${JWT_SECRET}
 
 # Build the app
 RUN npm run build

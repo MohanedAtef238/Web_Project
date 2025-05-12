@@ -6,10 +6,25 @@ const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
   const navigate = useNavigate();
-  const [token, setToken] = useState(() => localStorage.getItem('jwt') || null);
-  const [user, setUser] = useState(() => (token ? jwtDecode(token) : null));
-
-  console.log('from context: user is: ', user);
+  const [token, setToken] = useState(() => {
+    const storedToken = localStorage.getItem('jwt');
+    if (storedToken) {
+      try {
+        const parts = storedToken.split('.');
+        if (parts.length !== 3) {
+          localStorage.removeItem('jwt');
+          return null;
+        }
+        return storedToken;
+      } catch (err) {
+        localStorage.removeItem('jwt');
+        return null;
+      }
+    }
+    return null;
+  });
+  
+  const [user, setUser] = useState(null);
 
   useEffect(() => {
     if (token) {
@@ -31,11 +46,20 @@ export const AuthProvider = ({ children }) => {
   }, [token]);
 
   const login = (newToken) => {
-    console.log('context, login: token: ', newToken)
-    console.log("logging in in context.jsx")
-    localStorage.setItem('jwt', newToken);
-    setToken(newToken);
-    setUser(jwtDecode(newToken));
+    if (!newToken) {
+      console.error("No token provided");
+      return;
+    }
+    
+    try {
+      const decoded = jwtDecode(newToken);
+      localStorage.setItem('jwt', newToken);
+      setToken(newToken);
+      setUser(decoded);
+    } catch (err) {
+      console.error("Invalid token format:", err);
+      logout();
+    }
   };
 
   const logout = () => {
