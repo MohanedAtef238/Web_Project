@@ -1,6 +1,5 @@
 import axios from 'axios';
-
-const API_BASE = 'http://localhost:3000';
+import { API_BASE } from '../config/api';
 
 export async function getUserFavorites(username) {
   const response = await axios.get(`${API_BASE}/favorites/user/${username}`);
