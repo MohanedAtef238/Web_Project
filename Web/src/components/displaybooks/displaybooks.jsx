@@ -1,10 +1,11 @@
 import './displaybooks.css';
 import SearchBar from '../searchbar/searchbar';
 import { useEffect, useState } from "react";
-import { useNavigate,Link } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { FaCog, FaSignOutAlt, FaUser } from 'react-icons/fa'; 
 import { useAuth } from '../../Context';
 import { v4 as uuidv4 } from 'uuid';
+import { getBooksByGenre } from '../../api/bookAPI';
 
 function BookCard({ title, author, cover, onClick }) {
   return (
@@ -39,10 +40,10 @@ export default function DisplayBooks() {
   const navigate = useNavigate();
   const [searchQuery, setSearchQuery] = useState("");
   const [searchResults, setSearchResults] = useState([]);
-  const [books, setBooks] = useState([]);
+  const [openLibraryBooks, setOpenLibraryBooks] = useState([]);
+  const [localBooks, setLocalBooks] = useState({});
   const [loading, setLoading] = useState(true);
-
-   const { logout, user } = useAuth();
+  const { logout, user } = useAuth();
 
   const categories = ['fantasy', 'science_fiction', 'biographies', 'recipes', 
     'romance', 'textbooks', 'children', 'history', 'religion', 
@@ -95,31 +96,67 @@ export default function DisplayBooks() {
   };
 
   useEffect(() => {
-    Promise.all(
-      categories.map((category) =>
-        fetch(`https://openlibrary.org/subjects/${category}.json?limit=15`)
-          .then((res) => res.json())
-          .then((data) => {
-            return data.works.map((book, index) => {
-              const { title, authors, key } = book;
-              const author = authors && authors.length > 0 ? authors[0].name : "Unknown";
-              
-              return {
-                id: uuidv4(),
-                title,
-                author,
-                category: categoryNamesMapping[category] || category,
-                cover: `https://picsum.photos/600?random=${category}-${index}`,
-                key,
-              };
-            });
-          })
-      )
-    ).then((allBooksByCategory) => {
-      const all = allBooksByCategory.flat();
-      setBooks(all);
-      setLoading(false);
-    });
+    const fetchAllBooks = async () => {
+      try {
+        setLoading(true);
+        // we're using both open library and our own database to fetch books so we can have a more generalized look of how the website should look like, and we can still have functionalities tied to actual books
+        // Fetching from Open Library
+        const openLibraryPromises = categories.map((category) =>
+          fetch(`https://openlibrary.org/subjects/${category}.json?limit=15`)
+            .then((res) => res.json())
+            .then((data) => {
+              return data.works.map((book, index) => {
+                const { title, authors, key } = book;
+                const author = authors && authors.length > 0 ? authors[0].name : "Unknown";
+                
+                return {
+                  id: uuidv4(),
+                  title,
+                  author,
+                  category: categoryNamesMapping[category] || category,
+                  cover: `https://picsum.photos/600?random=${category}-${index}`,
+                  key
+                };
+              });
+            })
+        );
+
+        // Fetching from database
+        const localBookPromises = categories.map(async (category) => {
+          try {
+            const books = await getBooksByGenre(category);
+            return {
+              category,
+              books
+            };
+          } catch (error) {
+            console.error(category, error);
+            return { category, books: [] };
+          }
+        });
+
+        const [openLibraryResults, localResults] = await Promise.all([
+          Promise.all(openLibraryPromises),
+          Promise.all(localBookPromises)
+        ]);
+
+        const allOpenLibrary = openLibraryResults.flat();
+        setOpenLibraryBooks(allOpenLibrary);
+
+        const localBooksByCategory = localResults.reduce((acc, { category, books }) => {
+          acc[category] = books;
+          return acc;
+        }, {});
+        setLocalBooks(localBooksByCategory);
+
+      } catch (error) {
+        console.error('Error fetching books:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchAllBooks();
   }, []);
 
   const handleSearch = (e) => {
@@ -128,9 +165,8 @@ export default function DisplayBooks() {
     if (query.trim() === "") {
       setSearchResults([]);
     } else {
-      const results = books.filter((book) =>
-        book.title.toLowerCase().includes(query.toLowerCase())
-      );
+      const results = [...openLibraryBooks, ...Object.values(localBooks).flat()]
+        .filter((book) => book.title.toLowerCase().includes(query.toLowerCase()));
       setSearchResults(results);
     }
   };
@@ -149,7 +185,7 @@ export default function DisplayBooks() {
                 key={book.id}
                 title={book.title}
                 author={book.author}
-                cover={book.cover}
+                cover={book.cover || book.coverImage}
                 onClick={() => handleBookClick(book)}
               />
             ))}
@@ -161,12 +197,17 @@ export default function DisplayBooks() {
     }
   } else {
     const grouped = categories.map((category) => {
-      const finalBooks = books.filter((book) => book.category === categoryNamesMapping[category]);
+      const openLibraryBooksForCategory = openLibraryBooks.filter(
+        (book) => book.category === categoryNamesMapping[category]
+      );
+      const localBooksForCategory = localBooks[category] || [];
+      const allBooksForCategory = [...openLibraryBooksForCategory, ...localBooksForCategory];
+
       return (
         <Row
           key={category}
           category={categoryNamesMapping[category]}
-          books={finalBooks}
+          books={allBooksForCategory}
           onClick={handleBookClick}
         />
       );

@@ -50,6 +50,11 @@ export async function editBook(id, title, genre){
   return response.data
 }
 
+export async function getBooksByGenre(genre) {
+  const response = await axios.get(`${API_BASE}/books/genre/${genre}`);
+  return response.data;
+}
+
 // export async function fetchCover(coverpath) {
 //   console.log("ferching cover image from ", coverpath);
 //   const response = await axios.get(`${API_BASE}/uploads/${coverpath}`);

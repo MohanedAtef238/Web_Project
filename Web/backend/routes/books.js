@@ -8,7 +8,8 @@ const {
     addAdminBook,
     getAdminBookList,
     deleteBook,
-    editBook
+    editBook,
+    getBooksByGenre
 } = require('../controllers/bookController');
 const storage = multer.diskStorage({ // file upload middleware to handle file uploads in the revamped addAdminBook function
     destination: (req, file, cb) => {
@@ -39,5 +40,7 @@ router.post('/admin/book/add',
 );
 
 router.get('/admin/books', getAdminBookList);
+
+router.get('/genre/:genre', getBooksByGenre);
 
 module.exports = router; 

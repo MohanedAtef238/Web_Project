@@ -144,4 +144,33 @@ const editBook = async (req, res) => {
 //     }
 // };
 
-module.exports = {getUserBooks,getBookDetails,addAdminBook, getAdminBookList, deleteBook, editBook}; 
+const getBooksByGenre = async (req, res) => {
+    try {
+        const { genre } = req.params;
+        const books = await Book.findAll({
+            where: { genre },
+            attributes: ['id', 'title', 'coverImage', 'description', 'genre'],
+            include: [{
+                model: User,
+                as: 'author',
+                attributes: ['username']
+            }]
+        });
+
+        if (!books.length) {
+            return res.status(404).json({ error: 'No books found' });
+        }
+
+        const formattedBooks = books.map(book => ({
+            ...book.toJSON(),
+            author: book.author.username
+        }));
+
+        res.json(formattedBooks);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: error.message });
+    }
+};
+
+module.exports = {getUserBooks,getBookDetails,addAdminBook, getAdminBookList, deleteBook, editBook, getBooksByGenre}; 
